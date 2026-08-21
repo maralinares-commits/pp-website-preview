@@ -15,6 +15,12 @@
   "use strict";
 
   var ENDPOINT = "/api/feedback";
+
+  /* Where comments go when there is no service behind the site, as on a plain
+     file host. Split so the address is not sitting in the page as one string
+     for the first scraper that comes along. */
+  var MAIL_TO = ["mara.linares", "designli.co"].join("@");
+
   var state = { open: false, picking: false, section: null, quote: "", user: "", configured: null };
 
   /* ------------------------------------------------------------ helpers -- */
@@ -200,9 +206,10 @@
     panel.appendChild(row);
 
     if (state.configured === false) {
+      send.textContent = "Send by email";
       var warn = el("p", "fb-warn",
-        "Comments are not switched on for this preview, so Send will not work yet. " +
-        "Please send your notes to whoever shared this link with you.");
+        "This opens your email app with the comment and the page already filled in. " +
+        "Press send there and it reaches us.");
       panel.appendChild(warn);
     }
 
@@ -220,6 +227,12 @@
       return;
     }
     var nameEl = host.querySelector(".fb-name input");
+
+    if (state.configured === false) {
+      byEmail(comment, nameEl ? nameEl.value.trim() : "", msg);
+      return;
+    }
+
     send.disabled = true;
     msg.className = "fb-msg";
     msg.textContent = "Sending...";
@@ -252,6 +265,71 @@
         msg.className = "fb-msg bad";
         msg.textContent = "Could not reach the comment service.";
       });
+  }
+
+  /* No service behind the site: hand the comment to the reviewer's email app,
+     with everything we know about where they were already filled in. */
+  function composed(comment, name) {
+    var where = state.section && state.section.label
+      ? pageName() + ", " + state.section.label
+      : pageName();
+    var lines = [comment, "", "---", "Page: " + where];
+    if (state.quote) lines.push("Selected text: \u201c" + state.quote + "\u201d");
+    lines.push("Link: " + location.href);
+    if (name) lines.push("From: " + name);
+    return { subject: "Website comment: " + where, body: lines.join("\n") };
+  }
+
+  function byEmail(comment, name, msg) {
+    var c = composed(comment, name);
+    var href = "mailto:" + MAIL_TO
+      + "?subject=" + encodeURIComponent(c.subject)
+      + "&body=" + encodeURIComponent(c.body.slice(0, 1500));
+
+    var win = window.open(href, "_self");
+    msg.className = "fb-msg";
+    msg.textContent = "Opening your email app...";
+
+    // Some browsers open nothing at all when no mail app is set up, so always
+    // offer the text itself rather than leaving the reviewer stuck.
+    setTimeout(function () { emailSent(c); }, 900);
+    return win;
+  }
+
+  function emailSent(c) {
+    panel.innerHTML = "";
+    panel.appendChild(el("h2", null, "Your email app should be open."));
+    panel.appendChild(el("p", "fb-done",
+      "Press send in there and the comment reaches us. If nothing opened, copy the "
+      + "text below into an email instead."));
+
+    var box = el("textarea", "fb-copybox");
+    box.rows = 6;
+    box.readOnly = true;
+    box.value = "To: " + MAIL_TO + "\nSubject: " + c.subject + "\n\n" + c.body;
+    panel.appendChild(box);
+
+    var row = el("div", "fb-row");
+    var note = el("span", "fb-msg", "");
+    var copy = el("button", "fb-pick", "Copy");
+    copy.type = "button";
+    copy.addEventListener("click", function () {
+      box.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+      if (!ok && navigator.clipboard) navigator.clipboard.writeText(box.value).then(function () {
+        note.textContent = "Copied.";
+      });
+      else note.textContent = ok ? "Copied." : "Select the text and copy it.";
+    });
+    var ok = el("button", "fb-send", "Close");
+    ok.type = "button";
+    ok.addEventListener("click", close);
+    row.appendChild(note);
+    row.appendChild(copy);
+    row.appendChild(ok);
+    panel.appendChild(row);
+    ok.focus();
   }
 
   function done(data) {
