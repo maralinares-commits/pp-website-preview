@@ -39,9 +39,9 @@
   --step-stat: clamp(2rem, 1.5rem + 2vw, 3rem);
 
   /* Space + shape */
-  --gutter: clamp(1.25rem, 1rem + 2vw, 2.5rem);
+  --gutter: clamp(1.25rem, 1rem + 2vw, 3rem);
   --section-y: clamp(2.5rem, 2rem + 2vw, 4rem);
-  --wrap: 68rem;
+  --wrap: 84rem;
   --wrap-narrow: 44rem;
   --r-sm: 10px;
   --r-md: 16px;
@@ -176,8 +176,25 @@ ul { margin: 0; padding: 0; }
 .btn:active { transform: translateY(0); }
 
 /* Navy on green: 9.17:1 */
-.btn--primary { background: var(--green); color: var(--ink); }
-.btn--primary:hover { background: #93e06d; }
+.btn--primary {
+  background: var(--green);
+  color: var(--ink);
+  box-shadow: 0 6px 18px -6px rgba(132, 216, 91, 0.6);
+}
+.btn--primary:hover {
+  background: #93e06d;
+  box-shadow: 0 10px 24px -8px rgba(132, 216, 91, 0.75);
+}
+
+/* The one button the page is really asking you to press. */
+.btn--lg {
+  min-height: 56px;
+  padding: 0.875rem 2rem;
+  font-size: 1.0625rem;
+}
+@media (min-width: 48rem) {
+  .btn--lg { min-height: 60px; padding: 1rem 2.25rem; font-size: 1.125rem; }
+}
 
 /* On light grounds */
 .btn--ink { background: var(--ink); color: #fff; }
@@ -529,6 +546,7 @@ ul { margin: 0; padding: 0; }
 /* --------------------------------------------------------------- prose ---- */
 
 .prose { max-width: 40rem; }
+.prose--wide { max-width: 52rem; }
 .prose p { font-size: var(--step-lead); color: var(--muted); }
 .prose p strong { color: var(--ink); font-weight: 700; }
 
@@ -615,6 +633,21 @@ figure.photo-card figcaption {
 }
 .closing h2 { margin-bottom: 1.25rem; }
 .closing .stores { justify-content: center; margin-top: 2rem; }
+
+/* On a wide screen the band reads better as two columns than as a tall
+   centred stack with empty space either side. */
+@media (min-width: 64rem) {
+  .closing { text-align: left; }
+  .closing__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .closing h2 { margin-bottom: 0; font-size: clamp(2rem, 1.4rem + 1.8vw, 2.75rem); }
+  .closing p { max-width: none; margin-inline: 0; }
+  .closing .stores { justify-content: flex-start; }
+}
 
 /* --------------------------------------------------------------- footer --- */
 
@@ -1294,4 +1327,30 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   font-size: var(--step--1);
   color: var(--muted);
   font-style: italic;
+}
+
+/* -------------------------------------------------------------- pains ----- */
+/* The situations a reader recognises, before the answer arrives. */
+
+.pains {
+  list-style: none;
+  display: grid;
+  gap: 0.875rem;
+  margin: 0 0 1.5rem;
+}
+.pains li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: var(--step-lead);
+  color: var(--muted);
+}
+.pains li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
 }

@@ -143,13 +143,14 @@
 
       outRate.textContent = money(band[0] * perMemory) + " to " + money(band[1] * perMemory);
 
-      note.textContent = "A range, not a promise. It assumes " + band[0] + " to " + band[1]
-        + " memories an hour on " + (day === "weekday" ? "a weekday" : "a holiday weekend")
-        + " at " + price(perMemory) + " a memory, and how many requests you actually get "
-        + "depends on how busy your area is."
+      note.textContent = "Estimate only. These figures illustrate " + band[0] + " to "
+        + band[1] + " memories an hour on " + (day === "weekday" ? "a weekday" : "a holiday weekend")
+        + " at " + price(perMemory) + " a memory. They are not an offer, a guarantee, or a "
+        + "commitment to pay any amount. Actual earnings depend on how many requests you "
+        + "accept and how busy your area is."
         + (tip > 0
-            ? " The tip is yours in full and is included above."
-            : " Tips are yours in full and are not counted above unless you add one.");
+            ? " Tips are paid to you in full and are included in the figures above."
+            : " Tips are paid to you in full and are excluded unless you enter one.");
     }
 
     // If a box is left empty the panel falls back to a sensible number, so put
