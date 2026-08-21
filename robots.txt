@@ -1,0 +1,4 @@
+# This is a draft copy of personalpaparazzi.com, hosted for review only.
+# The real site is the one that should be indexed.
+User-agent: *
+Disallow: /
