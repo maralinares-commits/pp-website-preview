@@ -159,8 +159,9 @@ ul { margin: 0; padding: 0; }
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  min-height: 48px;
-  padding: 0.75rem 1.5rem;
+  min-height: 44px;
+  padding: 0.625rem 1.25rem;
+  line-height: 1.2;
   border: 2px solid transparent;
   border-radius: 999px;
   font-family: inherit;
@@ -258,6 +259,13 @@ ul { margin: 0; padding: 0; }
 .nav__list a:hover { border-bottom-color: var(--green); }
 .nav__list a[aria-current] { border-bottom-color: var(--green); font-weight: 700; }
 
+/* .nav__list a sets its own padding, which was overriding the pill's. */
+.nav__list a.btn {
+  padding: 0.5rem 1.125rem;
+  border-bottom: 0;
+}
+.nav__list a.btn:hover { border-bottom: 0; }
+
 .header__actions { display: flex; align-items: center; gap: 0.75rem; }
 
 .nav-toggle {
@@ -301,7 +309,7 @@ ul { margin: 0; padding: 0; }
   font-weight: 600;
 }
 .mobile-nav ul a:hover { color: var(--ink); background: rgba(132, 216, 91, 0.1); }
-.mobile-nav .btn { display: flex; margin-top: 1.25rem; width: 100%; }
+.mobile-nav .btn { display: inline-flex; margin-top: 1.25rem; }
 
 /* ---------------------------------------------------------------- hero ---- */
 
@@ -1221,3 +1229,69 @@ body.has-cta-bar { padding-bottom: 5rem; }
 body.fb-picking { cursor: crosshair; }
 body.fb-picking a, body.fb-picking button { pointer-events: none; }
 body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
+
+/* ------------------------------------------------------- scene cards ----- */
+/* "When do I need one?" as pictures rather than labels. Each frame holds one
+   photograph at 4:3. Until the photographs exist the frame shows a brand tile
+   with the mascot, so the section reads as deliberate rather than broken, and
+   the shot each one needs is written into the markup next to it.            */
+
+.scenes {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 40rem) { .scenes { grid-template-columns: repeat(3, 1fr); } }
+
+.scene { min-width: 0; }
+
+.scene__frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--ink);
+  border: 1px solid var(--line);
+}
+.scene__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder state: only paints when no photograph has been dropped in. */
+.scene__frame:not(:has(img))::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("elephant.svg") center 42% / 44% auto no-repeat;
+  opacity: 0.28;
+}
+.scene__frame:not(:has(img))::after {
+  content: "Photo to come";
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0.875rem;
+  text-align: center;
+  color: #8E9AA8;
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.scene__label {
+  margin: 0.75rem 0 0;
+  font-size: var(--step-0);
+  font-weight: 800;
+  letter-spacing: var(--track-display);
+  line-height: 1.25;
+}
+
+.scenes__note {
+  margin: 1.25rem 0 0;
+  font-size: var(--step--1);
+  color: var(--muted);
+  font-style: italic;
+}
