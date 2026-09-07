@@ -7,8 +7,8 @@
 <title>Personal Paparazzi: content editor</title>
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preload" href="../assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/styles.css?v=17">
-<link rel="stylesheet" href="admin.css?v=1">
+<link rel="stylesheet" href="../assets/styles.css?v=19">
+<link rel="stylesheet" href="admin.css?v=2">
 </head>
 
 <body data-page="Content editor">
@@ -94,10 +94,20 @@
           <h2>Quick Tips and tutorials</h2>
           <button class="btn btn--outline" type="button" data-add="tips">Add a group</button>
         </div>
-        <label class="admin-field">
-          <span>Video link, if there is one</span>
-          <input type="url" id="tips-video" placeholder="https://youtube.com/...">
-        </label>
+        <div class="duo" style="margin-bottom: 1.5rem;">
+          <label class="admin-field">
+            <span>Featured video</span>
+            <input type="url" id="tips-video" placeholder="https://www.youtube.com/watch?v=...">
+          </label>
+          <label class="admin-field">
+            <span>Title shown to screen readers</span>
+            <input type="text" id="tips-video-title" placeholder="Personal Paparazzi tutorial">
+          </label>
+          <label class="admin-field">
+            <span>Channel link</span>
+            <input type="url" id="tips-channel" placeholder="https://www.youtube.com/@...">
+          </label>
+        </div>
         <div id="tips-list" class="admin-list"></div>
       </div>
 
@@ -112,6 +122,6 @@
   <button class="btn btn--primary btn--lg" type="button" id="save">Publish</button>
 </div>
 
-<script src="admin.js?v=1" defer></script>
+<script src="admin.js?v=2" defer></script>
 </body>
 </html>

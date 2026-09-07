@@ -218,6 +218,8 @@
     var host = $("#tips-list");
     host.innerHTML = "";
     $("#tips-video").value = data.tips.videoUrl || "";
+    if ($("#tips-video-title")) $("#tips-video-title").value = data.tips.videoTitle || "";
+    if ($("#tips-channel")) $("#tips-channel").value = data.tips.channelUrl || "";
     var groups = data.tips.groups;
     groups.forEach(function (group, i) {
       var box = itemShell(group.title || "New group",
@@ -285,9 +287,14 @@
       });
     });
 
-    $("#tips-video").addEventListener("input", function () {
-      data.tips.videoUrl = $("#tips-video").value.trim();
-      markDirty();
+    [["#tips-video", "videoUrl"], ["#tips-video-title", "videoTitle"],
+     ["#tips-channel", "channelUrl"]].forEach(function (pair) {
+      var input = $(pair[0]);
+      if (!input) return;
+      input.addEventListener("input", function () {
+        data.tips[pair[1]] = input.value.trim();
+        markDirty();
+      });
     });
 
     $("#discard").addEventListener("click", function () {

@@ -137,6 +137,52 @@ def render_tips():
     return '\n\n'.join(cards), toc, data
 
 
+def youtube_id(url):
+    """Pull the video id out of whichever YouTube URL shape somebody pasted."""
+    if not url:
+        return ''
+    for pattern in (r'[?&]v=([\w-]{6,})', r'youtu\.be/([\w-]{6,})',
+                    r'/embed/([\w-]{6,})', r'/shorts/([\w-]{6,})'):
+        found = re.search(pattern, url)
+        if found:
+            return found.group(1)
+    return ''
+
+
+def render_video(data):
+    """The tutorial video, and a way through to the rest of them.
+
+    Uses youtube-nocookie so that simply reading the page does not hand the
+    reviewer's browsing to an advertising cookie before they press play.
+    """
+    vid = youtube_id((data.get('videoUrl') or '').strip())
+    channel = (data.get('channelUrl') or '').strip()
+    if not vid and not channel:
+        return '      <!-- No video set yet. Add one in the editor. -->'
+
+    parts = ['      <div class="tips-video">']
+    if vid:
+        title = esc(data.get('videoTitle') or 'Personal Paparazzi tutorial')
+        parts += [
+            '        <div class="tips-video__frame">',
+            f'          <iframe src="https://www.youtube-nocookie.com/embed/{esc(vid)}"',
+            f'                  title="{title}" loading="lazy" allowfullscreen',
+            '                  referrerpolicy="strict-origin-when-cross-origin"',
+            '                  allow="accelerometer; clipboard-write; encrypted-media; '
+            'gyroscope; picture-in-picture"></iframe>',
+            '        </div>',
+        ]
+    if channel:
+        parts += [
+            '        <p class="tips-video__more">',
+            f'          <a class="btn btn--primary" href="{esc(channel)}" target="_blank" '
+            'rel="noopener">More tutorials on YouTube</a>',
+            '        </p>',
+        ]
+    parts.append('      </div>')
+    return '\n'.join(parts)
+
+
 # --------------------------------------------------------------------- blog --
 
 def render_blog_cards(posts, limit=None):
@@ -190,18 +236,7 @@ def main():
     page = replace_block(page, 'tips', cards)
     page = replace_block(page, 'tipstoc', toc)
 
-    # The link to the tutorial videos, once somebody adds one in the editor.
-    video = (tdata.get('videoUrl') or '').strip()
-    if video:
-        video_block = (
-            '      <p class="tips-video">\n'
-            f'        <a class="btn btn--primary btn--lg" href="{esc(video)}" '
-            'target="_blank" rel="noopener">Watch the tutorial videos</a>\n'
-            '      </p>'
-        )
-    else:
-        video_block = '      <!-- No video link set yet. Add one in the editor. -->'
-    page = replace_block(page, 'tipsvideo', video_block)
+    page = replace_block(page, 'tipsvideo', render_video(tdata))
     open('tutorials.html', 'w', encoding='utf-8').write(page)
     print(f'  tutorials.html           {len(tdata["groups"])} groups, '
           f'{sum(len(g["items"]) for g in tdata["groups"])} tips')
