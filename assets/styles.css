@@ -1458,3 +1458,94 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   color: var(--muted);
   line-height: 1.5;
 }
+
+/* the store badges in the footer sit under the address, and smaller than
+   the ones in the page itself */
+.stores--footer { margin-top: 1.25rem; }
+.stores--footer img { height: 40px; }
+.stores--footer a { padding-block: 0; }
+
+/* ------------------------------------------------------- blog filter ----- */
+
+.blog-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.blog-filter__btn {
+  padding: 0.5rem 1.125rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 2px solid var(--line);
+  font: inherit;
+  font-weight: 800;
+  font-size: var(--step-0);
+  letter-spacing: var(--track-display);
+  color: var(--muted);
+  cursor: pointer;
+}
+.blog-filter__btn:hover { border-color: var(--muted); color: var(--ink); }
+.blog-filter__btn[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.post__tag {
+  margin: 0;
+  font-size: var(--step--1);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.post[data-category="supplier"] .post__tag { color: #2F6B1C; }
+
+/* ---------------------------------------------------- latest article ----- */
+/* One post, in a band above the footer, rather than a section competing with
+   the rest of the page. */
+
+.latest {
+  background: var(--ink);
+  color: #fff;
+  padding-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+}
+.latest__label {
+  font-size: var(--step-0);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+.latest__card {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+  padding: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--r-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+@media (min-width: 56rem) {
+  .latest__card { grid-template-columns: 1fr auto; gap: 3rem; }
+}
+.latest__card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(132, 216, 91, 0.5);
+}
+.latest__text { min-width: 0; }
+.latest__meta { margin: 0 0 0.5rem; font-size: var(--step--1); color: #A9B4C0; }
+.latest__title {
+  margin: 0 0 0.625rem;
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+}
+.latest__card:hover .latest__title { color: var(--green); }
+.latest__summary { margin: 0; color: #D9DEE4; font-size: var(--step-0); max-width: 60ch; }
+.latest__image {
+  width: min(100%, 300px);
+  border-radius: var(--r-md);
+  justify-self: end;
+}

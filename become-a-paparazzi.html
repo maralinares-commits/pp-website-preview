@@ -24,7 +24,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=23">
+<link rel="stylesheet" href="assets/styles.css?v=25">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -406,6 +406,35 @@
     </div>
   </section>
 
+  <!-- ======================================================== blog -->
+  <section class="section" id="blog" aria-labelledby="pblog-h">
+    <div class="wrap">
+      <div class="section__head">
+        <h2 id="pblog-h">Behind the camera</h2>
+        <p>Where the work is, and how to be good at it.</p>
+      </div>
+
+      <ul class="posts">
+        <!-- CMS:blogsupplier:start -->
+        <li class="post" data-category="supplier">
+          <p class="post__date"><time datetime="2026-09-06">6 September 2026</time></p>
+          <h3 class="post__title"><a href="blog/where-to-stand-on-a-saturday.html">Where to stand in Nashville on a Saturday</a></h3>
+          <p class="post__summary">Requests come from where the people are. Here is how the city sorts itself out across a weekend.</p>
+        </li>
+        <li class="post" data-category="supplier">
+          <p class="post__date"><time datetime="2026-09-04">4 September 2026</time></p>
+          <h3 class="post__title"><a href="blog/the-five-minutes-that-matter.html">The five minutes that make a good session</a></h3>
+          <p class="post__summary">You have got five minutes with people you have never met. Here is what to do with them.</p>
+        </li>
+        <!-- CMS:blogsupplier:end -->
+      </ul>
+
+      <p style="margin-top: 2rem;">
+        <a class="btn btn--outline" href="blog.html">Read the blog</a>
+      </p>
+    </div>
+  </section>
+
   <!-- ====================================================== questions -->
   <section class="section" id="questions" aria-labelledby="q-h">
     <div class="wrap">
@@ -479,6 +508,19 @@
           3919 Providence Rd S Ste B #629<br>
           Waxhaw, NC 28173
         </address>
+
+        <ul class="stores stores--footer" aria-label="Download the app">
+          <li>
+            <a href="https://apps.apple.com/us/app/personal-paparazzi/id6756741813" target="_blank" rel="noopener">
+              <img src="assets/badge-app-store.svg" alt="Download Personal Paparazzi on the App Store" width="160" height="53" loading="lazy">
+            </a>
+          </li>
+          <li>
+            <a href="https://play.google.com/store/apps/details?id=com.personalpaparazzi.client" target="_blank" rel="noopener">
+              <img src="assets/badge-google-play.png" alt="Get Personal Paparazzi on Google Play" width="160" height="62" loading="lazy">
+            </a>
+          </li>
+        </ul>
       </div>
 
       <nav aria-labelledby="f-nav-1">
@@ -489,10 +531,7 @@
           <li><a href="index.html#why">Why do I need one?</a></li>
           <li><a href="index.html#when">When do I need one?</a></li>
           <li><a href="blog.html">Blog</a></li>
-        <li><a href="blog.html">Blog</a></li>
           <li><a href="index.html#download">Get the app</a></li>
-          <li><a href="https://apps.apple.com/us/app/personal-paparazzi/id6756741813" target="_blank" rel="noopener">Client app for iPhone</a></li>
-          <li><a href="https://play.google.com/store/apps/details?id=com.personalpaparazzi.client" target="_blank" rel="noopener">Client app for Android</a></li>
         </ul>
       </nav>
 
@@ -521,7 +560,7 @@
   <a class="btn btn--primary" href="#get-started">Get the app</a>
 </div>
 
-<script src="assets/site.js?v=14" defer></script>
+<script src="assets/site.js?v=15" defer></script>
 <script src="assets/feedback.js?v=4" defer></script>
 </body>
 </html>

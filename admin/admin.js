@@ -172,6 +172,23 @@
   /* ------------------------------------------------------------ renderers -- */
 
   function renderBlog() {
+    $("#blog-heading").value = data.blog.heading || "";
+    $("#blog-intro").value = data.blog.intro || "";
+
+    // the two audiences, renameable without touching code
+    var cats = data.blog.categories || [];
+    var catHost = $("#blog-cats");
+    catHost.innerHTML = "";
+    if (cats.length) {
+      var catBox = el("div", "admin-item");
+      catBox.appendChild(el("h3", null, "The two categories"));
+      cats.forEach(function (c) {
+        catBox.appendChild(field("Name shown on the site", c.name,
+          function (v) { c.name = v; }));
+      });
+      catHost.appendChild(catBox);
+    }
+
     var host = $("#blog-list");
     host.innerHTML = "";
     var posts = data.blog.posts;
@@ -186,6 +203,23 @@
       }));
       box.appendChild(field("Date", post.date, function (v) { post.date = v; },
         { placeholder: "2026-09-01" }));
+
+      // who the post is for
+      var pick = el("label", "admin-field");
+      pick.appendChild(el("span", null, "Who it is for"));
+      var sel = el("select");
+      (data.blog.categories || []).forEach(function (c) {
+        var o = el("option", null, c.name);
+        o.value = c.id;
+        if ((post.category || "client") === c.id) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.addEventListener("change", function () {
+        post.category = sel.value;
+        markDirty();
+      });
+      pick.appendChild(sel);
+      box.appendChild(pick);
       box.appendChild(field("Web address", post.slug, function (v) {
         post.slug = slugify(v); post.slugLocked = true;
       }));
@@ -284,6 +318,15 @@
         }
         markDirty();
         renderAll();
+      });
+    });
+
+    [["#blog-heading", "heading"], ["#blog-intro", "intro"]].forEach(function (pair) {
+      var input = $(pair[0]);
+      if (!input) return;
+      input.addEventListener("input", function () {
+        data.blog[pair[1]] = input.value;
+        markDirty();
       });
     });
 

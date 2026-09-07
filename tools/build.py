@@ -209,19 +209,67 @@ def render_places():
 
 # --------------------------------------------------------------------- blog --
 
-def render_blog_cards(posts, limit=None):
+def render_blog_cards(posts, limit=None, prefix='blog/', names=None):
+    names = names or {}
     cards = []
     for post in posts[:limit] if limit else posts:
+        cat = post.get('category', 'client')
+        tag = names.get(cat, '')
+        tag_markup = (f'          <p class="post__tag">{esc(tag)}</p>\n') if tag else ''
         cards.append(
-            '        <li class="post">\n'
+            f'        <li class="post" data-category="{esc(cat)}">\n'
+            + tag_markup +
             f'          <p class="post__date"><time datetime="{esc(post["date"])}">'
             f'{esc(pretty_date(post["date"]))}</time></p>\n'
-            f'          <h3 class="post__title"><a href="blog/{esc(post["slug"])}.html">'
+            f'          <h3 class="post__title"><a href="{prefix}{esc(post["slug"])}.html">'
             f'{esc(post["title"])}</a></h3>\n'
             f'          <p class="post__summary">{esc(post["summary"])}</p>\n'
             '        </li>'
         )
     return '\n'.join(cards)
+
+
+def render_blog_filter(data):
+    """Buttons that narrow the list to one audience."""
+    cats = data.get('categories', [])
+    if not cats:
+        return ''
+    out = ['        <div class="blog-filter" role="group" aria-label="Who the posts are for">',
+           '          <button type="button" class="blog-filter__btn" data-filter="all" '
+           'aria-pressed="true">Everything</button>']
+    for c in cats:
+        out.append('          <button type="button" class="blog-filter__btn" '
+                   f'data-filter="{esc(c["id"])}" aria-pressed="false">{esc(c["name"])}</button>')
+    out.append('        </div>')
+    return '\n'.join(out)
+
+
+def read_time(body):
+    """Roughly how long the post takes to read, at 200 words a minute."""
+    words = len(re.findall(r"[\w'-]+", body or ''))
+    return max(1, round(words / 200.0))
+
+
+def render_latest(post, names):
+    """One featured article, sitting above the footer."""
+    if not post:
+        return '      <!-- No posts yet. -->'
+    tag = names.get(post.get('category', 'client'), '')
+    image = (post.get('image') or '').strip()
+    parts = [
+        f'      <a class="latest__card" href="blog/{esc(post["slug"])}.html">',
+        '        <div class="latest__text">',
+        f'          <p class="latest__meta">{read_time(post.get("body"))} min read'
+        + (f' &nbsp;&middot;&nbsp; {esc(tag)}' if tag else '') + '</p>',
+        f'          <h3 class="latest__title">{esc(post["title"])}</h3>',
+        f'          <p class="latest__summary">{esc(post["summary"])}</p>',
+        '        </div>',
+    ]
+    if image:
+        parts.append(f'        <img class="latest__image" src="{esc(image)}" alt="" '
+                     'width="480" height="270" loading="lazy">')
+    parts.append('      </a>')
+    return '\n'.join(parts)
 
 
 def write_post_pages(data, shell):
@@ -272,18 +320,34 @@ def main():
     # blog: the index, the posts, and the teaser on the landing page
     bdata = load('blog.json')
     posts = sorted(bdata['posts'], key=lambda p: p['date'], reverse=True)
+    names = {c['id']: c['name'] for c in bdata.get('categories', [])}
 
     page = open('blog.html', encoding='utf-8').read()
-    page = replace_block(page, 'bloglist', render_blog_cards(posts))
+    page = replace_block(page, 'bloglist', render_blog_cards(posts, names=names))
+    page = replace_block(page, 'blogfilter', render_blog_filter(bdata))
+    page = re.sub(r'(<h1>).*?(</h1>)',
+                  lambda m: m.group(1) + esc(bdata['heading']) + m.group(2), page, count=1)
+    page = re.sub(r'(<h1>.*?</h1>\s*<p>).*?(</p>)',
+                  lambda m: m.group(1) + esc(bdata['intro']) + m.group(2), page, count=1, flags=re.S)
     open('blog.html', 'w', encoding='utf-8').write(page)
 
     shell = open(os.path.join('tools', 'post.template.html'), encoding='utf-8').read()
     written = write_post_pages({'posts': posts}, shell)
 
-    teaser = render_blog_cards(posts, limit=3).replace('href="blog/', 'href="blog/')
+    client_posts = [p for p in posts if p.get('category', 'client') == 'client']
+    supplier_posts = [p for p in posts if p.get('category') == 'supplier']
+
     page = open('index.html', encoding='utf-8').read()
-    page = replace_block(page, 'blogteaser', teaser)
+    newest = (client_posts or posts)[0] if (client_posts or posts) else None
+    page = replace_block(page, 'latest', render_latest(newest, names))
     open('index.html', 'w', encoding='utf-8').write(page)
+
+    if supplier_posts:
+        page = open('become-a-paparazzi.html', encoding='utf-8').read()
+        if '<!-- CMS:blogsupplier:start -->' in page:
+            page = replace_block(page, 'blogsupplier',
+                                 render_blog_cards(supplier_posts, limit=3))
+            open('become-a-paparazzi.html', 'w', encoding='utf-8').write(page)
     print(f'  blog.html + {len(written)} post pages + the teaser on index.html')
 
     # a sitemap, since a blog only pays off if it can be found

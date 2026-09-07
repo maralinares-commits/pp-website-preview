@@ -7,7 +7,7 @@
 <title>Personal Paparazzi: content editor</title>
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preload" href="../assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/styles.css?v=20">
+<link rel="stylesheet" href="../assets/styles.css?v=25">
 <link rel="stylesheet" href="admin.css?v=2">
 </head>
 
@@ -76,6 +76,17 @@
           <h2>Blog</h2>
           <button class="btn btn--outline" type="button" data-add="blog">Add a post</button>
         </div>
+        <div class="duo" style="margin-bottom: 1.5rem;">
+          <label class="admin-field">
+            <span>Blog title</span>
+            <input type="text" id="blog-heading">
+          </label>
+          <label class="admin-field">
+            <span>Line under the title</span>
+            <input type="text" id="blog-intro">
+          </label>
+        </div>
+        <div id="blog-cats" class="admin-list" style="margin-bottom: 1.5rem;"></div>
         <div id="blog-list" class="admin-list"></div>
       </div>
 
@@ -122,6 +133,6 @@
   <button class="btn btn--primary btn--lg" type="button" id="save">Publish</button>
 </div>
 
-<script src="admin.js?v=2" defer></script>
+<script src="admin.js?v=3" defer></script>
 </body>
 </html>

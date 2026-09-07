@@ -19,7 +19,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=23">
+<link rel="stylesheet" href="assets/styles.css?v=25">
 </head>
 
 <body data-page="Blog">
@@ -72,22 +72,56 @@
 
   <section class="page-head">
     <div class="wrap">
-      <h1>From the blog</h1>
-      <p>Ideas for getting photos you actually want to keep.</p>
+      <h1>The blog</h1>
+      <p>Two sides of the same thing: being in the photos, and getting paid to take them.</p>
     </div>
   </section>
 
   <section class="section" aria-labelledby="posts-h">
     <div class="wrap">
       <h2 id="posts-h" class="visually-hidden">Posts</h2>
+      <!-- CMS:blogfilter:start -->
+        <div class="blog-filter" role="group" aria-label="Who the posts are for">
+          <button type="button" class="blog-filter__btn" data-filter="all" aria-pressed="true">Everything</button>
+          <button type="button" class="blog-filter__btn" data-filter="client" aria-pressed="false">Getting the photo</button>
+          <button type="button" class="blog-filter__btn" data-filter="supplier" aria-pressed="false">Behind the camera</button>
+        </div>
+        <!-- CMS:blogfilter:end -->
+
       <ul class="posts">
         <!-- CMS:bloglist:start -->
-        <li class="post">
+        <li class="post" data-category="client">
+          <p class="post__tag">Getting the photo</p>
+          <p class="post__date"><time datetime="2026-09-06">6 September 2026</time></p>
+          <h3 class="post__title"><a href="blog/things-to-do-in-nashville.html">Things to do in Nashville, and where the photo is worth taking</a></h3>
+          <p class="post__summary">Fifteen places people actually queue for, and what to do with your camera at each one.</p>
+        </li>
+        <li class="post" data-category="supplier">
+          <p class="post__tag">Behind the camera</p>
+          <p class="post__date"><time datetime="2026-09-06">6 September 2026</time></p>
+          <h3 class="post__title"><a href="blog/where-to-stand-on-a-saturday.html">Where to stand in Nashville on a Saturday</a></h3>
+          <p class="post__summary">Requests come from where the people are. Here is how the city sorts itself out across a weekend.</p>
+        </li>
+        <li class="post" data-category="client">
+          <p class="post__tag">Getting the photo</p>
+          <p class="post__date"><time datetime="2026-09-05">5 September 2026</time></p>
+          <h3 class="post__title"><a href="blog/your-photos-your-privacy.html">Your photos, your privacy</a></h3>
+          <p class="post__summary">What happens to the pictures after a stranger takes them, and what you are agreeing to.</p>
+        </li>
+        <li class="post" data-category="client">
+          <p class="post__tag">Getting the photo</p>
           <p class="post__date"><time datetime="2026-09-04">4 September 2026</time></p>
           <h3 class="post__title"><a href="blog/how-to-be-in-your-own-holiday-photos.html">How to be in your own holiday photos</a></h3>
           <p class="post__summary">If you are the one who always takes the picture, you are in none of them. Four ways to fix that on your next trip.</p>
         </li>
-        <li class="post">
+        <li class="post" data-category="supplier">
+          <p class="post__tag">Behind the camera</p>
+          <p class="post__date"><time datetime="2026-09-04">4 September 2026</time></p>
+          <h3 class="post__title"><a href="blog/the-five-minutes-that-matter.html">The five minutes that make a good session</a></h3>
+          <p class="post__summary">You have got five minutes with people you have never met. Here is what to do with them.</p>
+        </li>
+        <li class="post" data-category="client">
+          <p class="post__tag">Getting the photo</p>
           <p class="post__date"><time datetime="2026-09-01">1 September 2026</time></p>
           <h3 class="post__title"><a href="blog/stop-handing-your-phone-to-strangers.html">Stop handing your phone to strangers</a></h3>
           <p class="post__summary">The photo you get back is blurry, tilted, and missing your feet. Here is why that keeps happening, and what to do instead.</p>
@@ -109,6 +143,19 @@
           3919 Providence Rd S Ste B #629<br>
           Waxhaw, NC 28173
         </address>
+
+        <ul class="stores stores--footer" aria-label="Download the app">
+          <li>
+            <a href="https://apps.apple.com/us/app/personal-paparazzi/id6756741813" target="_blank" rel="noopener">
+              <img src="assets/badge-app-store.svg" alt="Download Personal Paparazzi on the App Store" width="160" height="53" loading="lazy">
+            </a>
+          </li>
+          <li>
+            <a href="https://play.google.com/store/apps/details?id=com.personalpaparazzi.client" target="_blank" rel="noopener">
+              <img src="assets/badge-google-play.png" alt="Get Personal Paparazzi on Google Play" width="160" height="62" loading="lazy">
+            </a>
+          </li>
+        </ul>
       </div>
 
       <nav aria-labelledby="f-nav-1">
@@ -120,8 +167,6 @@
           <li><a href="index.html#when">When do I need one?</a></li>
         <li><a href="blog.html">Blog</a></li>
           <li><a href="index.html#download">Get the app</a></li>
-          <li><a href="https://apps.apple.com/us/app/personal-paparazzi/id6756741813" target="_blank" rel="noopener">Client app for iPhone</a></li>
-          <li><a href="https://play.google.com/store/apps/details?id=com.personalpaparazzi.client" target="_blank" rel="noopener">Client app for Android</a></li>
         </ul>
       </nav>
 
@@ -145,7 +190,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=14" defer></script>
+<script src="assets/site.js?v=15" defer></script>
 <script src="assets/feedback.js?v=4" defer></script>
 </body>
 </html>

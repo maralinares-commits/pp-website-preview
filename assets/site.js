@@ -248,4 +248,26 @@
 
     answer();
   }
+
+  /* -------------------------------------------------------- blog filter --- */
+  /* Two audiences, one list. The buttons narrow it rather than reloading,
+     and every post is in the page either way, so the filter is a convenience
+     rather than the only route to the content.                              */
+
+  var filter = document.querySelector(".blog-filter");
+
+  if (filter) {
+    var posts = Array.prototype.slice.call(document.querySelectorAll(".posts .post"));
+    filter.addEventListener("click", function (e) {
+      var btn = e.target.closest(".blog-filter__btn");
+      if (!btn) return;
+      var want = btn.getAttribute("data-filter");
+      Array.prototype.forEach.call(filter.children, function (b) {
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
+      posts.forEach(function (p) {
+        p.hidden = !(want === "all" || p.getAttribute("data-category") === want);
+      });
+    });
+  }
 })();
