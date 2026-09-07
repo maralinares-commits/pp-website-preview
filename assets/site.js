@@ -88,8 +88,8 @@
   var calc = document.getElementById("calc");
 
   if (calc) {
-    var PER_MEMORY = 10;                                  // 50% of $19.99
-    var RATE = { weekday: [3, 5], holiday: [6, 10] };     // memories an hour
+    var PER_SESSION = 10;                                 // 50% of $19.99
+    var RATE = { weekday: [3, 5], holiday: [6, 10] };     // sessions an hour, by place
 
     var elHours = document.getElementById("calc-hours-in");
     var elTip = document.getElementById("calc-tip");
@@ -127,11 +127,11 @@
       var day = calc.querySelector('input[name="day"]:checked').value;
       var band = RATE[day];
 
-      var perMemory = PER_MEMORY + tip;
+      var perMemory = PER_SESSION + tip;
       var memLo = band[0] * hours;
       var memHi = band[1] * hours;
 
-      basis.textContent = "At " + price(perMemory) + " a memory"
+      basis.textContent = "At " + price(perMemory) + " a session"
         + (tip > 0 ? ", tip included" : "");
 
       outMemories.textContent = memLo.toLocaleString("en-US") + " to "
@@ -144,8 +144,8 @@
       outRate.textContent = money(band[0] * perMemory) + " to " + money(band[1] * perMemory);
 
       note.textContent = "Estimate only. These figures illustrate " + band[0] + " to "
-        + band[1] + " memories an hour on " + (day === "weekday" ? "a weekday" : "a holiday weekend")
-        + " at " + price(perMemory) + " a memory. They are not an offer, a guarantee, or a "
+        + band[1] + " sessions an hour in " + (day === "weekday" ? "an ordinary spot" : "a hotspot")
+        + " at " + price(perMemory) + " a session. They are not an offer, a guarantee, or a "
         + "commitment to pay any amount. Actual earnings depend on how many requests you "
         + "accept and how busy your area is."
         + (tip > 0
