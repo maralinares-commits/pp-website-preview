@@ -246,24 +246,6 @@
     picker.addEventListener("change", answer);
     picker.addEventListener("submit", function (e) { e.preventDefault(); });
 
-    // the cards are the same choice, made by pointing at it
-    Array.prototype.forEach.call(
-      document.querySelectorAll(".scene__pick"),
-      function (card) {
-        card.addEventListener("click", function () {
-          scene.value = card.getAttribute("data-scene");
-          Array.prototype.forEach.call(
-            document.querySelectorAll(".scene__pick"),
-            function (other) {
-              other.setAttribute("aria-pressed", String(other === card));
-            }
-          );
-          answer();
-          picker.scrollIntoView({ behavior: "smooth", block: "center" });
-        });
-      }
-    );
-
     answer();
   }
 })();
