@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Personal Paparazzi: content editor</title>
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="preload" href="../assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/styles.css?v=17">
+<link rel="stylesheet" href="admin.css?v=1">
+</head>
+
+<body data-page="Content editor">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="admin-bar">
+  <div class="admin-bar__in">
+    <img src="../assets/logo-light-h.svg" alt="Personal Paparazzi" width="275" height="85">
+    <span class="admin-bar__title">Content editor</span>
+    <div class="admin-bar__actions">
+      <span id="who" class="admin-who"></span>
+      <a class="btn btn--outline" href="../index.html" target="_blank" rel="noopener">View site</a>
+      <button class="btn btn--outline" type="button" id="signout" hidden>Sign out</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================================================ sign in -->
+  <section class="section" id="signin">
+    <div class="wrap wrap--narrow">
+      <div class="card">
+        <h1>Sign in to edit</h1>
+        <p class="admin-lead">This editor saves straight to the website. You need a GitHub
+          access key so it can do that. You only do this once on each computer.</p>
+
+        <ol class="admin-steps">
+          <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">this GitHub page</a>, signed in as an account that can edit the website.</li>
+          <li>Give it a name like <b>Personal Paparazzi content</b>, and set it to expire when you like.</li>
+          <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick
+            <b>pp-website-preview</b>.</li>
+          <li>Under <b>Permissions</b> → <b>Repository permissions</b>, set <b>Contents</b> to
+            <b>Read and write</b>. Nothing else.</li>
+          <li>Press <b>Generate token</b>, copy what it gives you, and paste it below.</li>
+        </ol>
+
+        <label class="admin-field">
+          <span>Your access key</span>
+          <input type="password" id="token" placeholder="github_pat_..." autocomplete="off">
+        </label>
+        <p class="admin-row">
+          <span class="admin-msg" id="signin-msg"></span>
+          <button class="btn btn--primary" type="button" id="signin-go">Sign in</button>
+        </p>
+        <p class="admin-note">The key is kept in this browser only. It is never sent anywhere
+          except GitHub, and signing out deletes it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= editor -->
+  <section class="section" id="editor" hidden>
+    <div class="wrap">
+
+      <nav class="admin-tabs" aria-label="What to edit">
+        <button type="button" class="admin-tab" data-tab="blog" aria-selected="true">Blog</button>
+        <button type="button" class="admin-tab" data-tab="questions" aria-selected="false">Questions</button>
+        <button type="button" class="admin-tab" data-tab="tips" aria-selected="false">Quick Tips</button>
+      </nav>
+
+      <!-- blog -->
+      <div class="admin-panel" data-panel="blog">
+        <div class="admin-head">
+          <h2>Blog</h2>
+          <button class="btn btn--outline" type="button" data-add="blog">Add a post</button>
+        </div>
+        <div id="blog-list" class="admin-list"></div>
+      </div>
+
+      <!-- questions -->
+      <div class="admin-panel" data-panel="questions" hidden>
+        <div class="admin-head">
+          <h2>Questions before your first session</h2>
+          <button class="btn btn--outline" type="button" data-add="questions">Add a question</button>
+        </div>
+        <div id="questions-list" class="admin-list"></div>
+      </div>
+
+      <!-- tips -->
+      <div class="admin-panel" data-panel="tips" hidden>
+        <div class="admin-head">
+          <h2>Quick Tips and tutorials</h2>
+          <button class="btn btn--outline" type="button" data-add="tips">Add a group</button>
+        </div>
+        <label class="admin-field">
+          <span>Video link, if there is one</span>
+          <input type="url" id="tips-video" placeholder="https://youtube.com/...">
+        </label>
+        <div id="tips-list" class="admin-list"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div class="admin-save" id="savebar" hidden>
+  <span class="admin-msg" id="save-msg"></span>
+  <button class="btn btn--outline" type="button" id="discard">Discard changes</button>
+  <button class="btn btn--primary btn--lg" type="button" id="save">Publish</button>
+</div>
+
+<script src="admin.js?v=1" defer></script>
+</body>
+</html>

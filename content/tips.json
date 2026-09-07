@@ -1,0 +1,57 @@
+{
+  "heading": "Quick Tips and tutorials",
+  "intro": "Simple guidance to help you take great shots and keep your ratings high.",
+  "videoUrl": "",
+  "groups": [
+    {
+      "id": "use-natural-light",
+      "title": "Use natural light",
+      "items": [
+        "Position your subject facing the light source, not away from it",
+        "Avoid shooting directly into the sun: it creates harsh shadows",
+        "Overcast days are great: soft, even light with no harsh shadows",
+        "Golden hour (just after sunrise or before sunset) produces warm, flattering light"
+      ]
+    },
+    {
+      "id": "framing-and-composition",
+      "title": "Framing and composition",
+      "items": [
+        "Use the rule of thirds: place your subject off-center for a more dynamic shot",
+        "Leave some space in the direction your subject is looking",
+        "Include interesting backgrounds that tell the story of the location",
+        "Vary your shots. Take at least one shot of each of three poses, in landscape. You might also try wide, medium, and close-up angles"
+      ]
+    },
+    {
+      "id": "phone-camera-best-practices",
+      "title": "Phone camera best practices",
+      "items": [
+        "Clean your lens before every session: smudges ruin sharpness",
+        "Tap the screen to focus on your subject before shooting",
+        "Use Portrait mode for flattering close-ups when available",
+        "Hold steady or brace against something to avoid blur"
+      ]
+    },
+    {
+      "id": "working-with-clients",
+      "title": "Working with clients",
+      "items": [
+        "Greet them warmly: a relaxed client takes better photos",
+        "Give simple, clear directions: “Turn slightly left” or “Chin down a little”",
+        "Take more shots than you think you need, and give them options",
+        "Let them know when you're done and confirm they're happy before leaving"
+      ]
+    },
+    {
+      "id": "the-short-video",
+      "title": "The short video",
+      "items": [
+        "Move slowly and smoothly: jerky motion is hard to watch",
+        "Pan across the scene or walk slowly toward the subject",
+        "Keep it 10 to 20 seconds: short and cinematic beats long and shaky",
+        "Make sure audio isn't distracting: wind noise can ruin a clip"
+      ]
+    }
+  ]
+}

@@ -1354,3 +1354,47 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   border-radius: 50%;
   background: var(--green);
 }
+
+/* --------------------------------------------------------------- blog ----- */
+
+.posts {
+  display: grid;
+  gap: 1.25rem;
+  list-style: none;
+}
+@media (min-width: 48rem) { .posts { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 68rem) { .posts { grid-template-columns: repeat(3, 1fr); } }
+
+.post {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.post__date { margin: 0; font-size: var(--step--1); color: var(--muted); }
+.post__title { font-size: var(--step-h3); margin: 0; }
+.post__title a { text-decoration: none; }
+.post__title a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--green);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.post__summary { margin: 0; color: var(--muted); font-size: var(--step-0); }
+
+/* A blog post is one column of text, so it keeps a readable measure even
+   though the rest of the site now runs wide. */
+.article { max-width: 42rem; }
+.article h2 {
+  font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  margin: 2.25rem 0 0.75rem;
+}
+.article h3 { font-size: 1.125rem; margin: 1.75rem 0 0.5rem; }
+.article p { font-size: var(--step-lead); color: var(--muted); margin-bottom: 1.25rem; }
+.article ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1.25rem; display: grid; gap: 0.5rem; }
+.article li { font-size: var(--step-lead); color: var(--muted); }
+.article strong { color: var(--ink); }
+.article a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--green); text-decoration-thickness: 2px; text-underline-offset: 2px; }

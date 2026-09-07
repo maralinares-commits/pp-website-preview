@@ -1,0 +1,48 @@
+# Rebuilds the pages whenever the content changes.
+#
+# The team edits content/*.json through the editor at /admin/, which commits
+# those files. This then regenerates the HTML and commits the result, so the
+# published pages are real HTML that search engines can read, rather than
+# something assembled in the browser.
+name: Build pages from content
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'tools/**'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Render the pages
+        run: python3 tools/build.py
+
+      - name: Commit anything that changed
+        run: |
+          git config user.name "Content build"
+          git config user.email "actions@github.com"
+          if git diff --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git add -A
+          git commit -m "Rebuild pages from content [skip ci]"
+          git push
