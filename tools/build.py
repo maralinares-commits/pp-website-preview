@@ -189,6 +189,19 @@ def main():
     page = open('tutorials.html', encoding='utf-8').read()
     page = replace_block(page, 'tips', cards)
     page = replace_block(page, 'tipstoc', toc)
+
+    # The link to the tutorial videos, once somebody adds one in the editor.
+    video = (tdata.get('videoUrl') or '').strip()
+    if video:
+        video_block = (
+            '      <p class="tips-video">\n'
+            f'        <a class="btn btn--primary btn--lg" href="{esc(video)}" '
+            'target="_blank" rel="noopener">Watch the tutorial videos</a>\n'
+            '      </p>'
+        )
+    else:
+        video_block = '      <!-- No video link set yet. Add one in the editor. -->'
+    page = replace_block(page, 'tipsvideo', video_block)
     open('tutorials.html', 'w', encoding='utf-8').write(page)
     print(f'  tutorials.html           {len(tdata["groups"])} groups, '
           f'{sum(len(g["items"]) for g in tdata["groups"])} tips')

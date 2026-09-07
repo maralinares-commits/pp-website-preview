@@ -1398,3 +1398,5 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 .article li { font-size: var(--step-lead); color: var(--muted); }
 .article strong { color: var(--ink); }
 .article a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--green); text-decoration-thickness: 2px; text-underline-offset: 2px; }
+
+.tips-video { margin: 0 0 2rem; }
