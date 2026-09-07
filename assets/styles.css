@@ -158,7 +158,6 @@ ul { margin: 0; padding: 0; }
   color: var(--muted);
   font-size: var(--step-lead);
   margin-top: 0.75rem;
-  max-width: 62ch;
 }
 /* Kept so existing markup keeps working; it no longer changes anything. */
 .section__head--stack { max-width: none; }
