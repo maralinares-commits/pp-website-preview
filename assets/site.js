@@ -252,11 +252,20 @@
       influencer:  "at the spot you came for"
     };
     var WHO = {
-      friends: "your friends",
-      family:  "your family",
-      partner: "the two of you",
-      work:    "the team",
-      solo:    "you"
+      friends:    "your friends",
+      family:     "your family",
+      partner:    "the two of you",
+      colleagues: "your colleagues",
+      solo:       "you"
+    };
+
+    // Some occasions answer the "with" question themselves. Picking one sets
+    // that box and locks it, rather than leaving a sentence that reads
+    // "to enjoy a proposal with my colleagues".
+    var LOCKED = {
+      proposals:  "partner",
+      honeymoons: "partner",
+      influencer: "colleagues"
     };
 
     var city = document.getElementById("pick-city");
@@ -264,7 +273,23 @@
     var who = document.getElementById("pick-who");
     var line = document.getElementById("picker-line");
 
+    // What they chose themselves, so unlocking gives it back rather than
+    // leaving whichever value an occasion happened to force.
+    var lastFree = who.value;
+    who.addEventListener("change", function () {
+      if (!who.disabled) lastFree = who.value;
+    });
+
     function answer() {
+      var locked = LOCKED[scene.value];
+      if (locked) {
+        who.value = locked;
+        who.disabled = true;
+      } else {
+        if (who.disabled) who.value = lastFree;
+        who.disabled = false;
+      }
+
       var where = WHERE[scene.value] || "when you get there";
       var people = WHO[who.value] || "you";
       var text;
