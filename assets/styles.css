@@ -146,36 +146,22 @@ ul { margin: 0; padding: 0; }
 [id] { scroll-margin-top: 6rem; }
 .section--tight { padding-block: clamp(2.5rem, 2rem + 2vw, 4rem); }
 
+/* Title on top, the line that introduces it underneath. Side by side made the
+   two halves compete, and the reader had to jump the gutter to finish the
+   thought. The head still runs the full width of the section. */
+
 .section__head {
-  max-width: 40rem;
+  max-width: none;
   margin-bottom: clamp(2rem, 1.5rem + 1.5vw, 3rem);
 }
 .section__head p {
   color: var(--muted);
   font-size: var(--step-lead);
   margin-top: 0.75rem;
+  max-width: 62ch;
 }
-
-/* When the section head sits above full width content, rather than beside a
-   card, it should reach the far edge too: heading on the left, the line that
-   introduces it on the right. A narrow block of text above a grid that runs
-   edge to edge reads as unfinished.
-   The selector does the work: a head that is a direct child of .wrap is the
-   full width case, while the ones inside .split stay in their column.        */
-@media (min-width: 64rem) {
-  .wrap > .section__head:not(.section__head--stack) {
-    max-width: none;
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: 1rem 4rem;
-    align-items: end;
-  }
-  .wrap > .section__head:not(.section__head--stack) p { margin-top: 0; }
-}
-
-/* Opt out, for a head that reads better stacked because what follows it is not
-   a full width grid. */
-.section__head--stack { max-width: 46rem; }
+/* Kept so existing markup keeps working; it no longer changes anything. */
+.section__head--stack { max-width: none; }
 
 /* ------------------------------------------------------------- buttons ---- */
 
@@ -572,6 +558,16 @@ ul { margin: 0; padding: 0; }
 
 .prose { max-width: 40rem; }
 .prose--wide { max-width: 52rem; }
+/* Four short paragraphs beside each other, so the section reaches the far edge
+   without asking anybody to read a line 120 characters long. */
+@media (min-width: 64rem) {
+  .prose--cols {
+    max-width: none;
+    columns: 2;
+    column-gap: clamp(2.5rem, 1rem + 4vw, 5rem);
+  }
+  .prose--cols p { break-inside: avoid; margin-top: 0; }
+}
 .prose p { font-size: var(--step-lead); color: var(--muted); }
 .prose p strong { color: var(--ink); font-weight: 700; }
 

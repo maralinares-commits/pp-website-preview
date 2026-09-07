@@ -144,9 +144,9 @@
     }
 
     function update() {
-      // Hours start empty on purpose, the way the tip box does, so the reader
-      // puts their own shift in rather than arguing with a number we chose.
-      var hours = Math.max(0, Math.round(num(elHours, 0)));
+      // A short shift to start from, and the reader changes it. Clearing the
+      // box shows a dash rather than a made-up total.
+      var hours = Math.max(0, Math.round(num(elHours, 2)));
       var tip = num(elTip, 0);
 
       var here = !elCity || elCity.value !== "other";
@@ -217,7 +217,7 @@
         }
       });
     }
-    settle(elHours, 0);
+    settle(elHours, 2);
     if (elSessions) {
       elSessions.addEventListener("input", function () { sessionsSet = true; });
       settle(elSessions, 4);
