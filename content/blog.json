@@ -87,13 +87,13 @@
   "categories": [
     {
       "id": "client",
-      "name": "Getting the photo",
+      "name": "Feel like a rockstar",
       "blurb": "For anybody who wants to come home with photos worth keeping."
     },
     {
       "id": "supplier",
-      "name": "Behind the camera",
-      "blurb": "For the people doing the shooting, and getting paid for it."
+      "name": "Paparazzi life",
+      "blurb": "For the people behind the camera, and getting paid for it."
     }
   ]
 }

@@ -100,9 +100,19 @@
     var BY_ID = {};
     PLACES.places.forEach(function (p) { BY_ID[p.id] = p; });
 
+    var elCity = document.getElementById("calc-city");
     var elPlace = document.getElementById("calc-place");
+    var placeField = document.getElementById("calc-place-field");
     var placeNote = document.getElementById("calc-place-note");
+
+    // Anywhere we have not launched in yet. A plain, unremarkable few hours,
+    // so the panel still answers the question without inventing footfall.
+    var ELSEWHERE = { name: "wherever you are", busy: [3, 5], note: "", visitors: "",
+                      footfall: "" };
     var elHours = document.getElementById("calc-hours-in");
+    var elSessions = document.getElementById("calc-sessions");
+    var sessionsNote = document.getElementById("calc-sessions-note");
+    var sessionsSet = false;   // true once the reader types their own number
     var elTip = document.getElementById("calc-tip");
     var basis = document.getElementById("calc-basis");
     var outMemories = document.getElementById("calc-memories");
@@ -136,37 +146,57 @@
     function update() {
       var hours = Math.max(1, Math.round(num(elHours, 4) || 4));
       var tip = num(elTip, 0);
-      var place = BY_ID[elPlace && elPlace.value] || PLACES.places[0];
-      if (!place) return;
-      var band = place.band;
 
+      var here = !elCity || elCity.value !== "other";
+      var place = here
+        ? (BY_ID[elPlace && elPlace.value] || PLACES.places[0])
+        : ELSEWHERE;
+      if (!place) return;
+
+      // How busy a place is is a fact we can show. How many sessions that
+      // turns into is the reader's own guess, so we seed it and step aside.
+      var busy = place.busy || [3, 5];
+      if (!sessionsSet && elSessions) elSessions.value = String(busy[0]);
+      var perHour = Math.max(1, Math.round(num(elSessions, busy[0]) || busy[0]));
+
+      if (placeField) placeField.hidden = !here;
       if (placeNote) {
-        placeNote.textContent = place.note + " Footfall: " + place.visitors + ".";
+        placeNote.textContent = here && place.note
+          ? place.note + " Footfall: " + place.visitors + "."
+          : "";
+      }
+      if (sessionsNote) {
+        sessionsNote.textContent = "This is your call. Somewhere as busy as "
+          + (here ? place.name : "a well visited spot") + ", " + busy[0] + " to "
+          + busy[1] + " an hour is a reasonable guess, but nothing about how many "
+          + "people walk past guarantees how many ask for a session.";
       }
 
       var perMemory = PER_SESSION + tip;
-      var memLo = band[0] * hours;
-      var memHi = band[1] * hours;
+      var sessions = perHour * hours;
 
       basis.textContent = "At " + price(perMemory) + " a session"
         + (tip > 0 ? ", tip included" : "");
 
-      outMemories.textContent = memLo.toLocaleString("en-US") + " to "
-        + memHi.toLocaleString("en-US");
+      outMemories.textContent = sessions.toLocaleString("en-US");
 
       outEarnedLabel.textContent = "What " + hours + (hours === 1 ? " hour" : " hours")
         + " adds up to";
-      outEarned.textContent = money(memLo * perMemory) + " to " + money(memHi * perMemory);
+      outEarned.textContent = money(sessions * perMemory);
 
-      outRate.textContent = money(band[0] * perMemory) + " to " + money(band[1] * perMemory);
-      if (rateLabel) rateLabel.textContent = "An hour, at " + place.name;
+      outRate.textContent = money(perHour * perMemory);
+      if (rateLabel) {
+        rateLabel.textContent = "An hour, at " + perHour
+          + (perHour === 1 ? " session" : " sessions");
+      }
 
-      note.textContent = "Estimate only. These figures illustrate " + band[0] + " to "
-        + band[1] + " sessions an hour at " + place.name + ", at " + price(perMemory)
-        + " a session. The sessions an hour are estimated from how busy the place is, "
-        + "not measured. They are not an offer, a guarantee, or a commitment to pay any "
-        + "amount. Actual earnings depend on how many requests you accept and how busy "
-        + "it is when you are there."
+      note.textContent = "Estimate only. These figures use the " + perHour
+        + " sessions an hour you entered, at " + price(perMemory) + " a session"
+        + (here ? ", at " + place.name : "") + ". Visitor numbers describe how busy a "
+        + "place is; they are not a forecast of how many sessions you will be asked "
+        + "for. Nothing here is an offer, a guarantee, or a commitment to pay any "
+        + "amount. Actual earnings depend on how many requests you accept and how "
+        + "busy it is when you are there."
         + (tip > 0
             ? " Tips are paid to you in full and are included in the figures above."
             : " Tips are paid to you in full and are excluded unless you enter one.");
@@ -183,6 +213,10 @@
       });
     }
     settle(elHours, 4);
+    if (elSessions) {
+      elSessions.addEventListener("input", function () { sessionsSet = true; });
+      settle(elSessions, 4);
+    }
     settle(elTip, 0);
 
     calc.addEventListener("input", update);

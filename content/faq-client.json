@@ -1,0 +1,86 @@
+{
+  "heading": "Common questions",
+  "intro": "The things people ask before their first session.",
+  "groups": [
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "items": [
+        {
+          "question": "What is Personal Paparazzi?",
+          "answer": "An on-demand photo and video service. Think of it like a rideshare, but for capturing memories: you open the app somewhere worth remembering, send a request, and a verified local nearby comes and takes the photos."
+        },
+        {
+          "question": "How do I get a free photo session?",
+          "answer": "Download the app and request a session. Your first one is automatically free, with no promo code and no credit card required."
+        },
+        {
+          "question": "Which cities is Personal Paparazzi in?",
+          "answer": "We are starting in Nashville. More cities are coming, and the app is worth having before we reach yours."
+        },
+        {
+          "question": "Do I need to book a photographer in advance?",
+          "answer": "No. There is no appointment and no calendar. You request a session when you are already standing somewhere worth photographing, and it goes to every Personal Paparazzi nearby."
+        }
+      ]
+    },
+    {
+      "id": "what-it-costs",
+      "title": "What it costs",
+      "items": [
+        {
+          "question": "How much does a photo session cost?",
+          "answer": "$19.99 for a session, which is nine photos and one short video. Your first session is free."
+        },
+        {
+          "question": "Does Personal Paparazzi charge a subscription or monthly fee?",
+          "answer": "No. You only pay when you use the service. There are no required subscriptions, memberships, or recurring charges."
+        },
+        {
+          "question": "How do I pay for a photo session?",
+          "answer": "After your first free session, payment is handled securely in the app. There is nothing to hand over in person."
+        }
+      ]
+    },
+    {
+      "id": "on-the-day",
+      "title": "On the day",
+      "items": [
+        {
+          "question": "How long does a photo session take?",
+          "answer": "The session itself typically takes less than five minutes, from meeting your Personal Paparazzi to the last shot."
+        },
+        {
+          "question": "Who takes the photos?",
+          "answer": "An enthusiastic local with a good eye and a modern phone camera. Our Personal Paparazzi are not necessarily professional photographers, and every one of them passes an identity verification before they can accept sessions."
+        },
+        {
+          "question": "Can I ask for particular shots?",
+          "answer": "Yes. Say what you want in the frame before they start, and ask for another go if a shot is not right. They will take more than nine so you have a choice."
+        },
+        {
+          "question": "What if it rains, or I change my mind?",
+          "answer": "You request a session when you want one, so there is nothing to cancel in advance. If the weather turns, wait and send the request later."
+        }
+      ]
+    },
+    {
+      "id": "your-photos",
+      "title": "Your photos",
+      "items": [
+        {
+          "question": "What do I get in a session?",
+          "answer": "Nine photos and one short video. Each photo or video is a memory in the app, so a session is ten memories in total."
+        },
+        {
+          "question": "How soon do I get my photos after the session?",
+          "answer": "The system uploads them automatically at the end of the session. You can download them to your gallery straight away."
+        },
+        {
+          "question": "Who owns the photos?",
+          "answer": "You do. Photos and videos captured during a session are delivered to you through the platform, and Personal Paparazzi, Inc. retains no rights to use them for commercial purposes without your explicit consent."
+        }
+      ]
+    }
+  ]
+}

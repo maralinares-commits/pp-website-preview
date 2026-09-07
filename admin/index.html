@@ -7,8 +7,8 @@
 <title>Personal Paparazzi: content editor</title>
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="preload" href="../assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/styles.css?v=25">
-<link rel="stylesheet" href="admin.css?v=2">
+<link rel="stylesheet" href="../assets/styles.css?v=28">
+<link rel="stylesheet" href="admin.css?v=3">
 </head>
 
 <body data-page="Content editor">
@@ -68,6 +68,7 @@
         <button type="button" class="admin-tab" data-tab="blog" aria-selected="true">Blog</button>
         <button type="button" class="admin-tab" data-tab="questions" aria-selected="false">Questions</button>
         <button type="button" class="admin-tab" data-tab="tips" aria-selected="false">Quick Tips</button>
+        <button type="button" class="admin-tab" data-tab="clientfaq" aria-selected="false">Client questions</button>
       </nav>
 
       <!-- blog -->
@@ -122,6 +123,15 @@
         <div id="tips-list" class="admin-list"></div>
       </div>
 
+      <!-- client questions -->
+      <div class="admin-panel" data-panel="clientfaq" hidden>
+        <div class="admin-head">
+          <h2>Common questions, on the home page</h2>
+          <button class="btn btn--outline" type="button" data-add="clientfaq">Add a group</button>
+        </div>
+        <div id="clientfaq-list" class="admin-list"></div>
+      </div>
+
     </div>
   </section>
 
@@ -133,6 +143,6 @@
   <button class="btn btn--primary btn--lg" type="button" id="save">Publish</button>
 </div>
 
-<script src="admin.js?v=3" defer></script>
+<script src="admin.js?v=4" defer></script>
 </body>
 </html>

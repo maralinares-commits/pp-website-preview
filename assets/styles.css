@@ -116,6 +116,10 @@ ul { margin: 0; padding: 0; }
 }
 .skip-link:focus { transform: translate(-50%, 0); }
 
+/* The hidden attribute has to win. Cards and fields are flex or grid, and a
+   display rule on the element itself would otherwise keep them on screen. */
+[hidden] { display: none !important; }
+
 .visually-hidden {
   position: absolute !important;
   width: 1px; height: 1px;
@@ -324,7 +328,7 @@ ul { margin: 0; padding: 0; }
 .nav-toggle svg { width: 18px; height: 18px; }
 
 @media (min-width: 62rem) {
-  .nav { display: block; }
+  .nav { display: block; margin-left: auto; }   /* sits with the CTA, at the right */
   .nav-toggle { display: none; }
 }
 
@@ -693,6 +697,12 @@ figure.photo-card figcaption {
   letter-spacing: 0.08em;
   font-weight: 800;
   margin-bottom: 0.875rem;
+}
+.site-footer__sub {
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--muted);
+  margin: 1.5rem 0 0.625rem;
 }
 .site-footer ul { list-style: none; display: grid; gap: 0.625rem; }
 .site-footer a {
@@ -1462,6 +1472,7 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 /* the store badges in the footer sit under the address, and smaller than
    the ones in the page itself */
 .stores--footer { margin-top: 1.25rem; }
+.site-footer__sub + .stores--footer { margin-top: 0; }
 .stores--footer img { height: 40px; }
 .stores--footer a { padding-block: 0; }
 
@@ -1549,3 +1560,20 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   border-radius: var(--r-md);
   justify-self: end;
 }
+
+/* ---------------------------------------------------- grouped questions --- */
+
+.faq-groups { display: grid; gap: clamp(2rem, 1.5rem + 1.5vw, 3rem); }
+@media (min-width: 64rem) {
+  .faq-groups { grid-template-columns: repeat(2, 1fr); gap: 3rem 4rem; }
+}
+.faq-group__title {
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+.faq-group .faq { grid-template-columns: 1fr; gap: 1.25rem; }

@@ -15,7 +15,8 @@
   var FILES = {
     blog: "content/blog.json",
     questions: "content/questions.json",
-    tips: "content/tips.json"
+    tips: "content/tips.json",
+    clientfaq: "content/faq-client.json"
   };
   var KEY = "pp-cms-token";
 
@@ -274,10 +275,54 @@
     if (!groups.length) host.appendChild(el("p", "admin-empty", "No groups yet."));
   }
 
+  function renderClientFaq() {
+    var host = $("#clientfaq-list");
+    if (!host || !data.clientfaq) return;
+    host.innerHTML = "";
+    var groups = data.clientfaq.groups;
+    groups.forEach(function (group, gi) {
+      var box = itemShell(group.title || "New group",
+        function () { groups.splice(gi, 1); },
+        function () { move(groups, gi, -1); },
+        function () { move(groups, gi, 1); });
+      box.appendChild(field("Group title", group.title, function (v) {
+        group.title = v;
+        group.id = slugify(v);
+      }));
+      (group.items || []).forEach(function (item, ii) {
+        var row = el("div", "admin-sub");
+        row.appendChild(field("Question", item.question, function (v) { item.question = v; }));
+        row.appendChild(field("Answer", item.answer, function (v) { item.answer = v; }, { rows: 3 }));
+        var del = el("button", "admin-mini", "Delete this question");
+        del.type = "button";
+        del.addEventListener("click", function () {
+          if (!confirm("Delete this question?")) return;
+          group.items.splice(ii, 1);
+          markDirty();
+          renderAll();
+        });
+        row.appendChild(del);
+        box.appendChild(row);
+      });
+      var add = el("button", "admin-mini", "Add a question to this group");
+      add.type = "button";
+      add.addEventListener("click", function () {
+        group.items = group.items || [];
+        group.items.push({ question: "", answer: "" });
+        markDirty();
+        renderAll();
+      });
+      box.appendChild(add);
+      host.appendChild(box);
+    });
+    if (!groups.length) host.appendChild(el("p", "admin-empty", "No groups yet."));
+  }
+
   function renderAll() {
     renderBlog();
     renderQuestions();
     renderTips();
+    renderClientFaq();
   }
 
   /* --------------------------------------------------------------- wiring -- */
@@ -313,6 +358,8 @@
           });
         } else if (kind === "questions") {
           data.questions.items.push({ question: "", answer: "" });
+        } else if (kind === "clientfaq") {
+          data.clientfaq.groups.push({ id: "new-group", title: "New group", items: [] });
         } else {
           data.tips.groups.push({ id: "new-group", title: "New group", items: [] });
         }

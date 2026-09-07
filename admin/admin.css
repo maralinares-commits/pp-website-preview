@@ -80,3 +80,10 @@
   padding: 0.875rem var(--gutter);
   display: flex; align-items: center; gap: 0.75rem;
 }
+
+.admin-sub {
+  padding: 1rem 0 1.25rem;
+  border-top: 1px solid var(--line);
+  margin-top: 1rem;
+}
+.admin-sub .admin-field:last-of-type { margin-bottom: 0.75rem; }

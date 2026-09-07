@@ -117,6 +117,55 @@ def render_questions():
     return '\n'.join(rows), data
 
 
+def render_client_faq(data):
+    """The client questions, in groups, with each group a real heading.
+
+    Grouping is for the reader. The structured data below flattens it again,
+    because a FAQPage wants a flat list of questions.
+    """
+    blocks = []
+    for group in data['groups']:
+        rows = []
+        for item in group['items']:
+            rows.append('          <div>\n'
+                        f'            <dt>{esc(item["question"])}</dt>\n'
+                        f'            <dd>{esc(item["answer"])}</dd>\n'
+                        '          </div>')
+        blocks.append(
+            f'        <section class="faq-group" aria-labelledby="{esc(group["id"])}-h">\n'
+            f'          <h3 class="faq-group__title" id="{esc(group["id"])}-h">{esc(group["title"])}</h3>\n'
+            '          <dl class="faq">\n' + '\n'.join(rows) + '\n          </dl>\n'
+            '        </section>'
+        )
+    return '\n\n'.join(blocks)
+
+
+def faq_schema(pairs, url):
+    """FAQPage structured data, built from the content rather than the markup."""
+    data = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": url + "#faq",
+        "mainEntity": [
+            {"@type": "Question", "name": q,
+             "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in pairs
+        ],
+    }
+    return ('<script type="application/ld+json">\n'
+            + json.dumps(data, indent=2, ensure_ascii=False) + '\n</script>')
+
+
+def put_schema(page, markup):
+    """Swap the FAQPage block in the head, leaving any other one alone."""
+    pattern = re.compile(
+        r'<script type="application/ld\+json">\s*\{\s*"@context"[^<]*?"@type": "FAQPage".*?</script>',
+        re.S)
+    if pattern.search(page):
+        return pattern.sub(markup, page, count=1)
+    return page.replace('</head>', markup + '\n</head>', 1)
+
+
 # --------------------------------------------------------------------- tips --
 
 def render_tips():
@@ -184,27 +233,56 @@ def render_video(data):
 
 
 def render_places():
-    """The places a photographer can work, and how busy each one is.
+    """Where a photographer will be working, and how busy each place is.
 
-    Ordered busiest first, which is how the client asked for it. The sessions
-    an hour are an estimate drawn from the footfall figures, not a measurement,
-    and the page says so.
+    The dropdown shows how many people visit, which is a published fact.
+    It does not show sessions an hour, because that would be a promise we
+    cannot make: the reader sets that number themselves.
+
+    Two dropdowns: the city first, then the spot. The spot list only makes
+    sense once a launch city is chosen, so the page hides it for anywhere
+    else and falls back to a plain, unremarkable stretch of a few sessions
+    an hour. Ordered busiest first, which is how the client asked for it.
+    The sessions an hour are an estimate drawn from the footfall figures,
+    not a measurement, and the page says so.
     """
     data = load('places.json')
+    city = data['city']
+
     options = []
     for i, place in enumerate(data['places']):
         selected = ' selected' if i == 0 else ''
-        label = f"{esc(place['name'])} ({place['band'][0]} to {place['band'][1]} an hour)"
-        options.append(f'                <option value="{esc(place["id"])}"{selected}>{label}</option>')
-    select = ('              <select id="calc-place" name="place">\n'
-              + '\n'.join(options) + '\n              </select>')
+        foot = place.get('footfall', '')
+        label = esc(place['name']) + (f' &mdash; {esc(foot)}' if foot else '')
+        options.append(f'                  <option value="{esc(place["id"])}"{selected}>{label}</option>')
 
-    payload = json.dumps({'city': data['city'], 'places': data['places']},
-                         ensure_ascii=False)
+    block = (
+        '          <div class="field">\n'
+        '            <label for="calc-city">Where will you be?</label>\n'
+        '            <div class="field__select">\n'
+        '              <select id="calc-city" name="city">\n'
+        f'                <option value="{esc(city.lower())}" selected>{esc(city)}</option>\n'
+        '                <option value="other">Somewhere else</option>\n'
+        '              </select>\n'
+        '            </div>\n'
+        '          </div>\n'
+        '\n'
+        '          <div class="field" id="calc-place-field">\n'
+        f'            <label for="calc-place">Whereabouts in {esc(city)}?</label>\n'
+        '            <div class="field__select">\n'
+        '              <select id="calc-place" name="place">\n'
+        + '\n'.join(options) + '\n'
+        '              </select>\n'
+        '            </div>\n'
+        '            <p class="field__note" id="calc-place-note"></p>\n'
+        '          </div>'
+    )
+
+    payload = json.dumps({'city': city, 'places': data['places']}, ensure_ascii=False)
     script = ('        <script type="application/json" id="places-data">\n'
               f'          {payload}\n'
               '        </script>')
-    return select, script, data
+    return block, script, data
 
 
 # --------------------------------------------------------------------- blog --
@@ -299,6 +377,8 @@ def main():
     page = replace_block(page, 'questions', rows)
     page = re.sub(r'(<h2 id="q-h">).*?(</h2>)',
                   lambda m: m.group(1) + esc(qdata['heading']) + m.group(2), page)
+    qflat = [(i['question'], i['answer']) for i in qdata['items']]
+    page = put_schema(page, faq_schema(qflat, 'https://personalpaparazzi.com/become-a-paparazzi'))
     select, script, pdata = render_places()
     page = replace_block(page, 'places', select)
     page = replace_block(page, 'placesdata', script)
@@ -340,7 +420,16 @@ def main():
     page = open('index.html', encoding='utf-8').read()
     newest = (client_posts or posts)[0] if (client_posts or posts) else None
     page = replace_block(page, 'latest', render_latest(newest, names))
+
+    cfaq = load('faq-client.json')
+    page = replace_block(page, 'clientfaq', render_client_faq(cfaq))
+    page = re.sub(r'(<h2 id="q-h">).*?(</h2>)',
+                  lambda m: m.group(1) + esc(cfaq['heading']) + m.group(2), page, count=1)
+    flat = [(i['question'], i['answer']) for g in cfaq['groups'] for i in g['items']]
+    page = put_schema(page, faq_schema(flat, 'https://personalpaparazzi.com/'))
     open('index.html', 'w', encoding='utf-8').write(page)
+    print(f'  index.html               {len(flat)} client questions in '
+          f'{len(cfaq["groups"])} groups')
 
     if supplier_posts:
         page = open('become-a-paparazzi.html', encoding='utf-8').read()
