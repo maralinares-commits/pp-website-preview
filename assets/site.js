@@ -259,13 +259,31 @@
       solo:       "you"
     };
 
-    // Some occasions answer the "with" question themselves. Picking one sets
-    // that box and locks it, rather than leaving a sentence that reads
-    // "to enjoy a proposal with my colleagues".
-    var LOCKED = {
+    // Some occasions come with an obvious answer to "with". Picking one fills
+    // that box in, and then leaves it alone: the reader can still change it.
+    var SUGGESTS = {
       proposals:  "partner",
       honeymoons: "partner",
       influencer: "colleagues"
+    };
+
+    // A proposal is not the same kind of photograph as a bachelorette party,
+    // and the answer should not read as though it were.
+    var SPECIAL = {
+      proposals: {
+        here: "There are Personal Paparazzi out in Nashville. Send the request a "
+            + "few minutes before you ask, and one of them is already standing "
+            + "nearby, looking like anybody else with a phone. Your partner "
+            + "sees a stranger photographing the view, and the secret stays "
+            + "yours. You get the second they said yes, from the outside, "
+            + "where you could never have seen it yourself, and you keep it "
+            + "for the rest of your life. Nine photos and one short video, "
+            + "for $19.99.",
+        away: "We are starting in Nashville, so we are not in your city yet. Have "
+            + "the app when we get there: somebody standing nearby who looks like "
+            + "anybody else with a phone, the surprise still a surprise, and the "
+            + "second they said yes kept for the rest of your life."
+      }
     };
 
     var city = document.getElementById("pick-city");
@@ -273,26 +291,25 @@
     var who = document.getElementById("pick-who");
     var line = document.getElementById("picker-line");
 
-    // What they chose themselves, so unlocking gives it back rather than
-    // leaving whichever value an occasion happened to force.
-    var lastFree = who.value;
-    who.addEventListener("change", function () {
-      if (!who.disabled) lastFree = who.value;
-    });
+    var lastScene = scene.value;
 
     function answer() {
-      var locked = LOCKED[scene.value];
-      if (locked) {
-        who.value = locked;
-        who.disabled = true;
-      } else {
-        if (who.disabled) who.value = lastFree;
-        who.disabled = false;
+      // Only when the occasion itself changes, so it never overrides somebody
+      // who has just picked who they are with.
+      if (scene.value !== lastScene) {
+        lastScene = scene.value;
+        if (SUGGESTS[scene.value]) who.value = SUGGESTS[scene.value];
       }
 
       var where = WHERE[scene.value] || "when you get there";
       var people = WHO[who.value] || "you";
       var text;
+
+      var special = SPECIAL[scene.value];
+      if (special) {
+        line.textContent = city.value === "elsewhere" ? special.away : special.here;
+        return;
+      }
 
       if (city.value === "elsewhere") {
         text = "We are starting in Nashville, so we are not in your city yet. "
