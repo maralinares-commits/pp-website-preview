@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=20">
+<link rel="stylesheet" href="assets/styles.css?v=22">
 
 <script type="application/ld+json">
 {
@@ -297,78 +297,135 @@
         <h2 id="when-h">When do I need a Personal Paparazzi?</h2>
         <p>Anytime a selfie falls short. If it's worth remembering, it's worth a great photo. Need an appointment? Nope…on demand!</p>
       </div>
+      <form class="picker" id="picker" aria-labelledby="picker-h">
+        <h3 id="picker-h" class="visually-hidden">Tell us about your trip</h3>
+        <p class="picker__sentence">
+          <span>I'm travelling to</span>
+          <label class="picker__pick">
+            <span class="visually-hidden">City</span>
+            <select id="pick-city">
+              <option value="nashville" selected>Nashville</option>
+              <option value="elsewhere">somewhere else</option>
+            </select>
+          </label>
+          <span>to enjoy</span>
+          <label class="picker__pick">
+            <span class="visually-hidden">What for</span>
+            <select id="pick-scene">
+              <option value="landmarks">landmarks and sightseeing</option>
+              <option value="honeymoons">a honeymoon</option>
+              <option value="parties">a bachelorette or bachelor party</option>
+              <option value="family">a family trip</option>
+              <option value="concerts">a concert or a tailgate</option>
+              <option value="proposals">a proposal</option>
+              <option value="graduations">a graduation</option>
+              <option value="birthdays">a birthday</option>
+              <option value="influencer">making content</option>
+            </select>
+          </label>
+          <span>with</span>
+          <label class="picker__pick">
+            <span class="visually-hidden">Who with</span>
+            <select id="pick-who">
+              <option value="friends">friends</option>
+              <option value="family">family</option>
+              <option value="partner">my partner</option>
+              <option value="work">work</option>
+              <option value="solo">nobody, I'm on my own</option>
+            </select>
+          </label>
+          <span>.</span>
+        </p>
+
+        <div class="picker__answer" id="picker-answer" aria-live="polite">
+          <p class="picker__line" id="picker-line"></p>
+          <p class="picker__cta">
+            <a class="btn btn--primary btn--lg" href="#download">Get the app</a>
+          </p>
+        </div>
+      </form>
+
       <ul class="scenes">
         <li class="scene">
-          <div class="scene__frame" data-needs="Someone being photographed in front of a recognisable landmark, framed wide enough that the landmark is clearly in shot with them.">
-            <!-- Example only. Swap the src for assets/scenes/landmarks.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Landmarks &amp; sightseeing</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="landmarks">
+            <span class="scene__frame" data-needs="Someone being photographed in front of a recognisable landmark, framed wide enough that the landmark is clearly in shot with them.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Landmarks &amp; sightseeing</span>
+          </button>
         </li>
         <li class="scene">
-          <div class="scene__frame" data-needs="A couple on a trip, warm light, the place around them visible. Not a posed studio couple.">
-            <!-- Example only. Swap the src for assets/scenes/honeymoons.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Honeymoons</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="honeymoons">
+            <span class="scene__frame" data-needs="A couple on a trip, warm light, the place around them visible. Not a posed studio couple.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Honeymoons</span>
+          </button>
         </li>
         <li class="scene">
-          <div class="scene__frame" data-needs="A group of five or six laughing together, somewhere lively, ideally at night.">
-            <!-- Example only. Swap the src for assets/scenes/parties.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Bachelorette &amp; bachelor parties</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="parties">
+            <span class="scene__frame" data-needs="A group of five or six laughing together, somewhere lively, ideally at night.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Bachelorette &amp; bachelor parties</span>
+          </button>
         </li>
         <li class="scene">
-          <div class="scene__frame" data-needs="Parents and children together in one frame, somewhere they travelled to, nobody cropped out.">
-            <!-- Example only. Swap the src for assets/scenes/family.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Family trips</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="family">
+            <span class="scene__frame" data-needs="Parents and children together in one frame, somewhere they travelled to, nobody cropped out.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Family trips</span>
+          </button>
         </li>
         <li class="scene">
-          <div class="scene__frame" data-needs="Friends at a tailgate or outside a venue, crowd and setting visible behind them.">
-            <!-- Example only. Swap the src for assets/scenes/concerts.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Concerts &amp; tailgates</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="concerts">
+            <span class="scene__frame" data-needs="Friends at a tailgate or outside a venue, crowd and setting visible behind them.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Concerts &amp; tailgates</span>
+          </button>
         </li>
         <li class="scene">
-          <div class="scene__frame" data-needs="The moment itself or just after: one person surprised, the place recognisable.">
-            <!-- Example only. Swap the src for assets/scenes/proposals.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Proposals</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="proposals">
+            <span class="scene__frame" data-needs="The moment itself or just after: one person surprised, the place recognisable.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Proposals</span>
+          </button>
         </li>
         <li class="scene">
-          <div class="scene__frame" data-needs="Cap and gown with family, on campus rather than against a backdrop.">
-            <!-- Example only. Swap the src for assets/scenes/graduations.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Graduations</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="graduations">
+            <span class="scene__frame" data-needs="Cap and gown with family, on campus rather than against a backdrop.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Graduations</span>
+          </button>
         </li>
         <li class="scene">
-          <div class="scene__frame" data-needs="A celebration in progress, candles or drinks, several people in frame.">
-            <!-- Example only. Swap the src for assets/scenes/birthdays.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Birthdays</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="birthdays">
+            <span class="scene__frame" data-needs="A celebration in progress, candles or drinks, several people in frame.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Birthdays</span>
+          </button>
         </li>
         <li class="scene">
-          <div class="scene__frame" data-needs="One person shot deliberately for their own feed, phone-camera look rather than studio.">
-            <!-- Example only. Swap the src for assets/scenes/influencer.jpg when the real
-               photograph exists, and give it an alt that describes that photo. -->
-          <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
-          </div>
-          <p class="scene__label">Influencer content</p>
+          <button class="scene__pick" type="button" aria-pressed="false"
+                  data-scene="influencer">
+            <span class="scene__frame" data-needs="One person shot deliberately for their own feed, phone-camera look rather than studio.">
+              <img src="assets/photo-shoot.jpg" alt="" width="800" height="600" loading="lazy">
+            </span>
+            <span class="scene__label">Influencer content</span>
+          </button>
         </li>
       </ul>
       <p class="scenes__note">Example images. Real photos from Personal Paparazzi
@@ -524,7 +581,7 @@
   <a class="btn btn--primary" href="#download">Get the app</a>
 </div>
 
-<script src="assets/site.js?v=11" defer></script>
+<script src="assets/site.js?v=13" defer></script>
 <script src="assets/feedback.js?v=4" defer></script>
 </body>
 </html>

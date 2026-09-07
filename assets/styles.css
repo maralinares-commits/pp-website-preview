@@ -1433,3 +1433,116 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   border: 0;
 }
 .tips-video__more { margin: 1.25rem 0 0; }
+
+/* -------------------------------------------------------- trip picker ---- */
+/* A sentence the visitor completes about their own trip, so the answer is
+   about them rather than about us.                                          */
+
+.picker {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: clamp(1.5rem, 1.25rem + 1vw, 2.25rem);
+  margin-bottom: 2rem;
+}
+
+.picker__sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.625rem;
+  margin: 0;
+  font-size: clamp(1.125rem, 1rem + 0.7vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: var(--track-display);
+  line-height: 1.4;
+}
+.picker__sentence > span { white-space: nowrap; }
+
+.picker__pick { display: inline-flex; }
+.picker__pick select {
+  appearance: none;
+  padding: 0.3rem 2.25rem 0.3rem 0.875rem;
+  background: var(--ground);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: right 1.05rem center, right 0.8rem center;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  border: 2px solid var(--green);
+  border-radius: 999px;
+  font: inherit;
+  font-size: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  max-width: 100%;
+}
+.picker__pick select:hover { background-color: #fff; border-color: var(--ink); }
+
+.picker__answer {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 1.25rem;
+  align-items: center;
+}
+@media (min-width: 56rem) {
+  .picker__answer { grid-template-columns: 1fr auto; gap: 2rem; }
+}
+.picker__line {
+  margin: 0;
+  font-size: var(--step-lead);
+  color: var(--muted);
+  max-width: 46rem;
+}
+.picker__cta { margin: 0; }
+
+/* the cards double as the occasion control */
+.scene__pick {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.scene__pick .scene__frame { display: block; }
+.scene__pick[aria-pressed="true"] .scene__frame {
+  outline: 3px solid var(--green);
+  outline-offset: 3px;
+}
+.scene__pick:hover .scene__frame { outline: 3px solid var(--line); outline-offset: 3px; }
+.scene__pick[aria-pressed="true"] .scene__label { color: var(--ink); }
+
+/* the place picker in the calculator */
+.field__select { position: relative; }
+.field__select select {
+  appearance: none;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.625rem 2.5rem 0.625rem 0.875rem;
+  background: var(--ground);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position: right 1.25rem center, right 1rem center;
+  background-size: 7px 7px, 7px 7px;
+  background-repeat: no-repeat;
+  border: 2px solid var(--line);
+  border-radius: var(--r-sm);
+  font: inherit;
+  font-size: var(--step-0);
+  color: var(--ink);
+  cursor: pointer;
+}
+.field__select select:focus { outline: none; border-color: var(--ink); }
+.field__note {
+  margin: 0.625rem 0 0;
+  font-size: var(--step--1);
+  color: var(--muted);
+  line-height: 1.5;
+}

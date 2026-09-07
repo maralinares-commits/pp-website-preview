@@ -183,6 +183,30 @@ def render_video(data):
     return '\n'.join(parts)
 
 
+def render_places():
+    """The places a photographer can work, and how busy each one is.
+
+    Ordered busiest first, which is how the client asked for it. The sessions
+    an hour are an estimate drawn from the footfall figures, not a measurement,
+    and the page says so.
+    """
+    data = load('places.json')
+    options = []
+    for i, place in enumerate(data['places']):
+        selected = ' selected' if i == 0 else ''
+        label = f"{esc(place['name'])} ({place['band'][0]} to {place['band'][1]} an hour)"
+        options.append(f'                <option value="{esc(place["id"])}"{selected}>{label}</option>')
+    select = ('              <select id="calc-place" name="place">\n'
+              + '\n'.join(options) + '\n              </select>')
+
+    payload = json.dumps({'city': data['city'], 'places': data['places']},
+                         ensure_ascii=False)
+    script = ('        <script type="application/json" id="places-data">\n'
+              f'          {payload}\n'
+              '        </script>')
+    return select, script, data
+
+
 # --------------------------------------------------------------------- blog --
 
 def render_blog_cards(posts, limit=None):
@@ -227,8 +251,12 @@ def main():
     page = replace_block(page, 'questions', rows)
     page = re.sub(r'(<h2 id="q-h">).*?(</h2>)',
                   lambda m: m.group(1) + esc(qdata['heading']) + m.group(2), page)
+    select, script, pdata = render_places()
+    page = replace_block(page, 'places', select)
+    page = replace_block(page, 'placesdata', script)
     open('become-a-paparazzi.html', 'w', encoding='utf-8').write(page)
-    print(f'  become-a-paparazzi.html  {len(qdata["items"])} questions')
+    print(f'  become-a-paparazzi.html  {len(qdata["items"])} questions, '
+          f'{len(pdata["places"])} places in {pdata["city"]}')
 
     # tips, on the tutorials page
     cards, toc, tdata = render_tips()

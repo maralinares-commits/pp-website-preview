@@ -89,8 +89,19 @@
 
   if (calc) {
     var PER_SESSION = 10;                                 // 50% of $19.99
-    var RATE = { weekday: [3, 5], holiday: [6, 10] };     // sessions an hour, by place
 
+    // Where you work, and how busy it is, comes from content/places.json so the
+    // team can add places or a second city without touching this file.
+    var PLACES = { city: "", places: [] };
+    var raw = document.getElementById("places-data");
+    if (raw) {
+      try { PLACES = JSON.parse(raw.textContent); } catch (e) { /* leave empty */ }
+    }
+    var BY_ID = {};
+    PLACES.places.forEach(function (p) { BY_ID[p.id] = p; });
+
+    var elPlace = document.getElementById("calc-place");
+    var placeNote = document.getElementById("calc-place-note");
     var elHours = document.getElementById("calc-hours-in");
     var elTip = document.getElementById("calc-tip");
     var basis = document.getElementById("calc-basis");
@@ -98,6 +109,7 @@
     var outEarned = document.getElementById("calc-earned");
     var outEarnedLabel = document.getElementById("calc-earned-label");
     var outRate = document.getElementById("calc-rate");
+    var rateLabel = outRate ? outRate.parentNode.querySelector("dt") : null;
     var note = calc.parentNode.querySelector(".calc__note");
 
     function price(n) {
@@ -124,8 +136,13 @@
     function update() {
       var hours = Math.max(1, Math.round(num(elHours, 4) || 4));
       var tip = num(elTip, 0);
-      var day = calc.querySelector('input[name="day"]:checked').value;
-      var band = RATE[day];
+      var place = BY_ID[elPlace && elPlace.value] || PLACES.places[0];
+      if (!place) return;
+      var band = place.band;
+
+      if (placeNote) {
+        placeNote.textContent = place.note + " Footfall: " + place.visitors + ".";
+      }
 
       var perMemory = PER_SESSION + tip;
       var memLo = band[0] * hours;
@@ -142,12 +159,14 @@
       outEarned.textContent = money(memLo * perMemory) + " to " + money(memHi * perMemory);
 
       outRate.textContent = money(band[0] * perMemory) + " to " + money(band[1] * perMemory);
+      if (rateLabel) rateLabel.textContent = "An hour, at " + place.name;
 
       note.textContent = "Estimate only. These figures illustrate " + band[0] + " to "
-        + band[1] + " sessions an hour in " + (day === "weekday" ? "an ordinary spot" : "a hotspot")
-        + " at " + price(perMemory) + " a session. They are not an offer, a guarantee, or a "
-        + "commitment to pay any amount. Actual earnings depend on how many requests you "
-        + "accept and how busy your area is."
+        + band[1] + " sessions an hour at " + place.name + ", at " + price(perMemory)
+        + " a session. The sessions an hour are estimated from how busy the place is, "
+        + "not measured. They are not an offer, a guarantee, or a commitment to pay any "
+        + "amount. Actual earnings depend on how many requests you accept and how busy "
+        + "it is when you are there."
         + (tip > 0
             ? " Tips are paid to you in full and are included in the figures above."
             : " Tips are paid to you in full and are excluded unless you enter one.");
@@ -170,5 +189,81 @@
     calc.addEventListener("change", update);
     calc.addEventListener("submit", function (e) { e.preventDefault(); });
     update();
+  }
+
+  /* ------------------------------------------------------- trip picker ---- */
+  /* "I'm travelling to Nashville to enjoy a graduation with family."
+     Whatever they pick, the answer says the same thing in their own terms:
+     somebody will be there, and they will be in the photographs.
+     The nine cards below set the occasion too, so browsing and choosing are
+     the same control.                                                       */
+
+  var picker = document.getElementById("picker");
+
+  if (picker) {
+    var WHERE = {
+      landmarks:   "at the landmark",
+      honeymoons:  "wherever the two of you end up",
+      parties:     "wherever the night takes you",
+      family:      "wherever you all end up",
+      concerts:    "at the tailgate or outside the venue",
+      proposals:   "at the spot you picked",
+      graduations: "on campus",
+      birthdays:   "at the table",
+      influencer:  "at the spot you came for"
+    };
+    var WHO = {
+      friends: "your friends",
+      family:  "your family",
+      partner: "the two of you",
+      work:    "the team",
+      solo:    "you"
+    };
+
+    var city = document.getElementById("pick-city");
+    var scene = document.getElementById("pick-scene");
+    var who = document.getElementById("pick-who");
+    var line = document.getElementById("picker-line");
+
+    function answer() {
+      var where = WHERE[scene.value] || "when you get there";
+      var people = WHO[who.value] || "you";
+      var text;
+
+      if (city.value === "elsewhere") {
+        text = "We are starting in Nashville, so we are not in your city yet. "
+             + "Have the app when we get there, and the photos of this are "
+             + people + ", " + where + ", rather than a selfie.";
+      } else {
+        text = "There are Personal Paparazzi out in Nashville. Open the app "
+             + where + ", send a request, and one of them comes and takes the "
+             + "photos. Nine photos and one short video, with " + people
+             + " in them, for $19.99.";
+      }
+      line.textContent = text;
+    }
+
+    picker.addEventListener("change", answer);
+    picker.addEventListener("submit", function (e) { e.preventDefault(); });
+
+    // the cards are the same choice, made by pointing at it
+    Array.prototype.forEach.call(
+      document.querySelectorAll(".scene__pick"),
+      function (card) {
+        card.addEventListener("click", function () {
+          scene.value = card.getAttribute("data-scene");
+          Array.prototype.forEach.call(
+            document.querySelectorAll(".scene__pick"),
+            function (other) {
+              other.setAttribute("aria-pressed", String(other === card));
+            }
+          );
+          answer();
+          picker.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      }
+    );
+
+    answer();
   }
 })();

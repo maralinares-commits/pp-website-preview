@@ -24,7 +24,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=20">
+<link rel="stylesheet" href="assets/styles.css?v=22">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -290,21 +290,31 @@
             </div>
           </div>
 
-          <fieldset class="field">
-            <legend>Where will you be?</legend>
-            <div class="choices">
-              <label>
-                <input type="radio" name="day" value="weekday" checked>
-                <span>Out and about with friends</span>
-                <span class="hint">3 to 5 sessions an hour</span>
-              </label>
-              <label>
-                <input type="radio" name="day" value="holiday">
-                <span>Somewhere people queue for the photo</span>
-                <span class="hint">6 to 10 sessions an hour</span>
-              </label>
+          <div class="field">
+            <label for="calc-place">Where will you be?</label>
+            <div class="field__select">
+              <!-- CMS:places:start -->
+              <select id="calc-place" name="place">
+                <option value="broadway" selected>Broadway, the Honky Tonk Highway (6 to 10 an hour)</option>
+                <option value="hall-of-fame">Country Music Hall of Fame and Museum (5 to 9 an hour)</option>
+                <option value="zoo">Nashville Zoo at Grassmere (5 to 9 an hour)</option>
+                <option value="cheekwood">Cheekwood Estate and Gardens (4 to 7 an hour)</option>
+                <option value="opry">Grand Ole Opry House (4 to 7 an hour)</option>
+                <option value="ryman">Ryman Auditorium (4 to 7 an hour)</option>
+                <option value="opryland">Gaylord Opryland Resort atrium (4 to 7 an hour)</option>
+                <option value="pedestrian-bridge">John Seigenthaler Pedestrian Bridge (4 to 7 an hour)</option>
+                <option value="parthenon">The Parthenon, Centennial Park (3 to 6 an hour)</option>
+                <option value="hermitage">Andrew Jackson&#x27;s Hermitage (3 to 5 an hour)</option>
+                <option value="nmaam">National Museum of African American Music (3 to 5 an hour)</option>
+                <option value="frist">Frist Art Museum (3 to 5 an hour)</option>
+                <option value="state-museum">Tennessee State Museum (3 to 5 an hour)</option>
+                <option value="studio-b">RCA Studio B, Music Row (3 to 5 an hour)</option>
+                <option value="lane">Lane Motor Museum (3 to 5 an hour)</option>
+              </select>
+        <!-- CMS:places:end -->
             </div>
-          </fieldset>
+            <p class="field__note" id="calc-place-note"></p>
+          </div>
 
           <div class="field">
             <label for="calc-tip">Typical tip a client leaves <span class="hint">optional, and yours in full</span></label>
@@ -315,6 +325,11 @@
             </div>
           </div>
         </form>
+        <!-- CMS:placesdata:start -->
+        <script type="application/json" id="places-data">
+          {"city": "Nashville", "places": [{"id": "broadway", "name": "Broadway, the Honky Tonk Highway", "band": [6, 10], "visitors": "most of Nashville's 16.9 million yearly visitors", "note": "The heart of the city's tourism. Free live music every day of the year, from morning until 3am."}, {"id": "hall-of-fame", "name": "Country Music Hall of Fame and Museum", "band": [5, 9], "visitors": "about 1.6 million a year", "note": "One of the world's largest museums of American vernacular music."}, {"id": "zoo", "name": "Nashville Zoo at Grassmere", "band": [5, 9], "visitors": "over 1.4 million a year", "note": "188 acres, and the top paid attraction in Middle Tennessee."}, {"id": "cheekwood", "name": "Cheekwood Estate and Gardens", "band": [4, 7], "visitors": "up to 435,000 in a peak year", "note": "55 acres of botanical garden and art museum on a 1920s estate."}, {"id": "opry", "name": "Grand Ole Opry House", "band": [4, 7], "visitors": "over 250,000 a year on daytime tours alone", "note": "Home of the longest running live radio broadcast in US history, plus the evening show crowds."}, {"id": "ryman", "name": "Ryman Auditorium", "band": [4, 7], "visitors": "hundreds of concerts a year", "note": "The Mother Church of Country Music, in the building since 1892. More than 17 million people have been through it since it opened as a museum."}, {"id": "opryland", "name": "Gaylord Opryland Resort atrium", "band": [4, 7], "visitors": "open to visitors who are not staying", "note": "Nine acres of indoor gardens, waterfalls and a river with flatboat rides."}, {"id": "pedestrian-bridge", "name": "John Seigenthaler Pedestrian Bridge", "band": [4, 7], "visitors": "no ticket, so no count", "note": "The clearest unobstructed view of the downtown skyline, and no traffic on it."}, {"id": "parthenon", "name": "The Parthenon, Centennial Park", "band": [3, 6], "visitors": "no published figure", "note": "A full scale replica of the Athenian original, with a 42 foot statue of Athena inside."}, {"id": "hermitage", "name": "Andrew Jackson's Hermitage", "band": [3, 5], "visitors": "about 190,000 a year", "note": "1,120 acres and more than 30 historic buildings."}, {"id": "nmaam", "name": "National Museum of African American Music", "band": [3, 5], "visitors": "no published figure", "note": "Downtown, and highly interactive."}, {"id": "frist", "name": "Frist Art Museum", "band": [3, 5], "visitors": "no published figure", "note": "A 1930s Art Deco building, once the main post office. The exhibitions change constantly."}, {"id": "state-museum", "name": "Tennessee State Museum", "band": [3, 5], "visitors": "free admission, so no count", "note": "Near the Bicentennial Capitol Mall, covering the state from its First Peoples onward."}, {"id": "studio-b", "name": "RCA Studio B, Music Row", "band": [3, 5], "visitors": "no published figure", "note": "Where Elvis Presley, Dolly Parton and Roy Orbison recorded."}, {"id": "lane", "name": "Lane Motor Museum", "band": [3, 5], "visitors": "no published figure", "note": "The largest US collection of microcars, amphibious vehicles and prototypes."}]}
+        </script>
+        <!-- CMS:placesdata:end -->
 
         <div class="calc__out">
           <h3 id="calc-basis">At $10.00 a session</h3>
@@ -506,7 +521,7 @@
   <a class="btn btn--primary" href="#get-started">Get the app</a>
 </div>
 
-<script src="assets/site.js?v=11" defer></script>
+<script src="assets/site.js?v=13" defer></script>
 <script src="assets/feedback.js?v=4" defer></script>
 </body>
 </html>

@@ -1,0 +1,111 @@
+{
+  "city": "Nashville",
+  "note": "Ordered by how many people pass through, busiest first. The sessions an hour are an estimate drawn from that footfall, not a measured figure.",
+  "places": [
+    {
+      "id": "broadway",
+      "name": "Broadway, the Honky Tonk Highway",
+      "band": [6, 10],
+      "visitors": "most of Nashville's 16.9 million yearly visitors",
+      "note": "The heart of the city's tourism. Free live music every day of the year, from morning until 3am."
+    },
+    {
+      "id": "hall-of-fame",
+      "name": "Country Music Hall of Fame and Museum",
+      "band": [5, 9],
+      "visitors": "about 1.6 million a year",
+      "note": "One of the world's largest museums of American vernacular music."
+    },
+    {
+      "id": "zoo",
+      "name": "Nashville Zoo at Grassmere",
+      "band": [5, 9],
+      "visitors": "over 1.4 million a year",
+      "note": "188 acres, and the top paid attraction in Middle Tennessee."
+    },
+    {
+      "id": "cheekwood",
+      "name": "Cheekwood Estate and Gardens",
+      "band": [4, 7],
+      "visitors": "up to 435,000 in a peak year",
+      "note": "55 acres of botanical garden and art museum on a 1920s estate."
+    },
+    {
+      "id": "opry",
+      "name": "Grand Ole Opry House",
+      "band": [4, 7],
+      "visitors": "over 250,000 a year on daytime tours alone",
+      "note": "Home of the longest running live radio broadcast in US history, plus the evening show crowds."
+    },
+    {
+      "id": "ryman",
+      "name": "Ryman Auditorium",
+      "band": [4, 7],
+      "visitors": "hundreds of concerts a year",
+      "note": "The Mother Church of Country Music, in the building since 1892. More than 17 million people have been through it since it opened as a museum."
+    },
+    {
+      "id": "opryland",
+      "name": "Gaylord Opryland Resort atrium",
+      "band": [4, 7],
+      "visitors": "open to visitors who are not staying",
+      "note": "Nine acres of indoor gardens, waterfalls and a river with flatboat rides."
+    },
+    {
+      "id": "pedestrian-bridge",
+      "name": "John Seigenthaler Pedestrian Bridge",
+      "band": [4, 7],
+      "visitors": "no ticket, so no count",
+      "note": "The clearest unobstructed view of the downtown skyline, and no traffic on it."
+    },
+    {
+      "id": "parthenon",
+      "name": "The Parthenon, Centennial Park",
+      "band": [3, 6],
+      "visitors": "no published figure",
+      "note": "A full scale replica of the Athenian original, with a 42 foot statue of Athena inside."
+    },
+    {
+      "id": "hermitage",
+      "name": "Andrew Jackson's Hermitage",
+      "band": [3, 5],
+      "visitors": "about 190,000 a year",
+      "note": "1,120 acres and more than 30 historic buildings."
+    },
+    {
+      "id": "nmaam",
+      "name": "National Museum of African American Music",
+      "band": [3, 5],
+      "visitors": "no published figure",
+      "note": "Downtown, and highly interactive."
+    },
+    {
+      "id": "frist",
+      "name": "Frist Art Museum",
+      "band": [3, 5],
+      "visitors": "no published figure",
+      "note": "A 1930s Art Deco building, once the main post office. The exhibitions change constantly."
+    },
+    {
+      "id": "state-museum",
+      "name": "Tennessee State Museum",
+      "band": [3, 5],
+      "visitors": "free admission, so no count",
+      "note": "Near the Bicentennial Capitol Mall, covering the state from its First Peoples onward."
+    },
+    {
+      "id": "studio-b",
+      "name": "RCA Studio B, Music Row",
+      "band": [3, 5],
+      "visitors": "no published figure",
+      "note": "Where Elvis Presley, Dolly Parton and Roy Orbison recorded."
+    },
+    {
+      "id": "lane",
+      "name": "Lane Motor Museum",
+      "band": [3, 5],
+      "visitors": "no published figure",
+      "note": "The largest US collection of microcars, amphibious vehicles and prototypes."
+    }
+  ]
+}
