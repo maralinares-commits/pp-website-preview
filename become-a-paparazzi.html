@@ -24,7 +24,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=28">
+<link rel="stylesheet" href="assets/styles.css?v=32">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -100,7 +100,8 @@
           <li><a href="index.html#pricing">Pricing</a></li>
           <li><a href="index.html#why">Why you need one</a></li>
           <li><a href="index.html#when">Occasions</a></li>
-          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+            <li><a href="blog.html">Blog</a></li>
           <li><a href="become-a-paparazzi.html" aria-current="page">Start earning</a></li>
           <li><a class="btn btn--primary" href="#get-started">Get the app</a></li>
         </ul>
@@ -122,7 +123,8 @@
         <li><a href="index.html#pricing">Pricing</a></li>
         <li><a href="index.html#why">Why do I need a Personal Paparazzi?</a></li>
         <li><a href="index.html#when">Occasions</a></li>
-        <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="blog.html">Blog</a></li>
         <li><a href="become-a-paparazzi.html" aria-current="page">Become a Personal Paparazzi</a></li>
       </ul>
       <a class="btn btn--primary" href="#get-started">Get the app</a>
@@ -317,15 +319,6 @@
           </div>
         <!-- CMS:places:end -->
 
-          <div class="field">
-            <label for="calc-hours-in">How long are you working?</label>
-            <div class="field__money">
-              <input type="number" id="calc-hours-in" name="hours" value="4"
-                     min="1" max="16" step="1" inputmode="numeric">
-              <span class="unit" aria-hidden="true">hours</span>
-            </div>
-          </div>
-
 
           <div class="field">
             <label for="calc-sessions">How many sessions an hour do you expect?</label>
@@ -335,6 +328,15 @@
               <span class="unit" aria-hidden="true">an hour</span>
             </div>
             <p class="field__note" id="calc-sessions-note"></p>
+          </div>
+
+          <div class="field">
+            <label for="calc-hours-in">How long are you working?</label>
+            <div class="field__money">
+              <input type="number" id="calc-hours-in" name="hours" value="0"
+                     min="0" max="16" step="1" inputmode="numeric">
+              <span class="unit" aria-hidden="true">hours</span>
+            </div>
           </div>
 
           <div class="field">
@@ -357,11 +359,11 @@
           <dl class="calc__figures" id="calc-out" aria-live="polite">
             <div>
               <dt>Sessions in that time</dt>
-              <dd id="calc-memories">16</dd>
+              <dd id="calc-memories">&mdash;</dd>
             </div>
             <div class="is-headline">
               <dt id="calc-earned-label">What that adds up to</dt>
-              <dd id="calc-earned">$160</dd>
+              <dd id="calc-earned">&mdash;</dd>
             </div>
             <div>
               <dt>An hour, in that kind of place</dt>
@@ -465,7 +467,7 @@
   <section class="section" id="questions" aria-labelledby="q-h">
     <div class="wrap">
       <div class="section__head">
-        <h2 id="q-h">Questions before your first gig</h2>
+        <h2 id="q-h">Questions before your first Personal Paparazzi gig</h2>
       </div>
       <dl class="faq">
         <!-- CMS:questions:start -->
@@ -557,6 +559,7 @@
           <li><a href="index.html#why">Why do I need one?</a></li>
           <li><a href="index.html#when">Occasions</a></li>
           <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">Common questions</a></li>
           <li><a href="index.html#download">Get the app</a></li>
         </ul>
       </nav>
@@ -566,7 +569,7 @@
         <ul>
           <li><a href="become-a-paparazzi.html">Become a Personal Paparazzi</a></li>
           <li><a href="become-a-paparazzi.html#earnings">What you earn</a></li>
-          <li><a href="become-a-paparazzi.html#questions">Questions before your first session</a></li>
+          <li><a href="become-a-paparazzi.html#questions">Questions before your first gig</a></li>
           <li><a href="tutorials.html">Quick Tips and tutorials</a></li>
         </ul>
 
@@ -598,7 +601,7 @@
   <a class="btn btn--primary" href="#get-started">Get the app</a>
 </div>
 
-<script src="assets/site.js?v=16" defer></script>
+<script src="assets/site.js?v=17" defer></script>
 <script src="assets/feedback.js?v=4" defer></script>
 </body>
 </html>

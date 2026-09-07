@@ -19,7 +19,7 @@
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="apple-touch-icon" href="../assets/favicon.png">
 <link rel="preload" href="../assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/styles.css?v=28">
+<link rel="stylesheet" href="../assets/styles.css?v=32">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -30,6 +30,47 @@
   "author": { "@type": "Organization", "name": "Personal Paparazzi" },
   "publisher": { "@type": "Organization", "name": "Personal Paparazzi" },
   "mainEntityOfPage": "https://personalpaparazzi.com/blog/your-photos-your-privacy"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://personalpaparazzi.com/blog/your-photos-your-privacy#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Who owns the photos from a Personal Paparazzi session?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You do. Personal Paparazzi, Inc. keeps no right to use your photos for commercial purposes without your explicit consent, and that is set out in the terms rather than only in a blog post."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do my photos go after the session?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They upload at the end of the session and you download them to your own phone. There is no public album with your face in it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are Personal Paparazzi background checked?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every Personal Paparazzi passes an identity verification, which confirms they are who they say they are. We do not run criminal background checks and we will not claim otherwise."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I ask for a photo to be retaken?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can ask for a shot to be retaken, say you would rather not be photographed from a particular angle, and say when you are done."
+      }
+    }
+  ]
 }
 </script>
 </head>
@@ -50,7 +91,8 @@
           <li><a href="../index.html#pricing">Pricing</a></li>
           <li><a href="../index.html#why">Why you need one</a></li>
           <li><a href="../index.html#when">Occasions</a></li>
-          <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../faq.html">FAQ</a></li>
+            <li><a href="../blog.html">Blog</a></li>
           <li><a href="../become-a-paparazzi.html">Start earning</a></li>
           <li><a class="btn btn--primary" href="become-a-paparazzi.html#get-started">Get the app</a></li>
         </ul>
@@ -72,7 +114,8 @@
         <li><a href="../index.html#pricing">Pricing</a></li>
         <li><a href="../index.html#why">Why do I need a Personal Paparazzi?</a></li>
         <li><a href="../index.html#when">Occasions</a></li>
-        <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../faq.html">FAQ</a></li>
+          <li><a href="../blog.html">Blog</a></li>
         <li><a href="../become-a-paparazzi.html">Become a Personal Paparazzi</a></li>
       </ul>
       <a class="btn btn--primary" href="become-a-paparazzi.html#get-started">Get the app</a>
@@ -86,6 +129,7 @@
     <div class="wrap">
       <p class="page-head__back"><a href="../blog.html">Back to the blog</a></p>
       <h1>Your photos, your privacy</h1>
+      <p class="page-head__standfirst">What happens to the pictures after a stranger takes them, and what you are agreeing to.</p>
       <p><time datetime="2026-09-05">5 September 2026</time></p>
     </div>
   </section>
@@ -93,17 +137,59 @@
   <section class="section" aria-labelledby="post-h">
     <div class="wrap">
       <h2 id="post-h" class="visually-hidden">Your photos, your privacy</h2>
-      <article class="article">
-          <p>Handing your camera to somebody is an act of trust, and it is worth knowing what happens next.</p>
-          <h2>The photos are yours</h2>
+
+      <div class="post-layout">
+        <div class="post-main">
+      <aside class="tldr" aria-labelledby="tldr-h">
+        <h2 id="tldr-h" class="tldr__title">The short version</h2>
+        <ul>
+          <li>The photos from a session belong to you.</li>
+          <li>Personal Paparazzi, Inc. keeps no right to use them commercially without your explicit consent, and that is in the terms.</li>
+          <li>They upload at the end of the session and download to your own phone. There is no public gallery.</li>
+          <li>Every Personal Paparazzi passes an identity verification. We do not run criminal background checks, and we do not claim to.</li>
+        </ul>
+      </aside>
+
+          <article class="article">
+            <p>Handing your camera to somebody is an act of trust, and it is worth knowing what happens next.</p>
+          <h2 id="the-photos-are-yours">The photos are yours</h2>
           <p>What you get from a session belongs to you. Personal Paparazzi, Inc. keeps no right to use your photos for commercial purposes without your explicit consent, and that is in the terms rather than only in a blog post.</p>
-          <h2>They come to you, not to a gallery</h2>
+          <h2 id="they-come-to-you-not-to-a-gallery">They come to you, not to a gallery</h2>
           <p>The photos upload at the end of the session and you download them to your own phone. There is no public album with your face in it.</p>
-          <h2>What you can ask for</h2>
+          <h2 id="what-you-can-ask-for">What you can ask for</h2>
           <p>You can ask for a shot to be retaken. You can say you would rather not be photographed from a particular angle. You can say when you are done. The person holding the camera is there for five minutes and the photos are the only reason.</p>
-          <h2>What we check</h2>
+          <h2 id="what-we-check">What we check</h2>
           <p>Every Personal Paparazzi passes an identity verification before they can accept sessions: we confirm they are who they say they are. We do not run criminal background checks, and we will not claim otherwise.</p>
-      </article>
+          </article>
+
+      <section class="post-faq" id="post-faq" aria-labelledby="post-faq-h">
+        <h2 id="post-faq-h">Frequently asked questions</h2>
+        <dl class="faq">
+          <dt>Who owns the photos from a Personal Paparazzi session?</dt>
+          <dd>You do. Personal Paparazzi, Inc. keeps no right to use your photos for commercial purposes without your explicit consent, and that is set out in the terms rather than only in a blog post.</dd>
+          <dt>Where do my photos go after the session?</dt>
+          <dd>They upload at the end of the session and you download them to your own phone. There is no public album with your face in it.</dd>
+          <dt>Are Personal Paparazzi background checked?</dt>
+          <dd>Every Personal Paparazzi passes an identity verification, which confirms they are who they say they are. We do not run criminal background checks and we will not claim otherwise.</dd>
+          <dt>Can I ask for a photo to be retaken?</dt>
+          <dd>Yes. You can ask for a shot to be retaken, say you would rather not be photographed from a particular angle, and say when you are done.</dd>
+        </dl>
+      </section>
+        </div>
+
+        <aside class="post-side">
+        <nav class="toc" aria-labelledby="toc-h">
+          <h2 id="toc-h" class="toc__title">On this page</h2>
+          <ol>
+            <li><a href="#the-photos-are-yours">The photos are yours</a></li>
+            <li><a href="#they-come-to-you-not-to-a-gallery">They come to you, not to a gallery</a></li>
+            <li><a href="#what-you-can-ask-for">What you can ask for</a></li>
+            <li><a href="#what-we-check">What we check</a></li>
+            <li><a href="#post-faq">Frequently asked questions</a></li>
+          </ol>
+        </nav>
+        </aside>
+      </div>
 
       <div class="promo promo--accent" style="margin-top: 3rem;">
         <div>
@@ -149,7 +235,8 @@
           <li><a href="../index.html#pricing">Pricing</a></li>
           <li><a href="../index.html#why">Why do I need one?</a></li>
           <li><a href="../index.html#when">Occasions</a></li>
-        <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../blog.html">Blog</a></li>
+          <li><a href="../faq.html">Common questions</a></li>
           <li><a href="../index.html#download">Get the app</a></li>
         </ul>
       </nav>
@@ -159,7 +246,7 @@
         <ul>
           <li><a href="../become-a-paparazzi.html">Become a Personal Paparazzi</a></li>
           <li><a href="become-a-paparazzi.html#earnings">What you earn</a></li>
-          <li><a href="become-a-paparazzi.html#questions">Questions before your first session</a></li>
+          <li><a href="become-a-paparazzi.html#questions">Questions before your first gig</a></li>
           <li><a href="../tutorials.html">Quick Tips and tutorials</a></li>
         </ul>
 
@@ -186,7 +273,7 @@
   </div>
 </footer>
 
-<script src="../assets/site.js?v=16" defer></script>
+<script src="../assets/site.js?v=17" defer></script>
 <script src="../assets/feedback.js?v=4" defer></script>
 </body>
 </html>

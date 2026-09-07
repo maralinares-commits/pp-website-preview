@@ -56,6 +56,12 @@ def pretty_date(iso):
         return iso
 
 
+def slugify(text):
+    """A heading turned into something that can sit in a URL."""
+    out = re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')
+    return out or 'section'
+
+
 def markdown(text):
     """Enough Markdown for a blog post: headings, paragraphs, bold, links, lists.
 
@@ -83,7 +89,8 @@ def markdown(text):
             flush()
         elif line.startswith('## '):
             flush()
-            out.append('<h2>' + inline(line[3:].strip()) + '</h2>')
+            title = line[3:].strip()
+            out.append(f'<h2 id="{slugify(title)}">' + inline(title) + '</h2>')
         elif line.startswith('### '):
             flush()
             out.append('<h3>' + inline(line[4:].strip()) + '</h3>')
@@ -140,8 +147,30 @@ def render_client_faq(data):
     return '\n\n'.join(blocks)
 
 
+def render_featured_faq(data):
+    """The five on the home page: one from each group, plus the one everybody
+    asks first. Flat, because the point of the home page is to answer quickly
+    and then send people to the full list."""
+    rows = []
+    for group in data['groups']:
+        for item in group['items']:
+            if item.get('featured'):
+                rows.append('          <div>\n'
+                            f'            <dt>{esc(item["question"])}</dt>\n'
+                            f'            <dd>{esc(item["answer"])}</dd>\n'
+                            '          </div>')
+    return '        <dl class="faq">\n' + '\n'.join(rows) + '\n        </dl>'
+
+
+def featured_pairs(data):
+    return [(i['question'], i['answer'])
+            for g in data['groups'] for i in g['items'] if i.get('featured')]
+
+
 def faq_schema(pairs, url):
     """FAQPage structured data, built from the content rather than the markup."""
+    if not pairs:
+        return ''
     data = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -158,6 +187,8 @@ def faq_schema(pairs, url):
 
 def put_schema(page, markup):
     """Swap the FAQPage block in the head, leaving any other one alone."""
+    if not markup:
+        return page
     pattern = re.compile(
         r'<script type="application/ld\+json">\s*\{\s*"@context"[^<]*?"@type": "FAQPage".*?</script>',
         re.S)
@@ -350,6 +381,47 @@ def render_latest(post, names):
     return '\n'.join(parts)
 
 
+def render_tldr(points):
+    """The short version, for somebody who will not read the long one."""
+    if not points:
+        return ''
+    items = '\n'.join(f'          <li>{esc(p)}</li>' for p in points)
+    return ('      <aside class="tldr" aria-labelledby="tldr-h">\n'
+            '        <h2 id="tldr-h" class="tldr__title">The short version</h2>\n'
+            '        <ul>\n' + items + '\n        </ul>\n'
+            '      </aside>')
+
+
+def render_toc(body_html):
+    """Built from the headings the post already has, so it cannot go stale."""
+    heads = re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', body_html, re.S)
+    if len(heads) < 2:
+        return ''
+    items = '\n'.join(
+        f'            <li><a href="#{hid}">{re.sub(r"<[^>]+>", "", text).strip()}</a></li>'
+        for hid, text in heads)
+    return ('        <nav class="toc" aria-labelledby="toc-h">\n'
+            '          <h2 id="toc-h" class="toc__title">On this page</h2>\n'
+            '          <ol>\n' + items + '\n'
+            '            <li><a href="#post-faq">Frequently asked questions</a></li>\n'
+            '          </ol>\n'
+            '        </nav>')
+
+
+def render_post_faq(items):
+    """The questions this particular post leaves people with."""
+    if not items:
+        return ''
+    rows = []
+    for item in items:
+        rows.append(f'          <dt>{esc(item["question"])}</dt>\n'
+                    f'          <dd>{esc(item["answer"])}</dd>')
+    return ('      <section class="post-faq" id="post-faq" aria-labelledby="post-faq-h">\n'
+            '        <h2 id="post-faq-h">Frequently asked questions</h2>\n'
+            '        <dl class="faq">\n' + '\n'.join(rows) + '\n        </dl>\n'
+            '      </section>')
+
+
 def write_post_pages(data, shell):
     os.makedirs('blog', exist_ok=True)
     written = []
@@ -363,6 +435,12 @@ def write_post_pages(data, shell):
         page = page.replace('{{DATE_HUMAN}}', esc(pretty_date(post['date'])))
         page = page.replace('{{AUTHOR}}', esc(post.get('author', 'Personal Paparazzi')))
         page = page.replace('{{BODY}}', body)
+        page = page.replace('{{TLDR}}', render_tldr(post.get('tldr', [])))
+        page = page.replace('{{TOC}}', render_toc(body))
+        page = page.replace('{{FAQ}}', render_post_faq(post.get('faq', [])))
+        pairs = [(i['question'], i['answer']) for i in post.get('faq', [])]
+        page = put_schema(page, faq_schema(
+            pairs, f'https://personalpaparazzi.com/blog/{post["slug"]}'))
         path = os.path.join('blog', post['slug'] + '.html')
         with open(path, 'w', encoding='utf-8') as f:
             f.write(page)
@@ -422,14 +500,27 @@ def main():
     page = replace_block(page, 'latest', render_latest(newest, names))
 
     cfaq = load('faq-client.json')
-    page = replace_block(page, 'clientfaq', render_client_faq(cfaq))
+    page = replace_block(page, 'clientfaq', render_featured_faq(cfaq))
     page = re.sub(r'(<h2 id="q-h">).*?(</h2>)',
                   lambda m: m.group(1) + esc(cfaq['heading']) + m.group(2), page, count=1)
-    flat = [(i['question'], i['answer']) for g in cfaq['groups'] for i in g['items']]
-    page = put_schema(page, faq_schema(flat, 'https://personalpaparazzi.com/'))
+    picked = featured_pairs(cfaq)
+    page = put_schema(page, faq_schema(picked, 'https://personalpaparazzi.com/'))
     open('index.html', 'w', encoding='utf-8').write(page)
-    print(f'  index.html               {len(flat)} client questions in '
-          f'{len(cfaq["groups"])} groups')
+
+    # the whole list, on its own page
+    flat = [(i['question'], i['answer']) for g in cfaq['groups'] for i in g['items']]
+    fpage = open('faq.html', encoding='utf-8').read()
+    fpage = replace_block(fpage, 'clientfaq', render_client_faq(cfaq))
+    fpage = re.sub(r'(<h1>).*?(</h1>)',
+                   lambda m: m.group(1) + esc(cfaq['pageHeading']) + m.group(2),
+                   fpage, count=1)
+    fpage = re.sub(r'(<p class="page-head__standfirst">).*?(</p>)',
+                   lambda m: m.group(1) + esc(cfaq['pageIntro']) + m.group(2),
+                   fpage, count=1, flags=re.S)
+    fpage = put_schema(fpage, faq_schema(flat, 'https://personalpaparazzi.com/faq'))
+    open('faq.html', 'w', encoding='utf-8').write(fpage)
+    print(f'  index.html               {len(picked)} of {len(flat)} client questions')
+    print(f'  faq.html                 all {len(flat)} in {len(cfaq["groups"])} groups')
 
     if supplier_posts:
         page = open('become-a-paparazzi.html', encoding='utf-8').read()
@@ -440,7 +531,7 @@ def main():
     print(f'  blog.html + {len(written)} post pages + the teaser on index.html')
 
     # a sitemap, since a blog only pays off if it can be found
-    urls = ['', 'become-a-paparazzi.html', 'tutorials.html', 'blog.html',
+    urls = ['', 'become-a-paparazzi.html', 'faq.html', 'tutorials.html', 'blog.html',
             'privacy-policy.html', 'terms.html'] + [f'blog/{p["slug"]}.html' for p in posts]
     base = 'https://personalpaparazzi.com/'
     body = '\n'.join(f'  <url><loc>{base}{u}</loc></url>' for u in urls)

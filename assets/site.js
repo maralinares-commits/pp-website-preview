@@ -144,7 +144,9 @@
     }
 
     function update() {
-      var hours = Math.max(1, Math.round(num(elHours, 4) || 4));
+      // Hours start empty on purpose, the way the tip box does, so the reader
+      // puts their own shift in rather than arguing with a number we chose.
+      var hours = Math.max(0, Math.round(num(elHours, 0)));
       var tip = num(elTip, 0);
 
       var here = !elCity || elCity.value !== "other";
@@ -178,11 +180,12 @@
       basis.textContent = "At " + price(perMemory) + " a session"
         + (tip > 0 ? ", tip included" : "");
 
-      outMemories.textContent = sessions.toLocaleString("en-US");
+      outMemories.textContent = hours ? sessions.toLocaleString("en-US") : "\u2014";
 
-      outEarnedLabel.textContent = "What " + hours + (hours === 1 ? " hour" : " hours")
-        + " adds up to";
-      outEarned.textContent = money(sessions * perMemory);
+      outEarnedLabel.textContent = hours
+        ? "What " + hours + (hours === 1 ? " hour" : " hours") + " adds up to"
+        : "What your hours add up to";
+      outEarned.textContent = hours ? money(sessions * perMemory) : "\u2014";
 
       outRate.textContent = money(perHour * perMemory);
       if (rateLabel) {
@@ -190,7 +193,9 @@
           + (perHour === 1 ? " session" : " sessions");
       }
 
-      note.textContent = "Estimate only. These figures use the " + perHour
+      note.textContent = "Estimate only. "
+        + (hours ? "" : "Enter your hours to see a total. ")
+        + "These figures use the " + perHour
         + " sessions an hour you entered, at " + price(perMemory) + " a session"
         + (here ? ", at " + place.name : "") + ". Visitor numbers describe how busy a "
         + "place is; they are not a forecast of how many sessions you will be asked "
@@ -212,7 +217,7 @@
         }
       });
     }
-    settle(elHours, 4);
+    settle(elHours, 0);
     if (elSessions) {
       elSessions.addEventListener("input", function () { sessionsSet = true; });
       settle(elSessions, 4);

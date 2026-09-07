@@ -228,6 +228,45 @@
         function (v) { post.summary = v; }, { rows: 2 }));
       box.appendChild(field("The post. Blank line between paragraphs, ## for a heading.",
         post.body, function (v) { post.body = v; }, { rows: 12 }));
+
+      // The short version, at the top of the post. One line each.
+      box.appendChild(field("The short version. One point a line.",
+        (post.tldr || []).join("\n"),
+        function (v) {
+          post.tldr = v.split("\n").map(function (t) { return t.trim(); })
+            .filter(Boolean);
+        }, { rows: 4 }));
+
+      // Frequently asked questions, which Google reads as well as people.
+      post.faq = post.faq || [];
+      var faqHead = el("p", "admin-subhead", "Frequently asked questions");
+      box.appendChild(faqHead);
+      post.faq.forEach(function (item, qi) {
+        var row = el("div", "admin-sub");
+        row.appendChild(field("Question", item.question,
+          function (v) { item.question = v; }));
+        row.appendChild(field("Answer", item.answer,
+          function (v) { item.answer = v; }, { rows: 3 }));
+        var del = el("button", "admin-mini", "Delete this question");
+        del.type = "button";
+        del.addEventListener("click", function () {
+          if (!confirm("Delete this question?")) return;
+          post.faq.splice(qi, 1);
+          markDirty();
+          renderAll();
+        });
+        row.appendChild(del);
+        box.appendChild(row);
+      });
+      var addQ = el("button", "admin-mini", "Add a question");
+      addQ.type = "button";
+      addQ.addEventListener("click", function () {
+        post.faq.push({ question: "", answer: "" });
+        markDirty();
+        renderAll();
+      });
+      box.appendChild(addQ);
+
       host.appendChild(box);
     });
     if (!posts.length) host.appendChild(el("p", "admin-empty", "No posts yet."));
@@ -354,7 +393,8 @@
           data.blog.posts.unshift({
             slug: "new-post", title: "New post",
             date: new Date().toISOString().slice(0, 10),
-            author: "Personal Paparazzi", summary: "", body: ""
+            author: "Personal Paparazzi", summary: "", body: "",
+            tldr: [], faq: []
           });
         } else if (kind === "questions") {
           data.questions.items.push({ question: "", answer: "" });
