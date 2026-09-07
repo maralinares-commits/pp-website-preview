@@ -400,8 +400,8 @@ def render_toc(body_html):
     items = '\n'.join(
         f'            <li><a href="#{hid}">{re.sub(r"<[^>]+>", "", text).strip()}</a></li>'
         for hid, text in heads)
-    return ('        <nav class="toc" aria-labelledby="toc-h">\n'
-            '          <h2 id="toc-h" class="toc__title">On this page</h2>\n'
+    return ('        <nav class="post-toc" aria-labelledby="post-toc-h">\n'
+            '          <h2 id="post-toc-h" class="post-toc__title">On this page</h2>\n'
             '          <ol>\n' + items + '\n'
             '            <li><a href="#post-faq">Frequently asked questions</a></li>\n'
             '          </ol>\n'
@@ -414,8 +414,10 @@ def render_post_faq(items):
         return ''
     rows = []
     for item in items:
-        rows.append(f'          <dt>{esc(item["question"])}</dt>\n'
-                    f'          <dd>{esc(item["answer"])}</dd>')
+        rows.append('          <div>\n'
+                    f'            <dt>{esc(item["question"])}</dt>\n'
+                    f'            <dd>{esc(item["answer"])}</dd>\n'
+                    '          </div>')
     return ('      <section class="post-faq" id="post-faq" aria-labelledby="post-faq-h">\n'
             '        <h2 id="post-faq-h">Frequently asked questions</h2>\n'
             '        <dl class="faq">\n' + '\n'.join(rows) + '\n        </dl>\n'

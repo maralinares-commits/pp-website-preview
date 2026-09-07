@@ -785,17 +785,42 @@ body.has-cta-bar { padding-bottom: 5rem; }
 .legal a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--green); text-decoration-thickness: 2px; text-underline-offset: 2px; }
 .legal strong { color: var(--ink); }
 
-.toc {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  padding: 1.5rem;
-  margin-bottom: 2.5rem;
+/* Five short links do not need a box the width of the page. A row of jump
+   links, in the same shape as the blog filters, says the same thing in a
+   fifth of the space. */
+
+.toc { margin-bottom: 2.5rem; }
+.toc h2 {
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.875rem;
+  border: 0;
+  padding: 0;
+  color: var(--muted);
 }
-.toc h2 { font-size: var(--step--1); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.875rem; border: 0; padding: 0; }
-.toc ol { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.4rem; }
-.toc a { color: var(--muted); text-decoration: none; font-size: var(--step-0); }
-.toc a:hover { color: var(--ink); text-decoration: underline; }
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.toc a {
+  display: inline-block;
+  padding: 0.5rem 1.125rem;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: var(--step--1);
+  font-weight: 700;
+}
+.toc a:hover, .toc a:focus-visible {
+  border-color: var(--ink);
+  color: var(--ink);
+}
 
 /* ----------------------------------------------------------- pull stat --- */
 
@@ -885,21 +910,27 @@ body.has-cta-bar { padding-bottom: 5rem; }
 
 /* ----------------------------------------------------------------- faq --- */
 
+/* One question a line, the answer directly under it, running the full width.
+   Two columns made people read across a gutter to find the answer to what
+   they had just read. */
+
 .faq {
   display: grid;
-  gap: 1.5rem 2.5rem;
+  gap: 2.25rem;
   margin: 0;
-}
-@media (min-width: 52rem) {
-  .faq { grid-template-columns: 1fr 1fr; }
 }
 .faq dt {
   font-weight: 800;
   letter-spacing: var(--track-display);
   font-size: var(--step-h3);
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.5rem;
 }
-.faq dd { margin: 0; color: var(--muted); font-size: var(--step-0); }
+.faq dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--step-lead);
+  max-width: 72ch;
+}
 
 /* ---------------------------------------------------------- two equals --- */
 /* Side-by-side cards that must read as a matched pair: equal width and
@@ -1347,36 +1378,50 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 .post-layout { display: grid; gap: 2.5rem; }
 @media (min-width: 62rem) {
   .post-layout {
-    grid-template-columns: minmax(0, 1fr) 17rem;
-    gap: clamp(2.5rem, 1rem + 4vw, 5rem);
+    grid-template-columns: 18rem minmax(0, 1fr);
+    gap: clamp(2.5rem, 1rem + 4vw, 4.5rem);
     align-items: start;
   }
-  .post-side { position: sticky; top: 6rem; order: 2; }
-  /* Inside this layout the column already sets the measure, so the article
-     should fill it rather than stopping short and leaving a second gap. */
+  /* Contents on the left, where the eye starts, and it stays put while the
+     article scrolls past it. */
+  .post-side { position: sticky; top: 6rem; order: -1; }
   .post-layout .article { max-width: none; }
 }
 
-.toc {
-  border-left: 3px solid var(--green);
-  padding: 0.25rem 1rem 0.25rem 1.25rem;
+.post-toc {
+  background: rgba(18, 34, 52, 0.04);
+  border-radius: var(--r-md);
+  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
 }
-.toc__title {
-  font-size: var(--step--1);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.post-toc__title {
+  font-size: var(--step-h3);
   font-weight: 800;
-  margin-bottom: 0.875rem;
+  letter-spacing: var(--track-display);
+  margin-bottom: 0.5rem;
 }
-.toc ol { list-style: none; display: grid; gap: 0.625rem; counter-reset: toc; }
-.toc li { counter-increment: toc; font-size: var(--step--1); }
-.toc li::before {
-  content: counter(toc) ".";
+.post-toc ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
+.post-toc li {
+  counter-increment: toc;
+  border-bottom: 1px solid var(--line);
+}
+.post-toc li:last-child { border-bottom: 0; }
+.post-toc a {
+  display: block;
+  padding: 0.875rem 0;
+  padding-left: 1.5rem;
+  text-indent: -1.5rem;
   color: var(--muted);
-  margin-right: 0.5rem;
+  text-decoration: none;
+  font-size: var(--step-0);
+  line-height: 1.4;
 }
-.toc a { color: var(--muted); text-decoration: none; }
-.toc a:hover, .toc a:focus-visible { color: var(--ink); text-decoration: underline; }
+.post-toc a::before {
+  content: counter(toc) ".";
+  display: inline-block;
+  width: 1.5rem;
+  text-indent: 0;
+}
+.post-toc a:hover, .post-toc a:focus-visible { color: var(--ink); }
 
 .tldr {
   background: var(--surface);
@@ -1648,7 +1693,8 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   margin-bottom: 1.25rem;
   border-bottom: 1px solid var(--line);
 }
-.faq-group .faq { grid-template-columns: 1fr; gap: 1.25rem; }
+.faq-group .faq { gap: 1.75rem; }
+.faq-group .faq dd { font-size: var(--step-0); }
 
 /* The home page answers five and hands the rest to the FAQ page. */
 .faq-more { margin-top: 2.5rem; }
