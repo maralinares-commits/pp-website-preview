@@ -287,11 +287,31 @@
     };
 
     var city = document.getElementById("pick-city");
-    var scene = document.getElementById("pick-scene");
     var who = document.getElementById("pick-who");
     var line = document.getElementById("picker-line");
+    var chosen = document.getElementById("pick-scene-text");
+    var board = picker.querySelector(".occasions");
+    var chips = board ? Array.prototype.slice.call(board.querySelectorAll(".occasion")) : [];
+
+    // The board is the control. A dropdown hid eight of the nine occasions
+    // behind a click, which is the opposite of what this section is for.
+    var scene = { value: chips.length ? chips[0].getAttribute("data-scene") : "landmarks" };
 
     var lastScene = scene.value;
+
+    function pick(chip) {
+      scene.value = chip.getAttribute("data-scene");
+      chips.forEach(function (c) {
+        c.setAttribute("aria-pressed", String(c === chip));
+      });
+      if (chosen) chosen.textContent = chip.getAttribute("data-phrase");
+      answer();
+    }
+
+    board && board.addEventListener("click", function (e) {
+      var chip = e.target.closest(".occasion");
+      if (chip) pick(chip);
+    });
 
     function answer() {
       // Only when the occasion itself changes, so it never overrides somebody

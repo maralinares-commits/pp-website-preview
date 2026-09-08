@@ -24,7 +24,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=41">
+<link rel="stylesheet" href="assets/styles.css?v=44">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -135,7 +135,7 @@
   <!-- ============================================================ hero -->
   <section class="hero">
     <div class="wrap">
-      <div class="hero__grid">
+      <div class="hero__grid hero__grid--text">
         <div>
           <h1>Become a Personal Paparazzi</h1>
           <p class="hero__lead">Somebody a few streets from you wants a photograph of the day
@@ -173,7 +173,7 @@
     <div class="wrap">
       <div class="section__head">
         <h2 id="how-h">How it works</h2>
-        <p>Three steps, and two of them happen on your phone.</p>
+        <p>Three simple steps to start earning.</p>
       </div>
 
       <div class="howto">
@@ -208,11 +208,11 @@
 
       <div class="prose prose--wide">
         <ul class="ticks ticks--lead">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><b>You're 18 or older, with a modern phone.</b> You pass an identity check before you can accept sessions, and that is the only check there is.</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><b>You take good photos on your phone.</b> That is the skill. Our Personal Paparazzi aren't necessarily professional photographers, in the same way rideshare drivers weren't professional drivers before joining.</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><b>You know your own city.</b> You know where people want their picture taken, and where the light is good at six in the evening.</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><b>You're comfortable with strangers.</b> A client who feels relaxed takes a better photo, and putting people at ease for five minutes is most of the job.</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><b>You're already out and about.</b> This is gig work on foot, so there is no gas to buy, no wear on your tires, and nothing to pay before you start. Being nearby is worth more than being fast.</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg><span><b>You're 18 or older, with a modern phone.</b> You pass an identity check before you can accept sessions, and that is the only check there is.</span></li>
         </ul>
       </div>
     </div>
@@ -223,23 +223,46 @@
     <div class="wrap">
       <div class="section__head">
         <h2 id="job-h">What does a Personal Paparazzi do?</h2>
-        <p>You take nine photos and one short video. That is the job.</p>
+        <p>Six things, and none of them takes long. The whole session is under five minutes.</p>
       </div>
 
-      <div class="prose prose--wide prose--cols">
-        <p>A request comes in from someone standing a few streets away. You accept it, the app
-          walks you to them, and you introduce yourself.</p>
-        <p>Then you do the part that matters. You step back far enough to get the place in the
-          frame with them, not just their faces. You wait for the second where nobody is
-          blinking. You ask them to walk towards you, or turn around, or laugh at something,
-          because people look like themselves when they are moving. You take more than you need
-          so they have a choice.</p>
-        <p>Nine photos, one short video, and it usually takes less than five minutes. Then you
-          tell them you're done, check they're happy, and the photos upload on their own while
-          you walk away.</p>
-        <p>You don't need to be a professional photographer, just someone with a good eye and a
-          modern phone. We'll provide tips and guidance to help you deliver great results every
-          time.</p>
+      <div class="job">
+        <ol class="job__steps">
+          <li>
+            <h3>A request comes in</h3>
+            <p>Somebody a few streets away has sent one. You accept, and the app walks you
+              to them.</p>
+          </li>
+          <li>
+            <h3>You say hello</h3>
+            <p>Introduce yourself and tell them what is about to happen. People who feel
+              relaxed take a better photo.</p>
+          </li>
+          <li>
+            <h3>You step back</h3>
+            <p>Far enough that the place is in the frame with them, not just their faces.
+              That is the reason they asked.</p>
+          </li>
+          <li>
+            <h3>You give one instruction at a time</h3>
+            <p>Walk towards me. Turn around. Laugh at something. People look like
+              themselves when they are moving.</p>
+          </li>
+          <li>
+            <h3>You take more than nine</h3>
+            <p>Nine photos and one short video is the delivery, not the target. Shoot past
+              it so they have a choice.</p>
+          </li>
+          <li>
+            <h3>You finish clearly</h3>
+            <p>Tell them you are done and check they are happy. The photos upload on their
+              own while you walk away.</p>
+          </li>
+        </ol>
+
+        <p class="job__note">Under five minutes, start to finish. You do not need to be a
+          professional photographer, just somebody with a good eye and a modern phone, and
+          the Quick Tips cover the rest.</p>
       </div>
     </div>
   </section>
@@ -306,13 +329,6 @@
                   <option value="ryman">Ryman Auditorium &mdash; hundreds of concerts a year</option>
                   <option value="opryland">Gaylord Opryland Resort atrium &mdash; nine acres, open to non-guests</option>
                   <option value="pedestrian-bridge">John Seigenthaler Pedestrian Bridge &mdash; no ticket, so no count</option>
-                  <option value="parthenon">The Parthenon, Centennial Park</option>
-                  <option value="hermitage">Andrew Jackson&#x27;s Hermitage &mdash; about 190,000 a year</option>
-                  <option value="nmaam">National Museum of African American Music</option>
-                  <option value="frist">Frist Art Museum</option>
-                  <option value="state-museum">Tennessee State Museum &mdash; free entry, so no count</option>
-                  <option value="studio-b">RCA Studio B, Music Row</option>
-                  <option value="lane">Lane Motor Museum</option>
               </select>
             </div>
             <p class="field__note" id="calc-place-note"></p>
@@ -350,7 +366,7 @@
         </form>
         <!-- CMS:placesdata:start -->
         <script type="application/json" id="places-data">
-          {"city": "Nashville", "places": [{"id": "broadway", "name": "Broadway, the Honky Tonk Highway", "visitors": "most of Nashville's 16.9 million yearly visitors", "note": "The heart of the city's tourism. Free live music every day of the year, from morning until 3am.", "footfall": "the busiest street in the city", "busy": [6, 10]}, {"id": "hall-of-fame", "name": "Country Music Hall of Fame and Museum", "visitors": "about 1.6 million a year", "note": "One of the world's largest museums of American vernacular music.", "footfall": "about 1.6 million a year", "busy": [5, 9]}, {"id": "zoo", "name": "Nashville Zoo at Grassmere", "visitors": "over 1.4 million a year", "note": "188 acres, and the top paid attraction in Middle Tennessee.", "footfall": "over 1.4 million a year", "busy": [5, 9]}, {"id": "cheekwood", "name": "Cheekwood Estate and Gardens", "visitors": "up to 435,000 in a peak year", "note": "55 acres of botanical garden and art museum on a 1920s estate.", "footfall": "up to 435,000 a year", "busy": [4, 7]}, {"id": "opry", "name": "Grand Ole Opry House", "visitors": "over 250,000 a year on daytime tours alone", "note": "Home of the longest running live radio broadcast in US history, plus the evening show crowds.", "footfall": "over 250,000 a year on tours alone", "busy": [4, 7]}, {"id": "ryman", "name": "Ryman Auditorium", "visitors": "hundreds of concerts a year", "note": "The Mother Church of Country Music, in the building since 1892. More than 17 million people have been through it since it opened as a museum.", "footfall": "hundreds of concerts a year", "busy": [4, 7]}, {"id": "opryland", "name": "Gaylord Opryland Resort atrium", "visitors": "open to visitors who are not staying", "note": "Nine acres of indoor gardens, waterfalls and a river with flatboat rides.", "footfall": "nine acres, open to non-guests", "busy": [4, 7]}, {"id": "pedestrian-bridge", "name": "John Seigenthaler Pedestrian Bridge", "visitors": "no ticket, so no count", "note": "The clearest unobstructed view of the downtown skyline, and no traffic on it.", "footfall": "no ticket, so no count", "busy": [4, 7]}, {"id": "parthenon", "name": "The Parthenon, Centennial Park", "visitors": "no published figure", "note": "A full scale replica of the Athenian original, with a 42 foot statue of Athena inside.", "footfall": "", "busy": [3, 6]}, {"id": "hermitage", "name": "Andrew Jackson's Hermitage", "visitors": "about 190,000 a year", "note": "1,120 acres and more than 30 historic buildings.", "footfall": "about 190,000 a year", "busy": [3, 5]}, {"id": "nmaam", "name": "National Museum of African American Music", "visitors": "no published figure", "note": "Downtown, and highly interactive.", "footfall": "", "busy": [3, 5]}, {"id": "frist", "name": "Frist Art Museum", "visitors": "no published figure", "note": "A 1930s Art Deco building, once the main post office. The exhibitions change constantly.", "footfall": "", "busy": [3, 5]}, {"id": "state-museum", "name": "Tennessee State Museum", "visitors": "free admission, so no count", "note": "Near the Bicentennial Capitol Mall, covering the state from its First Peoples onward.", "footfall": "free entry, so no count", "busy": [3, 5]}, {"id": "studio-b", "name": "RCA Studio B, Music Row", "visitors": "no published figure", "note": "Where Elvis Presley, Dolly Parton and Roy Orbison recorded.", "footfall": "", "busy": [3, 5]}, {"id": "lane", "name": "Lane Motor Museum", "visitors": "no published figure", "note": "The largest US collection of microcars, amphibious vehicles and prototypes.", "footfall": "", "busy": [3, 5]}]}
+          {"city": "Nashville", "places": [{"id": "broadway", "name": "Broadway, the Honky Tonk Highway", "visitors": "most of Nashville's 16.9 million yearly visitors", "note": "The heart of the city's tourism. Free live music every day of the year, from morning until 3am.", "footfall": "the busiest street in the city", "busy": [6, 10]}, {"id": "hall-of-fame", "name": "Country Music Hall of Fame and Museum", "visitors": "about 1.6 million a year", "note": "One of the world's largest museums of American vernacular music.", "footfall": "about 1.6 million a year", "busy": [5, 9]}, {"id": "zoo", "name": "Nashville Zoo at Grassmere", "visitors": "over 1.4 million a year", "note": "188 acres, and the top paid attraction in Middle Tennessee.", "footfall": "over 1.4 million a year", "busy": [5, 9]}, {"id": "cheekwood", "name": "Cheekwood Estate and Gardens", "visitors": "up to 435,000 in a peak year", "note": "55 acres of botanical garden and art museum on a 1920s estate.", "footfall": "up to 435,000 a year", "busy": [4, 7]}, {"id": "opry", "name": "Grand Ole Opry House", "visitors": "over 250,000 a year on daytime tours alone", "note": "Home of the longest running live radio broadcast in US history, plus the evening show crowds.", "footfall": "over 250,000 a year on tours alone", "busy": [4, 7]}, {"id": "ryman", "name": "Ryman Auditorium", "visitors": "hundreds of concerts a year", "note": "The Mother Church of Country Music, in the building since 1892. More than 17 million people have been through it since it opened as a museum.", "footfall": "hundreds of concerts a year", "busy": [4, 7]}, {"id": "opryland", "name": "Gaylord Opryland Resort atrium", "visitors": "open to visitors who are not staying", "note": "Nine acres of indoor gardens, waterfalls and a river with flatboat rides.", "footfall": "nine acres, open to non-guests", "busy": [4, 7]}, {"id": "pedestrian-bridge", "name": "John Seigenthaler Pedestrian Bridge", "visitors": "no ticket, so no count", "note": "The clearest unobstructed view of the downtown skyline, and no traffic on it.", "footfall": "no ticket, so no count", "busy": [4, 7]}]}
         </script>
         <!-- CMS:placesdata:end -->
 
@@ -601,7 +617,7 @@
   <a class="btn btn--primary" href="#get-started">Get the app</a>
 </div>
 
-<script src="assets/site.js?v=22" defer></script>
+<script src="assets/site.js?v=23" defer></script>
 <script src="assets/feedback.js?v=4" defer></script>
 </body>
 </html>

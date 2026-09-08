@@ -365,6 +365,9 @@ ul { margin: 0; padding: 0; }
 }
 @media (min-width: 56rem) {
   .hero__grid { grid-template-columns: 1.05fr 0.95fr; }
+  /* The provider page leads with a longer sentence than the home page, so it
+     gets more of the width and the photograph gets less. */
+  .hero__grid--text { grid-template-columns: 1.35fr 0.65fr; }
 }
 
 .hero .tagline {
@@ -557,6 +560,45 @@ ul { margin: 0; padding: 0; }
 
 .prose { max-width: 40rem; }
 .prose--wide { max-width: 52rem; }
+
+/* What the job actually is, as numbered steps rather than four paragraphs of
+   prose. Easier to scan, and it fills the width. */
+.job__steps {
+  list-style: none;
+  counter-reset: job;
+  display: grid;
+  gap: 1.5rem;
+}
+@media (min-width: 48rem) { .job__steps { grid-template-columns: repeat(2, 1fr); gap: 2rem 3rem; } }
+@media (min-width: 68rem) { .job__steps { grid-template-columns: repeat(3, 1fr); } }
+.job__steps li { counter-increment: job; }
+.job__steps h3 {
+  font-size: var(--step-0);
+  margin-bottom: 0.375rem;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+.job__steps h3::before {
+  content: counter(job);
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--ink);
+  font-size: var(--step--1);
+}
+.job__steps p { color: var(--muted); margin: 0; padding-left: 2.5rem; }
+.job__note {
+  margin: 2.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: var(--step-lead);
+}
 /* Four short paragraphs beside each other, so the section reaches the far edge
    without asking anybody to read a line 120 characters long. */
 @media (min-width: 64rem) {
@@ -898,6 +940,14 @@ body.has-cta-bar { padding-bottom: 5rem; }
   color: #fff;
 }
 .plan--free h3 { color: var(--green); }
+/* The free first session is the offer on the page, so it is the biggest thing
+   in the card rather than a small heading under a label. */
+.plan__free {
+  font-size: clamp(1.75rem, 1.4rem + 1.8vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: var(--track-display);
+  margin-bottom: 1rem;
+}
 .plan--free > p { color: #D9DEE4; }
 
 .plan__price {
@@ -1540,6 +1590,39 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 }
 .picker__pick select:hover { background-color: #fff; border-color: var(--ink); }
 
+
+/* All nine occasions on the page at once, and each one a control. A dropdown
+   showed one and hid the rest, which is the opposite of the point. */
+.occasions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+.occasion {
+  padding: 0.5rem 1.125rem;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  font-size: var(--step--1);
+  color: var(--muted);
+  cursor: pointer;
+  min-height: 44px;
+}
+.occasion:hover { border-color: var(--ink); color: var(--ink); }
+.occasion[aria-pressed="true"] {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--ink);
+}
+
+.picker__chosen {
+  font-weight: 800;
+  color: var(--ink);
+  border-bottom: 3px solid var(--green);
+}
 
 .picker__answer {
   margin-top: 1.75rem;

@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=41">
+<link rel="stylesheet" href="assets/styles.css?v=44">
 
 <script type="application/ld+json">
 {
@@ -155,7 +155,7 @@
         <div>
           <span class="tagline">Like a rideshare, but for memories.</span>
           <h1>Great photos and videos, in the places and moments that matter.</h1>
-          <p class="hero__lead">Open the app somewhere worth remembering, send a request, and a verified local nearby comes to take the photos.</p>
+          <p class="hero__lead">Open the app somewhere worth remembering, send a request, and a verified local nearby comes to take your photos.</p>
 
           <div class="hero__cta">
             <ul class="stores" aria-label="Download the app">
@@ -187,7 +187,7 @@
     <div class="wrap">
       <div class="section__head">
         <h2 id="how-h">How it works</h2>
-        <p>Four steps, and you are only involved in two of them.</p>
+        <p>All in four simple steps, and only two of them need you.</p>
       </div>
 
       <div class="howto">
@@ -243,8 +243,7 @@
 
       <div class="plans">
         <div class="plan plan--free">
-          <span class="plan__tag">Start here</span>
-          <h3>Your first session is free</h3>
+          <h3 class="plan__free">Your first session is free</h3>
           <p>Try Personal Paparazzi at no cost. Get 9 photos and a short video delivered straight to your phone. No credit card required for your first session.</p>
           <p style="margin-top: 1.5rem;"><a class="btn btn--primary btn--lg" href="#download">Get the app</a></p>
         </div>
@@ -277,14 +276,17 @@
             <p>Because the photos you come home with are never the ones you wanted.</p>
             <ul class="pains">
               <li>You are the one who always takes the picture, so you are in none of them.</li>
-              <li>You handed your phone to a stranger and got back something blurry, tilted, with your feet missing.</li>
               <li>Six of you at the bachelorette party, and not one photo has everybody in it.</li>
+              <li>You handed your phone to a stranger and got back something blurry and tilted.</li>
               <li>Your kids will never be this age again, and the proof is a blurred burst from across the table.</li>
               <li>You flew halfway around the world and every photo is a cropped selfie with the view cut off behind your head.</li>
             </ul>
-            <p>Someone whose only job for those five minutes is the photo stands far enough back,
-              waits for the right second, and gets all of you in the frame. Nine photos and one
-              short video, and you are actually in them.</p>
+            <p>A Personal Paparazzi is a verified local with a good eye and a modern phone,
+              not a professional photographer and not a stranger you stopped in the street.
+              They pass an identity check before they can accept a session, and for those five
+              minutes the photograph is the only thing they are there to do: stand far enough
+              back, wait for the right second, and get all of you in the frame. Nine photos and
+              one short video, and you are actually in them.</p>
           </div>
         </div>
 
@@ -306,7 +308,19 @@
         <p>Anytime a selfie falls short. If it's worth remembering, it's worth a great photo. Need an appointment? Nope…on demand!</p>
       </div>
       <form class="picker" id="picker" aria-labelledby="picker-h">
-        <h3 id="picker-h" class="visually-hidden">Tell us about your trip</h3>
+        <h3 id="picker-h" class="visually-hidden">Pick an occasion and tell us about your trip</h3>
+        <div class="occasions" role="group" aria-label="Pick an occasion">
+          <button type="button" class="occasion" data-scene="landmarks" data-phrase="landmarks and sightseeing" aria-pressed="true">Landmarks and sightseeing</button>
+          <button type="button" class="occasion" data-scene="parties" data-phrase="a bachelorette or bachelor party" aria-pressed="false">Bachelorette and bachelor parties</button>
+          <button type="button" class="occasion" data-scene="family" data-phrase="a family trip" aria-pressed="false">Family trips</button>
+          <button type="button" class="occasion" data-scene="honeymoons" data-phrase="a honeymoon" aria-pressed="false">Honeymoons</button>
+          <button type="button" class="occasion" data-scene="proposals" data-phrase="a proposal" aria-pressed="false">Proposals</button>
+          <button type="button" class="occasion" data-scene="birthdays" data-phrase="a birthday" aria-pressed="false">Birthdays</button>
+          <button type="button" class="occasion" data-scene="graduations" data-phrase="a graduation" aria-pressed="false">Graduations</button>
+          <button type="button" class="occasion" data-scene="concerts" data-phrase="a concert or a tailgate" aria-pressed="false">Concerts and tailgates</button>
+          <button type="button" class="occasion" data-scene="influencer" data-phrase="making content" aria-pressed="false">Making content</button>
+        </div>
+
         <p class="picker__sentence">
           <span>I'm travelling to</span>
           <label class="picker__pick">
@@ -317,20 +331,7 @@
             </select>
           </label>
           <span>to enjoy</span>
-          <label class="picker__pick">
-            <span class="visually-hidden">What for</span>
-            <select id="pick-scene">
-              <option value="landmarks">landmarks and sightseeing</option>
-              <option value="honeymoons">a honeymoon</option>
-              <option value="parties">a bachelorette or bachelor party</option>
-              <option value="family">a family trip</option>
-              <option value="concerts">a concert or a tailgate</option>
-              <option value="proposals">a proposal</option>
-              <option value="graduations">a graduation</option>
-              <option value="birthdays">a birthday</option>
-              <option value="influencer">making content</option>
-            </select>
-          </label>
+          <b class="picker__chosen" id="pick-scene-text">landmarks and sightseeing</b>
           <span>with</span>
           <label class="picker__pick">
             <span class="visually-hidden">Who with</span>
@@ -509,7 +510,7 @@
   <a class="btn btn--primary" href="#download">Get the app</a>
 </div>
 
-<script src="assets/site.js?v=22" defer></script>
+<script src="assets/site.js?v=23" defer></script>
 <script src="assets/feedback.js?v=4" defer></script>
 </body>
 </html>
