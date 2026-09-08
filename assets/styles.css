@@ -682,6 +682,17 @@ figure.photo-card figcaption {
 /* The same shape as a tick list, for the things that go wrong rather than the
    things that go right. A green check would read as approval. Text matches the
    paragraphs around it, which browser default bullets did not. */
+/* The answer to the question, under both columns rather than in the taller of
+   the two, so it runs the whole width instead of trailing off beside an empty
+   half of the page. */
+.why__close {
+  margin: 2.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: var(--step-lead);
+  color: var(--muted);
+}
+
 .pains {
   list-style: none;
   display: grid;
