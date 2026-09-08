@@ -1084,7 +1084,9 @@ body.has-cta-bar { padding-bottom: 5rem; }
 .calc {
   display: grid;
   gap: 1.25rem;
-  align-items: start;
+  /* Both cards the same height, so the last field and the total are in the
+     same view. The tip box used to sit below where the panel ended. */
+  align-items: stretch;
 }
 @media (min-width: 56rem) {
   .calc { grid-template-columns: 1fr 1fr; }
@@ -1099,6 +1101,15 @@ body.has-cta-bar { padding-bottom: 5rem; }
   gap: 1.75rem;
   margin: 0;
 }
+
+/* The three numbers side by side, which is what keeps the form as short as the
+   panel beside it. They are short answers and do not need a line each. */
+.calc__row { display: grid; gap: 1.25rem; }
+@media (min-width: 30rem) { .calc__row { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
+.calc__row .field__money { max-width: none; }
+/* Labels of different lengths would otherwise leave the three boxes on three
+   different lines. Push each box to the bottom of its cell instead. */
+.calc__row .field { display: flex; flex-direction: column; justify-content: space-between; }
 
 .field { border: 0; padding: 0; margin: 0; min-width: 0; }
 

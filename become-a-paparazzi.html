@@ -24,7 +24,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=45">
+<link rel="stylesheet" href="assets/styles.css?v=47">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -336,33 +336,36 @@
         <!-- CMS:places:end -->
 
 
-          <div class="field">
-            <label for="calc-sessions">How many sessions an hour do you expect?</label>
-            <div class="field__money">
-              <input type="number" id="calc-sessions" name="sessions" value="4"
-                     min="1" max="20" step="1" inputmode="numeric">
-              <span class="unit" aria-hidden="true">an hour</span>
+          <div class="calc__row">
+            <div class="field">
+              <label for="calc-sessions">Sessions an hour</label>
+              <div class="field__money">
+                <input type="number" id="calc-sessions" name="sessions" value="4"
+                       min="1" max="20" step="1" inputmode="numeric">
+                <span class="unit" aria-hidden="true">an hour</span>
+              </div>
             </div>
-            <p class="field__note" id="calc-sessions-note"></p>
+
+            <div class="field">
+              <label for="calc-hours-in">How long are you working?</label>
+              <div class="field__money">
+                <input type="number" id="calc-hours-in" name="hours" value="2"
+                       min="0" max="16" step="1" inputmode="numeric">
+                <span class="unit" aria-hidden="true">hours</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="calc-tip">A typical tip <span class="hint">optional, yours in full</span></label>
+              <div class="field__money">
+                <span aria-hidden="true">$</span>
+                <input type="number" id="calc-tip" name="tip" value="0"
+                       min="0" max="200" step="1" inputmode="numeric">
+              </div>
+            </div>
           </div>
 
-          <div class="field">
-            <label for="calc-hours-in">How long are you working?</label>
-            <div class="field__money">
-              <input type="number" id="calc-hours-in" name="hours" value="2"
-                     min="0" max="16" step="1" inputmode="numeric">
-              <span class="unit" aria-hidden="true">hours</span>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="calc-tip">Typical tip a client leaves <span class="hint">optional, and yours in full</span></label>
-            <div class="field__money">
-              <span aria-hidden="true">$</span>
-              <input type="number" id="calc-tip" name="tip" value="0"
-                     min="0" max="200" step="1" inputmode="numeric">
-            </div>
-          </div>
+          <p class="field__note" id="calc-sessions-note"></p>
         </form>
         <!-- CMS:placesdata:start -->
         <script type="application/json" id="places-data">
