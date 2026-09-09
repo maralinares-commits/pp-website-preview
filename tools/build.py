@@ -319,18 +319,47 @@ def render_places():
 # --------------------------------------------------------------------- blog --
 
 def render_blog_cards(posts, limit=None, prefix='blog/', names=None):
+    """A card per post.
+
+    Al asked for more visual interest, using his own blog as the reference:
+    a picture, a category, the title, the summary, and the date with a read
+    time. We have no photography yet, so each card carries a drawn cover
+    instead of an empty space: nine squares, because nine photos and a short
+    video is the product. The moment a real photograph exists for a post, the
+    `image` field replaces the drawing with no further change.
+    """
     names = names or {}
     cards = []
     for post in posts[:limit] if limit else posts:
         cat = post.get('category', 'client')
         tag = names.get(cat, '')
+        image = (post.get('image') or '').strip()
+        href = f'{prefix}{esc(post["slug"])}.html'
+
+        if image:
+            cover = (f'          <a class="post__cover" href="{href}" tabindex="-1" aria-hidden="true">\n'
+                     f'            <img src="{esc(image)}" alt="" width="480" height="270" loading="lazy">\n'
+                     '          </a>')
+        else:
+            # Six drawn covers, cycled, so a grid of cards has variety rather
+            # than nine copies of one placeholder.
+            shade = 'abcdef'[len(cards) % 6]
+            squares = ''.join('<span></span>' for _ in range(9))
+            cover = (f'          <a class="post__cover post__cover--drawn cover-{shade}" '
+                     f'href="{href}" tabindex="-1" aria-hidden="true">\n'
+                     f'            <span class="post__nine">{squares}</span>\n'
+                     '          </a>')
+
         tag_markup = (f'          <p class="post__tag">{esc(tag)}</p>\n') if tag else ''
+        mins = read_time(post.get('body'))
         cards.append(
             f'        <li class="post" data-category="{esc(cat)}">\n'
+            + cover + '\n'
             + tag_markup +
-            f'          <p class="post__date"><time datetime="{esc(post["date"])}">'
-            f'{esc(pretty_date(post["date"]))}</time></p>\n'
-            f'          <h3 class="post__title"><a href="{prefix}{esc(post["slug"])}.html">'
+            f'          <p class="post__meta"><time datetime="{esc(post["date"])}">'
+            f'{esc(pretty_date(post["date"]))}</time>'
+            f' &nbsp;&middot;&nbsp; {mins} min read</p>\n'
+            f'          <h3 class="post__title"><a href="{href}">'
             f'{esc(post["title"])}</a></h3>\n'
             f'          <p class="post__summary">{esc(post["summary"])}</p>\n'
             '        </li>'
@@ -351,6 +380,11 @@ def render_blog_filter(data):
                    f'data-filter="{esc(c["id"])}" aria-pressed="false">{esc(c["name"])}</button>')
     out.append('        </div>')
     return '\n'.join(out)
+
+
+def render_blog_count(posts):
+    n = len(posts)
+    return f'        <p class="posts__count">{n} post{"s" if n != 1 else ""}</p>'
 
 
 def read_time(body):
@@ -392,7 +426,7 @@ def render_tldr(points):
             '      </aside>')
 
 
-def render_toc(body_html):
+def render_toc(body_html, has_faq=True):
     """Built from the headings the post already has, so it cannot go stale."""
     heads = re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', body_html, re.S)
     if len(heads) < 2:
@@ -400,10 +434,11 @@ def render_toc(body_html):
     items = '\n'.join(
         f'            <li><a href="#{hid}">{re.sub(r"<[^>]+>", "", text).strip()}</a></li>'
         for hid, text in heads)
+    faq_row = ('\n            <li><a href="#post-faq">Frequently asked questions</a></li>'
+               if has_faq else '')
     return ('        <nav class="post-toc" aria-labelledby="post-toc-h">\n'
             '          <h2 id="post-toc-h" class="post-toc__title">On this page</h2>\n'
-            '          <ol>\n' + items + '\n'
-            '            <li><a href="#post-faq">Frequently asked questions</a></li>\n'
+            '          <ol>\n' + items + faq_row + '\n'
             '          </ol>\n'
             '        </nav>')
 
@@ -438,7 +473,7 @@ def write_post_pages(data, shell):
         page = page.replace('{{AUTHOR}}', esc(post.get('author', 'Personal Paparazzi')))
         page = page.replace('{{BODY}}', body)
         page = page.replace('{{TLDR}}', render_tldr(post.get('tldr', [])))
-        page = page.replace('{{TOC}}', render_toc(body))
+        page = page.replace('{{TOC}}', render_toc(body, bool(post.get('faq'))))
         page = page.replace('{{FAQ}}', render_post_faq(post.get('faq', [])))
         pairs = [(i['question'], i['answer']) for i in post.get('faq', [])]
         page = put_schema(page, faq_schema(
@@ -485,6 +520,7 @@ def main():
     page = open('blog.html', encoding='utf-8').read()
     page = replace_block(page, 'bloglist', render_blog_cards(posts, names=names))
     page = replace_block(page, 'blogfilter', render_blog_filter(bdata))
+    page = replace_block(page, 'blogcount', render_blog_count(posts))
     page = re.sub(r'(<h1>).*?(</h1>)',
                   lambda m: m.group(1) + esc(bdata['heading']) + m.group(2), page, count=1)
     page = re.sub(r'(<h1>.*?</h1>\s*<p>).*?(</p>)',

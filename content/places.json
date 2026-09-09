@@ -1,6 +1,6 @@
 {
   "city": "Nashville",
-  "note": "Ordered by how many people pass through, busiest first. The sessions an hour are an estimate drawn from that footfall, not a measured figure.",
+  "note": "Ordered by how many people pass through, busiest first. Footfall is a published figure; the sessions an hour is a planning number the reader sets, seeded at 3 to 4 on Al's advice.",
   "places": [
     {
       "id": "broadway",
@@ -9,8 +9,8 @@
       "note": "The heart of the city's tourism. Free live music every day of the year, from morning until 3am.",
       "footfall": "the busiest street in the city",
       "busy": [
-        6,
-        10
+        3,
+        4
       ]
     },
     {
@@ -20,8 +20,8 @@
       "note": "One of the world's largest museums of American vernacular music.",
       "footfall": "about 1.6 million a year",
       "busy": [
-        5,
-        9
+        3,
+        4
       ]
     },
     {
@@ -31,8 +31,8 @@
       "note": "188 acres, and the top paid attraction in Middle Tennessee.",
       "footfall": "over 1.4 million a year",
       "busy": [
-        5,
-        9
+        3,
+        4
       ]
     },
     {
@@ -42,8 +42,8 @@
       "note": "55 acres of botanical garden and art museum on a 1920s estate.",
       "footfall": "up to 435,000 a year",
       "busy": [
-        4,
-        7
+        3,
+        4
       ]
     },
     {
@@ -53,8 +53,8 @@
       "note": "Home of the longest running live radio broadcast in US history, plus the evening show crowds.",
       "footfall": "over 250,000 a year on tours alone",
       "busy": [
-        4,
-        7
+        3,
+        4
       ]
     },
     {
@@ -64,8 +64,8 @@
       "note": "The Mother Church of Country Music, in the building since 1892. More than 17 million people have been through it since it opened as a museum.",
       "footfall": "hundreds of concerts a year",
       "busy": [
-        4,
-        7
+        3,
+        4
       ]
     },
     {
@@ -75,8 +75,8 @@
       "note": "Nine acres of indoor gardens, waterfalls and a river with flatboat rides.",
       "footfall": "nine acres, open to non-guests",
       "busy": [
-        4,
-        7
+        3,
+        4
       ]
     },
     {
@@ -86,8 +86,8 @@
       "note": "The clearest unobstructed view of the downtown skyline, and no traffic on it.",
       "footfall": "no ticket, so no count",
       "busy": [
-        4,
-        7
+        3,
+        4
       ]
     }
   ]

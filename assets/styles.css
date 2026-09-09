@@ -739,17 +739,13 @@ figure.photo-card figcaption {
 .closing:has(+ .latest) { padding-bottom: clamp(1.75rem, 1.25rem + 1.5vw, 2.5rem); }
 .closing + .latest { padding-top: clamp(1rem, 0.5rem + 1vw, 1.5rem); }
 
-/* On a wide screen the band reads better as two columns than as a tall
-   centred stack with empty space either side. */
+/* Al: side by side, the heading and the line under it read as two unrelated
+   things. Stacked, they read as one. Left aligned against the edge, so the
+   band still uses the width. */
 @media (min-width: 64rem) {
   .closing { text-align: left; }
-  .closing__grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 4rem;
-    align-items: center;
-  }
-  .closing h2 { margin-bottom: 0; font-size: clamp(2rem, 1.4rem + 1.8vw, 2.75rem); }
+  .closing__stack { max-width: 54rem; }
+  .closing h2 { font-size: clamp(2rem, 1.4rem + 1.8vw, 2.75rem); }
   .closing p { max-width: none; margin-inline: 0; }
   .closing .stores { justify-content: flex-start; }
 }
@@ -768,7 +764,21 @@ figure.photo-card figcaption {
   align-items: start;
 }
 @media (min-width: 48rem) {
-  .site-footer__grid { grid-template-columns: 1.2fr 1fr 1fr; }
+  .site-footer__grid { grid-template-columns: 0.9fr 2fr; }
+}
+
+/* Al: a box around both link columns, with the download buttons inside, so the
+   two audiences read as a matched pair rather than as loose lists. */
+.site-footer__panel {
+  display: grid;
+  gap: 2rem;
+  padding: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--ground);
+}
+@media (min-width: 48rem) {
+  .site-footer__panel { grid-template-columns: 1fr 1fr; gap: 2rem 3rem; }
 }
 .site-footer img.mark { height: 44px; width: auto; margin-bottom: 1rem; }
 .site-footer h2 {
@@ -1440,16 +1450,75 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 @media (min-width: 48rem) { .posts { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 68rem) { .posts { grid-template-columns: repeat(3, 1fr); } }
 
+.posts__count {
+  font-size: var(--step--1);
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+}
+
 .post {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 0 clamp(1.25rem, 1rem + 1vw, 1.75rem) clamp(1.25rem, 1rem + 1vw, 1.75rem);
 }
-.post__date { margin: 0; font-size: var(--step--1); color: var(--muted); }
+.post:hover { border-color: var(--ink); }
+
+/* Al asked for more visual interest, with his own blog as the reference: every
+   card there leads with a picture. We have no photography yet, so each card
+   carries a drawn cover instead of a gap. Six of them, cycled, so a grid has
+   variety rather than nine copies of one placeholder. Nine squares, because
+   nine photos and a short video is the product. A real photograph in a post's
+   `image` field replaces the drawing with no other change. */
+.post__cover {
+  display: block;
+  position: relative;
+  margin: 0 calc(-1 * clamp(1.25rem, 1rem + 1vw, 1.75rem)) 1rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--ink);
+}
+.post__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.post__cover--drawn::after {
+  /* a soft light, off to one side, so the panel is not flat */
+  content: "";
+  position: absolute;
+  inset: -30% -10% auto auto;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 68%);
+}
+
+/* The motif sits in the corner and stays out of the way. */
+.post__nine {
+  position: absolute;
+  left: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  bottom: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  width: 34px;
+  transition: transform 0.25s ease;
+  transform-origin: bottom left;
+}
+.post__nine span { aspect-ratio: 1; border-radius: 2px; background: currentColor; }
+.post:hover .post__nine { transform: scale(1.25); }
+@media (prefers-reduced-motion: reduce) { .post__nine { transition: none; } }
+
+.cover-a { background: linear-gradient(135deg, #122234 0%, #23405f 100%); color: #84D85B; }
+.cover-b { background: linear-gradient(160deg, #84D85B 0%, #4FA83A 100%); color: #122234; }
+.cover-c { background: linear-gradient(25deg, #5474A5 0%, #122234 78%); color: #84D85B; }
+.cover-d { background: linear-gradient(200deg, #122234 0%, #3d6b4f 100%); color: #84D85B; }
+.cover-e { background: linear-gradient(115deg, #2b4a70 0%, #84D85B 190%); color: #F6F6F6; }
+.cover-f { background: linear-gradient(300deg, #122234 0%, #5474A5 120%); color: #84D85B; }
+
+.post__meta { margin: 0; font-size: var(--step--1); color: var(--muted); }
 .post__title { font-size: var(--step-h3); margin: 0; }
 .post__title a { text-decoration: none; }
 .post__title a:hover {
