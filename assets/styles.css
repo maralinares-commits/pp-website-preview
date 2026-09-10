@@ -1894,3 +1894,95 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 
 /* The home page answers five and hands the rest to the FAQ page. */
 .faq-more { margin-top: 2.5rem; }
+
+/* ================================================== the occasions band ====
+   Al wanted this section to carry some colour and some invention. It has a
+   navy ground now, and the photographer from the Nashville photograph stands
+   in it the way the elephant stands in the hero: a character on the page
+   rather than a stock rectangle. What he is lining up on his phone is whatever
+   occasion the reader picks, and the caption beside the screen says so.      */
+
+.occasions-band { background: var(--ink); }
+.occasions-band .section__head h2 { color: #fff; }
+.occasions-band .section__head p { color: #C2CBD5; }
+
+.occasions-band__grid { display: grid; gap: 2rem; }
+@media (min-width: 62rem) {
+  .occasions-band__grid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.55fr);
+    gap: clamp(2rem, 1rem + 3vw, 4rem);
+    align-items: center;
+  }
+}
+
+.shot {
+  position: relative;
+  margin: 0;
+  border-radius: var(--r-lg);
+  overflow: visible;
+}
+.shot img {
+  width: 100%;
+  display: block;
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+}
+
+/* Straight over the phone screen in the photograph. The numbers are measured
+   from the crop, so they hold at every width. */
+.shot__screen {
+  position: absolute;
+  left: 51.1%;
+  top: 25.6%;
+  width: 16%;
+  height: 7.8%;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1.5px var(--green), 0 0 18px 4px rgba(132, 216, 91, 0.55);
+  background: rgba(132, 216, 91, 0.18);
+}
+
+/* The caption sits directly above the screen and points down at it, so the
+   connection between what you picked and what he is shooting is not a guess. */
+.shot__caption {
+  position: absolute;
+  left: 59%;
+  bottom: 77%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.4rem 0.875rem;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
+  width: max-content;
+  max-width: 10rem;
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.7);
+}
+.shot__caption::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: var(--green);
+}
+
+/* A little colour behind him, so the photograph sits in the section rather
+   than on top of it. */
+.shot::before {
+  content: "";
+  position: absolute;
+  inset: -12% -14% -6%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(132, 216, 91, 0.22), transparent 66%);
+  z-index: -1;
+}
+
+@media (max-width: 61.999rem) {
+  .shot { max-width: 26rem; margin-inline: auto; }
+}

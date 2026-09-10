@@ -290,6 +290,7 @@
     var who = document.getElementById("pick-who");
     var line = document.getElementById("picker-line");
     var chosen = document.getElementById("pick-scene-text");
+    var shot = document.getElementById("picker-shot");   // the phone's screen caption
     var board = picker.querySelector(".occasions");
     var chips = board ? Array.prototype.slice.call(board.querySelectorAll(".occasion")) : [];
 
@@ -304,7 +305,9 @@
       chips.forEach(function (c) {
         c.setAttribute("aria-pressed", String(c === chip));
       });
-      if (chosen) chosen.textContent = chip.getAttribute("data-phrase");
+      var phrase = chip.getAttribute("data-phrase");
+      if (chosen) chosen.textContent = phrase;
+      if (shot) shot.textContent = phrase;
       answer();
     }
 
