@@ -851,7 +851,6 @@ body.has-cta-bar { padding-bottom: 5rem; }
 /* The meta description, said out loud rather than only to search engines. */
 .page-head__standfirst {
   font-size: var(--step-lead);
-  max-width: 46rem;
   color: #D6DDE5;
 }
 
