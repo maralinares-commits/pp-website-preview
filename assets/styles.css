@@ -1889,8 +1889,9 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   margin-bottom: 1.25rem;
   border-bottom: 1px solid var(--line);
 }
-.faq-group .faq { gap: 1.75rem; }
-.faq-group .faq dd { font-size: var(--step-0); }
+.faq-group .faq-row__q { font-size: var(--step-0); }
+.faq-group .faq-row__a p { font-size: var(--step-0); }
+.faq-group .faq-row__mark { width: 34px; height: 34px; }
 
 /* The home page answers five and hands the rest to the FAQ page. */
 .faq-more { margin-top: 2.5rem; }
@@ -1922,3 +1923,74 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 
 .occasions-band__card { max-width: 64rem; }
 
+
+/* ================================================= the questions accordion ==
+   Five questions on the home page, the first answer showing and the rest a tap
+   away. Built on <details>, so it opens with no JavaScript at all and assistive
+   software announces it as expandable without being told to.                 */
+
+.faq-accordion {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  overflow: hidden;
+}
+.faq-row + .faq-row { border-top: 1px solid var(--line); }
+
+.faq-row summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1.125rem, 1rem + 0.5vw, 1.5rem) clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  cursor: pointer;
+  list-style: none;
+}
+.faq-row summary::-webkit-details-marker { display: none; }
+.faq-row summary:hover { background: var(--ground); }
+.faq-row summary:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: -3px;
+}
+
+.faq-row__q {
+  font-size: var(--step-h3);
+  font-weight: 800;
+  letter-spacing: var(--track-display);
+  color: var(--ink);
+}
+
+/* The plus loses its upright stroke when the row opens, so it reads as a
+   minus without swapping any markup. */
+.faq-row__mark {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm, 6px);
+}
+.faq-row__mark::before,
+.faq-row__mark::after {
+  content: "";
+  position: absolute;
+  inset: 50% 25%;
+  border-top: 2px solid var(--ink);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.faq-row__mark::after { transform: rotate(90deg); }
+.faq-row[open] .faq-row__mark { border-color: var(--ink); }
+.faq-row[open] .faq-row__mark::after { transform: rotate(0deg); opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .faq-row__mark::before, .faq-row__mark::after { transition: none; }
+}
+
+.faq-row__a {
+  padding: 0 clamp(1.25rem, 1rem + 1vw, 1.75rem) clamp(1.25rem, 1rem + 1vw, 1.75rem);
+}
+.faq-row__a p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--step-lead);
+  max-width: 72ch;
+}

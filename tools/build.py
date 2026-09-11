@@ -125,41 +125,58 @@ def render_questions():
 
 
 def render_client_faq(data):
-    """The client questions, in groups, with each group a real heading.
+    """Every client question, in groups, on the FAQ page.
 
-    Grouping is for the reader. The structured data below flattens it again,
-    because a FAQPage wants a flat list of questions.
+    Same accordion as the home page: a group is a list of questions with the
+    first answer showing, so the page reads as a menu of questions rather than
+    fourteen answers at once. Grouping is for the reader; the structured data
+    flattens it again, because a FAQPage wants a flat list.
     """
     blocks = []
     for group in data['groups']:
         rows = []
         for item in group['items']:
-            rows.append('          <div>\n'
-                        f'            <dt>{esc(item["question"])}</dt>\n'
-                        f'            <dd>{esc(item["answer"])}</dd>\n'
-                        '          </div>')
+            first = ' open' if not rows else ''
+            rows.append(
+                f'            <details class="faq-row"{first}>\n'
+                '              <summary>\n'
+                f'                <span class="faq-row__q">{esc(item["question"])}</span>\n'
+                '                <span class="faq-row__mark" aria-hidden="true"></span>\n'
+                '              </summary>\n'
+                f'              <div class="faq-row__a"><p>{esc(item["answer"])}</p></div>\n'
+                '            </details>')
         blocks.append(
             f'        <section class="faq-group" aria-labelledby="{esc(group["id"])}-h">\n'
             f'          <h3 class="faq-group__title" id="{esc(group["id"])}-h">{esc(group["title"])}</h3>\n'
-            '          <dl class="faq">\n' + '\n'.join(rows) + '\n          </dl>\n'
-            '        </section>'
-        )
+            '          <div class="faq-accordion">\n' + '\n'.join(rows) + '\n          </div>\n'
+            '        </section>')
     return '\n\n'.join(blocks)
 
 
 def render_featured_faq(data):
     """The five on the home page: one from each group, plus the one everybody
-    asks first. Flat, because the point of the home page is to answer quickly
-    and then send people to the full list."""
+    asks first.
+
+    An accordion, with the first answer showing and the rest a tap away, so the
+    section is a short list of questions rather than a wall of answers. Built
+    on <details>, so it opens without JavaScript and a screen reader announces
+    it as expandable on its own.
+    """
     rows = []
     for group in data['groups']:
         for item in group['items']:
-            if item.get('featured'):
-                rows.append('          <div>\n'
-                            f'            <dt>{esc(item["question"])}</dt>\n'
-                            f'            <dd>{esc(item["answer"])}</dd>\n'
-                            '          </div>')
-    return '        <dl class="faq">\n' + '\n'.join(rows) + '\n        </dl>'
+            if not item.get('featured'):
+                continue
+            first = ' open' if not rows else ''
+            rows.append(
+                f'          <details class="faq-row"{first}>\n'
+                '            <summary>\n'
+                f'              <span class="faq-row__q">{esc(item["question"])}</span>\n'
+                '              <span class="faq-row__mark" aria-hidden="true"></span>\n'
+                '            </summary>\n'
+                f'            <div class="faq-row__a"><p>{esc(item["answer"])}</p></div>\n'
+                '          </details>')
+    return '        <div class="faq-accordion">\n' + '\n'.join(rows) + '\n        </div>'
 
 
 def featured_pairs(data):
@@ -541,6 +558,9 @@ def main():
     page = replace_block(page, 'clientfaq', render_featured_faq(cfaq))
     page = re.sub(r'(<h2 id="q-h">).*?(</h2>)',
                   lambda m: m.group(1) + esc(cfaq['heading']) + m.group(2), page, count=1)
+    page = re.sub(r'(<h2 id="q-h">.*?</h2>\s*<p>).*?(</p>)',
+                  lambda m: m.group(1) + esc(cfaq['intro']) + m.group(2),
+                  page, count=1, flags=re.S)
     picked = featured_pairs(cfaq)
     page = put_schema(page, faq_schema(picked, 'https://personalpaparazzi.com/'))
     open('index.html', 'w', encoding='utf-8').write(page)
