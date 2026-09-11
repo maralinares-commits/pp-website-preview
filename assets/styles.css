@@ -1296,13 +1296,18 @@ body.has-cta-bar { padding-bottom: 5rem; }
 
 /* ----------------------------------------------------------- tutorials --- */
 
+/* Every card the same height, not just the two sharing a row: `align-items:
+   start` let each one stop where its text did, and `grid-auto-rows: 1fr` makes
+   every row as tall as the tallest card on the page. */
 .tips {
   display: grid;
   gap: 1.25rem;
-  align-items: start;
 }
 @media (min-width: 56rem) {
-  .tips { grid-template-columns: 1fr 1fr; }
+  .tips {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+  }
 }
 .tips .card h3 { margin-bottom: 1.25rem; }
 
