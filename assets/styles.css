@@ -1124,7 +1124,6 @@ body.has-cta-bar { padding-bottom: 5rem; }
   font-size: var(--step-lead);
   font-weight: 800;
   letter-spacing: var(--track-display);
-  max-width: 30ch;
   margin-bottom: 1.75rem;
 }
 .earnings > p b { color: var(--green); }
