@@ -313,6 +313,94 @@
       if (chip) pick(chip);
     });
 
+    // The sentence, for any combination. Pulled out of answer() so the same
+    // code can measure every possible answer without touching what is on
+    // screen.
+    function textFor(sceneValue, cityValue, whoValue) {
+      var special = SPECIAL[sceneValue];
+      if (special) return cityValue === "elsewhere" ? special.away : special.here;
+
+      var where = WHERE[sceneValue] || "when you get there";
+      var people = WHO[whoValue] || "you";
+
+      if (cityValue === "elsewhere") {
+        return "We are starting in Nashville, so we are not in your city yet. "
+             + "Have the app when we get there, and the photos of this are "
+             + people + ", " + where + ", rather than a selfie.";
+      }
+      return "There are Personal Paparazzi out in Nashville. Open the app "
+           + where + ", send a request, and one of them comes and takes the "
+           + "photos. Nine photos and one short video, with " + people
+           + " in them, for $19.99.";
+    }
+
+    /* Answers run from three lines to seven, and the section is tall enough to
+       set the crop of the photograph behind it. Left alone, tapping an occasion
+       resized the band and the picture appeared to jump. So reserve the height
+       of the longest answer once, and nothing moves again. Measured rather than
+       guessed, because it changes with the width and with whatever the editor
+       writes next. */
+    var ghost = null;
+
+    function reserve() {
+      if (!line) return;
+      if (!ghost) {
+        ghost = document.createElement("p");
+        ghost.className = line.className;
+        ghost.setAttribute("aria-hidden", "true");
+        ghost.style.cssText = "position:absolute;visibility:hidden;pointer-events:none";
+        line.parentNode.appendChild(ghost);
+      }
+      line.style.minHeight = "";
+      var width = line.getBoundingClientRect().width;
+      if (!width) return;
+      ghost.style.width = width + "px";
+
+      var all = [];
+      for (var s = 0; s < chips.length; s++) {
+        var sv = chips[s].getAttribute("data-scene");
+        for (var c = 0; c < city.options.length; c++) {
+          for (var w = 0; w < who.options.length; w++) {
+            all.push(textFor(sv, city.options[c].value, who.options[w].value));
+          }
+        }
+      }
+      // The longest strings are the tall ones; measuring a handful of those is
+      // enough and saves ninety layout passes.
+      all.sort(function (a, b) { return b.length - a.length; });
+      var tallest = 0;
+      for (var i = 0; i < Math.min(6, all.length); i++) {
+        ghost.textContent = all[i];
+        tallest = Math.max(tallest, ghost.getBoundingClientRect().height);
+      }
+      line.style.minHeight = Math.ceil(tallest) + "px";
+
+      // The sentence above it wraps differently too, because "landmarks and
+      // sightseeing" is not the length of "a proposal". Run every occasion
+      // through, in both cities, and hold the tallest the card ever gets.
+      // It is all one synchronous pass, so nothing is painted in between.
+      var card = picker.parentNode;
+      card.style.minHeight = "";
+      var wasPressed = null;
+      chips.forEach(function (c) {
+        if (c.getAttribute("aria-pressed") === "true") wasPressed = c;
+      });
+      var wasCity = city.value, wasWho = who.value;
+      var tallestCard = 0;
+      for (var ci = 0; ci < city.options.length; ci++) {
+        city.value = city.options[ci].value;
+        chips.forEach(function (chip) {
+          pick(chip);
+          tallestCard = Math.max(tallestCard, card.getBoundingClientRect().height);
+        });
+      }
+      city.value = wasCity;
+      if (wasPressed) pick(wasPressed);
+      who.value = wasWho;
+      answer();
+      card.style.minHeight = Math.ceil(tallestCard) + "px";
+    }
+
     function answer() {
       // Only when the occasion itself changes, so it never overrides somebody
       // who has just picked who they are with.
@@ -320,34 +408,20 @@
         lastScene = scene.value;
         if (SUGGESTS[scene.value]) who.value = SUGGESTS[scene.value];
       }
-
-      var where = WHERE[scene.value] || "when you get there";
-      var people = WHO[who.value] || "you";
-      var text;
-
-      var special = SPECIAL[scene.value];
-      if (special) {
-        line.textContent = city.value === "elsewhere" ? special.away : special.here;
-        return;
-      }
-
-      if (city.value === "elsewhere") {
-        text = "We are starting in Nashville, so we are not in your city yet. "
-             + "Have the app when we get there, and the photos of this are "
-             + people + ", " + where + ", rather than a selfie.";
-      } else {
-        text = "There are Personal Paparazzi out in Nashville. Open the app "
-             + where + ", send a request, and one of them comes and takes the "
-             + "photos. Nine photos and one short video, with " + people
-             + " in them, for $19.99.";
-      }
-      line.textContent = text;
+      line.textContent = textFor(scene.value, city.value, who.value);
     }
 
     picker.addEventListener("change", answer);
     picker.addEventListener("submit", function (e) { e.preventDefault(); });
 
     answer();
+    reserve();
+
+    var resizing;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizing);
+      resizing = setTimeout(reserve, 150);
+    });
   }
 
   /* ------------------------------------------------------ tutorials filter --- */

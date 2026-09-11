@@ -1984,7 +1984,7 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   .occasions-band { background-position: 72% 42%; }
 }
 
-.occasions-band__card { max-width: 64rem; }
+.occasions-band__card { max-width: none; }
 
 
 /* ================================================= the questions accordion ==
