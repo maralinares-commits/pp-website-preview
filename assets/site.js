@@ -264,6 +264,7 @@
     var SUGGESTS = {
       proposals:  "partner",
       honeymoons: "partner",
+      parties:    "friends",
       influencer: "colleagues"
     };
 
