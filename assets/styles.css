@@ -744,7 +744,6 @@ figure.photo-card figcaption {
    band still uses the width. */
 @media (min-width: 64rem) {
   .closing { text-align: left; }
-  .closing__stack { max-width: 54rem; }
   .closing h2 { font-size: clamp(2rem, 1.4rem + 1.8vw, 2.75rem); }
   .closing p { max-width: none; margin-inline: 0; }
   .closing .stores { justify-content: flex-start; }
