@@ -598,6 +598,16 @@ ul { margin: 0; padding: 0; }
   font-size: var(--step--1);
 }
 .job__steps p { color: var(--muted); margin: 0; padding-left: 2.5rem; }
+.job__note a {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--green);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.job__note a:hover { color: var(--green-ink, #2F6B1C); }
+
 .job__note {
   margin: 2.5rem 0 0;
   padding-top: 1.5rem;
