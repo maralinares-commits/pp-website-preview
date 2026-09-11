@@ -434,8 +434,8 @@ ul { margin: 0; padding: 0; }
   gap: 1.25rem;
   counter-reset: step;
 }
-@media (min-width: 40rem) { .steps { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 64rem) { .steps { grid-template-columns: repeat(4, 1fr); gap: 1rem; } }
+@media (min-width: 40rem) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 64rem) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; } }
 
 .step {
   position: relative;
@@ -477,7 +477,7 @@ ul { margin: 0; padding: 0; }
 /* three-step variant (photographers page) */
 .steps--3 { grid-template-columns: 1fr; }
 @media (min-width: 56rem) {
-  .steps--3 { grid-template-columns: repeat(3, 1fr); }
+  .steps--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 /* ------------------------------------------------- how it works panel ---- */
@@ -575,8 +575,8 @@ ul { margin: 0; padding: 0; }
   display: grid;
   gap: 1.5rem;
 }
-@media (min-width: 48rem) { .job__steps { grid-template-columns: repeat(2, 1fr); gap: 2rem 3rem; } }
-@media (min-width: 68rem) { .job__steps { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 48rem) { .job__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 3rem; } }
+@media (min-width: 68rem) { .job__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .job__steps li { counter-increment: job; }
 .job__steps h3 {
   font-size: var(--step-0);
@@ -793,7 +793,7 @@ figure.photo-card figcaption {
   background: var(--ground);
 }
 @media (min-width: 48rem) {
-  .site-footer__panel { grid-template-columns: 1fr 1fr; gap: 2rem 3rem; }
+  .site-footer__panel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem 3rem; }
 }
 .site-footer img.mark { height: 44px; width: auto; margin-bottom: 1rem; }
 .site-footer h2 {
@@ -869,7 +869,10 @@ body.has-cta-bar { padding-bottom: 5rem; }
   color: #D6DDE5;
 }
 
-.legal { max-width: 46rem; }
+/* The legal pages run the full width: they are read in sections, not straight
+   through, and a narrow column left half the page empty. */
+.legal { max-width: none; }
+
 .legal h2 {
   font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
   margin: 2.5rem 0 0.75rem;
@@ -919,56 +922,7 @@ body.has-cta-bar { padding-bottom: 5rem; }
   color: #fff;
 }
 
-.legal { max-width: 46rem; }
-.legal h2 {
-  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
-  margin: 2.5rem 0 0.75rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-}
-.legal h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
-.legal h3 { font-size: 1.0625rem; margin: 1.75rem 0 0.5rem; }
-.legal p, .legal li { color: var(--muted); font-size: var(--step-0); }
-.legal ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1em; display: grid; gap: 0.5rem; }
-.legal a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--green); text-decoration-thickness: 2px; text-underline-offset: 2px; }
-.legal strong { color: var(--ink); }
 
-/* Five short links do not need a box the width of the page. A row of jump
-   links, in the same shape as the blog filters, says the same thing in a
-   fifth of the space. */
-
-.toc { margin-bottom: 2.5rem; }
-.toc h2 {
-  font-size: var(--step--1);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 0.875rem;
-  border: 0;
-  padding: 0;
-  color: var(--muted);
-}
-.toc ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.toc a {
-  display: inline-block;
-  padding: 0.5rem 1.125rem;
-  border-radius: 999px;
-  border: 2px solid var(--line);
-  color: var(--muted);
-  text-decoration: none;
-  font-size: var(--step--1);
-  font-weight: 700;
-}
-.toc a:hover, .toc a:focus-visible {
-  border-color: var(--ink);
-  color: var(--ink);
-}
 
 /* ----------------------------------------------------------- pull stat --- */
 
@@ -1006,7 +960,7 @@ body.has-cta-bar { padding-bottom: 5rem; }
   align-items: start;
 }
 @media (min-width: 52rem) {
-  .plans { grid-template-columns: 1fr 1fr; }
+  .plans { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 
 .plan {
@@ -1098,7 +1052,7 @@ body.has-cta-bar { padding-bottom: 5rem; }
   align-items: stretch;
 }
 @media (min-width: 52rem) {
-  .duo { grid-template-columns: 1fr 1fr; }
+  .duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 
 .card {
@@ -1134,7 +1088,7 @@ body.has-cta-bar { padding-bottom: 5rem; }
   margin: 0;
 }
 @media (min-width: 46rem) {
-  .split-sum { grid-template-columns: repeat(3, 1fr); }
+  .split-sum { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .split-sum > div {
   padding-top: 1.25rem;
@@ -1162,7 +1116,7 @@ body.has-cta-bar { padding-bottom: 5rem; }
   align-items: stretch;
 }
 @media (min-width: 56rem) {
-  .calc { grid-template-columns: 1fr 1fr; }
+  .calc { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 
 .calc__controls {
@@ -1178,7 +1132,7 @@ body.has-cta-bar { padding-bottom: 5rem; }
 /* The three numbers side by side, which is what keeps the form as short as the
    panel beside it. They are short answers and do not need a line each. */
 .calc__row { display: grid; gap: 1.25rem; }
-@media (min-width: 30rem) { .calc__row { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
+@media (min-width: 30rem) { .calc__row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; } }
 .calc__row .field__money { max-width: none; }
 /* Labels of different lengths would otherwise leave the three boxes on three
    different lines. Push each box to the bottom of its cell instead. */
@@ -1305,7 +1259,7 @@ body.has-cta-bar { padding-bottom: 5rem; }
 }
 @media (min-width: 56rem) {
   .tips {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-auto-rows: 1fr;
   }
 }
@@ -1515,8 +1469,8 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   gap: 1.25rem;
   list-style: none;
 }
-@media (min-width: 48rem) { .posts { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 68rem) { .posts { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 48rem) { .posts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 68rem) { .posts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .posts__count {
   font-size: var(--step--1);
@@ -1569,7 +1523,7 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   left: clamp(1.25rem, 1rem + 1vw, 1.75rem);
   bottom: clamp(1rem, 0.75rem + 1vw, 1.5rem);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 3px;
   width: 34px;
   transition: transform 0.25s ease;
@@ -1955,7 +1909,7 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 
 .faq-groups { display: grid; gap: clamp(2rem, 1.5rem + 1.5vw, 3rem); }
 @media (min-width: 64rem) {
-  .faq-groups { grid-template-columns: repeat(2, 1fr); gap: 3rem 4rem; }
+  .faq-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 4rem; }
 }
 .faq-group__title {
   font-size: var(--step--1);
