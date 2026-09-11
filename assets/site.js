@@ -350,6 +350,28 @@
     answer();
   }
 
+  /* ------------------------------------------------------ tutorials filter --- */
+  /* Same shape as the blog filter. Every group is in the page either way, so
+     this narrows rather than hides anything a search engine needs.          */
+
+  var tipFilter = document.querySelector(".tip-filter");
+
+  if (tipFilter) {
+    var groups = Array.prototype.slice.call(document.querySelectorAll(".tips .card"));
+    tipFilter.addEventListener("click", function (e) {
+      var btn = e.target.closest(".tip-filter__btn");
+      if (!btn) return;
+      var want = btn.getAttribute("data-tips");
+      Array.prototype.forEach.call(
+        tipFilter.querySelectorAll(".tip-filter__btn"), function (b) {
+          b.setAttribute("aria-pressed", String(b === btn));
+        });
+      groups.forEach(function (g) {
+        g.hidden = !(want === "all" || g.id === want);
+      });
+    });
+  }
+
   /* -------------------------------------------------------- blog filter --- */
   /* Two audiences, one list. The buttons narrow it rather than reloading,
      and every post is in the page either way, so the filter is a convenience
@@ -363,9 +385,10 @@
       var btn = e.target.closest(".blog-filter__btn");
       if (!btn) return;
       var want = btn.getAttribute("data-filter");
-      Array.prototype.forEach.call(filter.children, function (b) {
-        b.setAttribute("aria-pressed", String(b === btn));
-      });
+      Array.prototype.forEach.call(
+        filter.querySelectorAll(".blog-filter__btn"), function (b) {
+          b.setAttribute("aria-pressed", String(b === btn));
+        });
       posts.forEach(function (p) {
         p.hidden = !(want === "all" || p.getAttribute("data-category") === want);
       });

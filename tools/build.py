@@ -112,15 +112,19 @@ def markdown(text):
 # ----------------------------------------------------------------- questions --
 
 def render_questions():
+    """The provider questions, as the same accordion the client ones use."""
     data = load('questions.json')
     rows = []
     for item in data['items']:
+        first = ' open' if not rows else ''
         rows.append(
-            '        <div>\n'
-            f'          <dt>{esc(item["question"])}</dt>\n'
-            f'          <dd>{esc(item["answer"])}</dd>\n'
-            '        </div>'
-        )
+            f'          <details class="faq-row"{first}>\n'
+            '            <summary>\n'
+            f'              <span class="faq-row__q">{esc(item["question"])}</span>\n'
+            '              <span class="faq-row__mark" aria-hidden="true"></span>\n'
+            '            </summary>\n'
+            f'            <div class="faq-row__a"><p>{esc(item["answer"])}</p></div>\n'
+            '          </details>')
     return '\n'.join(rows), data
 
 
@@ -228,8 +232,10 @@ def render_tips():
             '          <ul class="ticks">\n' + items + '\n          </ul>\n'
             '        </section>'
         )
+    # The contents list became a filter: one group at a time, or all of them.
     toc = '\n'.join(
-        f'          <li><a href="#{esc(g["id"])}">{esc(g["title"])}</a></li>'
+        '          <button type="button" class="tip-filter__btn" '
+        f'data-tips="{esc(g["id"])}" aria-pressed="false">{esc(g["title"])}</button>'
         for g in data['groups'])
     return '\n\n'.join(cards), toc, data
 
@@ -389,7 +395,8 @@ def render_blog_filter(data):
     cats = data.get('categories', [])
     if not cats:
         return ''
-    out = ['        <div class="blog-filter" role="group" aria-label="Who the posts are for">',
+    out = ['        <div class="blog-filter" role="group" aria-labelledby="blog-filter-h">',
+           '          <span class="blog-filter__label" id="blog-filter-h">Filter</span>',
            '          <button type="button" class="blog-filter__btn" data-filter="all" '
            'aria-pressed="true">Everything</button>']
     for c in cats:
