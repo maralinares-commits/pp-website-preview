@@ -387,6 +387,9 @@ ul { margin: 0; padding: 0; }
   max-width: 34ch;
   margin-bottom: 1.75rem;
 }
+/* The provider page leads with a longer sentence in a wider column, so its
+   opening line runs as wide as the title above it. */
+.hero__grid--text .hero__lead { max-width: none; }
 
 .hero__cta { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
 
@@ -560,6 +563,9 @@ ul { margin: 0; padding: 0; }
 
 .prose { max-width: 40rem; }
 .prose--wide { max-width: 52rem; }
+/* A list of short requirements reads fine at full width, and stopping halfway
+   across leaves the section looking unfinished. */
+.prose--full { max-width: none; }
 
 /* What the job actually is, as numbered steps rather than four paragraphs of
    prose. Easier to scan, and it fills the width. */
