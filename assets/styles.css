@@ -419,14 +419,13 @@ ul { margin: 0; padding: 0; }
   color: #A9B4C0;
 }
 /* Al: the elephant reads better on the left, where it looks like the one
-   taking the photograph rather than a bystander at the edge of it. Mirrored,
-   so it faces into the picture. */
+   taking the photograph rather than a bystander at the edge of it. Not
+   mirrored: it faces the way it does in the logo. */
 .hero__mascot {
   position: absolute;
   width: clamp(88px, 18%, 128px);
   left: -8px;
   bottom: -22px;
-  transform: scaleX(-1);
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.45));
 }
 
