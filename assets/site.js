@@ -215,9 +215,9 @@
         + (here ? ", at " + place.name : "") + ". Visitor numbers describe how busy a "
         + "place is; they are not a forecast of how many sessions you will be asked "
         + "for. Nothing here is an offer, a guarantee, or a commitment to pay any "
-        + "amount. The week and the month simply repeat that shift, which nobody can "
-        + "promise for you. Actual earnings depend on how many requests you accept and "
-        + "how busy it is when you are there."
+        + "amount. The weekly and monthly figures simply repeat that shift, counting "
+        + "the month as four weeks, and nobody can promise you that. Actual earnings "
+        + "depend on how many requests you accept and how busy it is when you are there."
         + (tip > 0
             ? " Tips are paid to you in full and are included in the figures above."
             : " Tips are paid to you in full and are excluded unless you enter one.");
