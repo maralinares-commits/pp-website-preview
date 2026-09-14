@@ -418,11 +418,15 @@ ul { margin: 0; padding: 0; }
   font-size: var(--step--1);
   color: #A9B4C0;
 }
+/* Al: the elephant reads better on the left, where it looks like the one
+   taking the photograph rather than a bystander at the edge of it. Mirrored,
+   so it faces into the picture. */
 .hero__mascot {
   position: absolute;
   width: clamp(88px, 18%, 128px);
-  right: -8px;
+  left: -8px;
   bottom: -22px;
+  transform: scaleX(-1);
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.45));
 }
 
@@ -1533,12 +1537,15 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 .post:hover .post__nine { transform: scale(1.25); }
 @media (prefers-reduced-motion: reduce) { .post__nine { transition: none; } }
 
-.cover-a { background: linear-gradient(135deg, #122234 0%, #23405f 100%); color: #84D85B; }
-.cover-b { background: linear-gradient(160deg, #84D85B 0%, #4FA83A 100%); color: #122234; }
-.cover-c { background: linear-gradient(25deg, #5474A5 0%, #122234 78%); color: #84D85B; }
-.cover-d { background: linear-gradient(200deg, #122234 0%, #3d6b4f 100%); color: #84D85B; }
-.cover-e { background: linear-gradient(115deg, #2b4a70 0%, #84D85B 190%); color: #F6F6F6; }
-.cover-f { background: linear-gradient(300deg, #122234 0%, #5474A5 120%); color: #84D85B; }
+/* Greens for the client side, navies for the provider side, so the grid sorts
+   itself at a glance before anybody reads a tag. */
+.cover-a { background: linear-gradient(160deg, #84D85B 0%, #4FA83A 100%); color: #122234; }
+.cover-b { background: linear-gradient(125deg, #9BE074 0%, #3F9130 105%); color: #122234; }
+.cover-c { background: linear-gradient(205deg, #6FCF4A 0%, #2F6B1C 100%); color: #F6F6F6; }
+
+.cover-d { background: linear-gradient(135deg, #122234 0%, #23405f 100%); color: #84D85B; }
+.cover-e { background: linear-gradient(25deg, #5474A5 0%, #122234 78%); color: #84D85B; }
+.cover-f { background: linear-gradient(300deg, #122234 0%, #44618d 120%); color: #84D85B; }
 
 .post__meta { margin: 0; font-size: var(--step--1); color: var(--muted); }
 .post__title { font-size: var(--step-h3); margin: 0; }

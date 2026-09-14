@@ -364,9 +364,12 @@ def render_blog_cards(posts, limit=None, prefix='blog/', names=None):
                      f'            <img src="{esc(image)}" alt="" width="480" height="270" loading="lazy">\n'
                      '          </a>')
         else:
-            # Six drawn covers, cycled, so a grid of cards has variety rather
-            # than nine copies of one placeholder.
-            shade = 'abcdef'[len(cards) % 6]
+            # The cover says which side a post is on before you read a word:
+            # greens for the client posts, navies for the provider ones, three
+            # of each so a grid still has variety.
+            family = 'abc' if cat == 'client' else 'def'
+            seen = sum(1 for c in cards if f'data-category="{esc(cat)}"' in c)
+            shade = family[seen % 3]
             squares = ''.join('<span></span>' for _ in range(9))
             cover = (f'          <a class="post__cover post__cover--drawn cover-{shade}" '
                      f'href="{href}" tabindex="-1" aria-hidden="true">\n'

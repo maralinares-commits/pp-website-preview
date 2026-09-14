@@ -271,6 +271,15 @@
     // A proposal is not the same kind of photograph as a bachelorette party,
     // and the answer should not read as though it were.
     var SPECIAL = {
+      influencer: {
+        here: "There are Personal Paparazzi out in Nashville. Open the app at the spot "
+            + "you came for, send a request, and one of them comes and takes the photos. "
+            + "Nine photos and one short video, for $19.99. Packages for influencers are "
+            + "coming soon.",
+        away: "We are starting in Nashville, so we are not in your city yet. Have the app "
+            + "when we get there, and the photos of this are you at the spot you came for, "
+            + "rather than a selfie. Packages for influencers are coming soon."
+      },
       proposals: {
         here: "There are Personal Paparazzi out in Nashville. Send the request a "
             + "few minutes before you ask, and one of them is already standing "
