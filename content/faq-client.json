@@ -8,7 +8,7 @@
       "items": [
         {
           "question": "What is Personal Paparazzi?",
-          "answer": "An on-demand photo and video service. Think of it like a rideshare, but for capturing memories: you open the app somewhere worth remembering, send a request, and a verified local nearby comes and takes the photos.",
+          "answer": "A photo and video service you can call on demand or book ahead. Think of it like a rideshare, but for capturing memories: you open the app somewhere worth remembering, send a request, and a verified local nearby comes and takes the photos. If you already know when and where you want them, you can schedule a session instead.",
           "featured": true
         },
         {
@@ -23,7 +23,7 @@
         },
         {
           "question": "Do I need to book a photographer in advance?",
-          "answer": "No. There is no appointment and no calendar. You request a session when you are already standing somewhere worth photographing, and it goes to every Personal Paparazzi nearby.",
+          "answer": "No, but you can. Request a session on the spot, when you are already standing somewhere worth photographing, and it goes to every Personal Paparazzi nearby. If you would rather have it arranged, book one ahead instead.",
           "featured": false
         }
       ]
@@ -70,7 +70,7 @@
         },
         {
           "question": "What if it rains, or I change my mind?",
-          "answer": "You request a session when you want one, so there is nothing to cancel in advance. If the weather turns, wait and send the request later.",
+          "answer": "For an on-demand session there is nothing to cancel: you request one when you want it, so if the weather turns, wait and send the request later. A session you booked ahead is managed in the app.",
           "featured": false
         }
       ]
