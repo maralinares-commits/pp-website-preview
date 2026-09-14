@@ -111,6 +111,10 @@
                       footfall: "" };
     var elHours = document.getElementById("calc-hours-in");
     var elSessions = document.getElementById("calc-sessions");
+    var elShifts = document.getElementById("calc-shifts");
+    var outWeek = document.getElementById("calc-week");
+    var outWeekLabel = document.getElementById("calc-week-label");
+    var outMonth = document.getElementById("calc-month");
     var sessionsNote = document.getElementById("calc-sessions-note");
     var sessionsSet = false;   // true once the reader types their own number
     var elTip = document.getElementById("calc-tip");
@@ -188,6 +192,17 @@
       outEarned.textContent = hours ? money(sessions * perMemory) : "\u2014";
 
       outRate.textContent = money(perHour * perMemory);
+
+      // The same shift, repeated. Four weeks rather than 4.33, so the month is
+      // the conservative reading of the reader's own numbers.
+      var shifts = Math.max(0, Math.round(num(elShifts, 2)));
+      var week = sessions * perMemory * shifts;
+      if (outWeekLabel) {
+        outWeekLabel.textContent = "A week, at " + shifts
+          + (shifts === 1 ? " shift" : " shifts");
+      }
+      if (outWeek) outWeek.textContent = (hours && shifts) ? money(week) : "\u2014";
+      if (outMonth) outMonth.textContent = (hours && shifts) ? money(week * 4) : "\u2014";
       if (rateLabel) {
         rateLabel.textContent = "An hour, at " + perHour
           + (perHour === 1 ? " session" : " sessions");
@@ -200,8 +215,9 @@
         + (here ? ", at " + place.name : "") + ". Visitor numbers describe how busy a "
         + "place is; they are not a forecast of how many sessions you will be asked "
         + "for. Nothing here is an offer, a guarantee, or a commitment to pay any "
-        + "amount. Actual earnings depend on how many requests you accept and how "
-        + "busy it is when you are there."
+        + "amount. The week and the month simply repeat that shift, which nobody can "
+        + "promise for you. Actual earnings depend on how many requests you accept and "
+        + "how busy it is when you are there."
         + (tip > 0
             ? " Tips are paid to you in full and are included in the figures above."
             : " Tips are paid to you in full and are excluded unless you enter one.");
@@ -218,6 +234,7 @@
       });
     }
     settle(elHours, 2);
+    if (elShifts) settle(elShifts, 2);
     if (elSessions) {
       elSessions.addEventListener("input", function () { sessionsSet = true; });
       settle(elSessions, 4);

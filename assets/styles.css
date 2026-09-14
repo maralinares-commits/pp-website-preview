@@ -1135,7 +1135,9 @@ body.has-cta-bar { padding-bottom: 5rem; }
 /* The three numbers side by side, which is what keeps the form as short as the
    panel beside it. They are short answers and do not need a line each. */
 .calc__row { display: grid; gap: 1.25rem; }
-@media (min-width: 30rem) { .calc__row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; } }
+/* Four numbers now, and they read as a chain: sessions an hour, hours a shift,
+   shifts a week, and the tip. Two by two, so the labels stay one line each. */
+@media (min-width: 26rem) { .calc__row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.25rem; } }
 .calc__row .field__money { max-width: none; }
 /* Labels of different lengths would otherwise leave the three boxes on three
    different lines. Push each box to the bottom of its cell instead. */
@@ -1242,6 +1244,38 @@ body.has-cta-bar { padding-bottom: 5rem; }
   line-height: 1.05;
 }
 .calc__figures .is-headline dd { color: var(--green); }
+
+/* The same shift extended to a week and a month, as two tiles under the
+   figures. Same arithmetic, just repeated, and the note says so. */
+.calc__projection {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+@media (min-width: 26rem) {
+  .calc__projection { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.25rem; }
+}
+.calc__projection > div {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--r-md);
+  padding: 0.875rem 1rem;
+}
+.calc__projection-label {
+  margin: 0 0 0.25rem;
+  font-size: var(--step--1);
+  color: #A9B4C0;
+}
+.calc__projection-figure {
+  margin: 0;
+  font-size: clamp(1.375rem, 1.15rem + 0.9vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: var(--track-display);
+  line-height: 1.05;
+  color: var(--green);
+}
 
 .calc__note {
   font-size: var(--step--1);
