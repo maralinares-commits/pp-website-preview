@@ -146,11 +146,18 @@
         : r.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
     }
 
+    // QA: typing 99 hours quietly became 16 in the sums while the box still
+    // said 99. Clamp, and put the number actually used back in the box.
     function num(el, fallback) {
       var v = parseFloat(el.value);
       if (isNaN(v) || v < 0) return fallback;
       var max = parseFloat(el.max);
-      return isNaN(max) ? v : Math.min(v, max);
+      var min = parseFloat(el.min);
+      var clamped = v;
+      if (!isNaN(max)) clamped = Math.min(clamped, max);
+      if (!isNaN(min)) clamped = Math.max(clamped, min);
+      if (clamped !== v) el.value = String(clamped);
+      return clamped;
     }
 
     function update() {
@@ -254,7 +261,7 @@
   }
 
   /* ------------------------------------------------------- trip picker ---- */
-  /* "I'm travelling to Nashville to enjoy a graduation with family."
+  /* "I'm traveling to Nashville to enjoy a graduation with family."
      Whatever they pick, the answer says the same thing in their own terms:
      somebody will be there, and they will be in the photographs.
      The nine cards below set the occasion too, so browsing and choosing are

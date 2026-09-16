@@ -206,6 +206,13 @@ def faq_schema(pairs, url):
             + json.dumps(data, indent=2, ensure_ascii=False) + '\n</script>')
 
 
+def strip_faq_schema(page):
+    """Take the FAQPage block out of a page that should not claim it."""
+    return re.sub(
+        r'<script type="application/ld\+json">\s*\{\s*"@context"[^<]*?"@type": "FAQPage".*?</script>\n?',
+        '', page, count=1, flags=re.S)
+
+
 def put_schema(page, markup):
     """Swap the FAQPage block in the head, leaving any other one alone."""
     if not markup:
@@ -497,9 +504,13 @@ def write_post_pages(data, shell):
         page = page.replace('{{SLUG}}', esc(post['slug']))
         page = page.replace('{{DATE_ISO}}', esc(post['date']))
         page = page.replace('{{DATE_HUMAN}}', esc(pretty_date(post['date'])))
+        page = page.replace('{{DATE_MODIFIED}}',
+                            esc(post.get('updated') or post['date']))
         page = page.replace('{{AUTHOR}}', esc(post.get('author', 'Personal Paparazzi')))
         page = page.replace('{{BODY}}', body)
         image = (post.get('image') or '').strip()
+        page = page.replace('{{IMAGE_FIELD}}', (
+            f'\n  "image": "https://personalpaparazzi.com/{esc(image)}",') if image else '')
         page = page.replace('{{HERO}}', (
             f'          <img class="post-hero" src="../{esc(image)}" alt="" '
             'width="900" height="506" loading="eager">') if image else '')
@@ -575,8 +586,10 @@ def main():
     page = re.sub(r'(<h2 id="q-h">.*?</h2>\s*<p>).*?(</p>)',
                   lambda m: m.group(1) + esc(cfaq['intro']) + m.group(2),
                   page, count=1, flags=re.S)
-    picked = featured_pairs(cfaq)
-    page = put_schema(page, faq_schema(picked, 'https://personalpaparazzi.com/'))
+    # QA: the home page and the FAQ page both carried FAQPage data for the same
+    # questions, so they competed with each other in search. The tagging lives on
+    # the FAQ page, which is the one meant to win it.
+    page = strip_faq_schema(page)
     open('index.html', 'w', encoding='utf-8').write(page)
 
     # the whole list, on its own page
@@ -591,7 +604,8 @@ def main():
                    fpage, count=1, flags=re.S)
     fpage = put_schema(fpage, faq_schema(flat, 'https://personalpaparazzi.com/faq'))
     open('faq.html', 'w', encoding='utf-8').write(fpage)
-    print(f'  index.html               {len(picked)} of {len(flat)} client questions')
+    print(f'  index.html               {len(featured_pairs(cfaq))} of {len(flat)} '
+          'client questions')
     print(f'  faq.html                 all {len(flat)} in {len(cfaq["groups"])} groups')
 
     if supplier_posts:
@@ -603,10 +617,20 @@ def main():
     print(f'  blog.html + {len(written)} post pages + the teaser on index.html')
 
     # a sitemap, since a blog only pays off if it can be found
-    urls = ['', 'become-a-paparazzi.html', 'faq.html', 'tutorials.html', 'blog.html',
-            'privacy-policy.html', 'terms.html'] + [f'blog/{p["slug"]}.html' for p in posts]
-    base = 'https://personalpaparazzi.com/'
-    body = '\n'.join(f'  <url><loc>{base}{u}</loc></url>' for u in urls)
+    # QA: the sitemap listed .html addresses while the pages themselves claimed
+    # clean ones, so Google was told two different things about every page. Read
+    # each page's own canonical instead, and the two cannot drift apart again.
+    files = ['index.html', 'become-a-paparazzi.html', 'faq.html', 'tutorials.html',
+             'blog.html', 'privacy-policy.html', 'terms.html'] \
+            + [f'blog/{p["slug"]}.html' for p in posts]
+    urls = []
+    for name in files:
+        page_html = open(name, encoding='utf-8').read()
+        found = re.search(r'<link rel="canonical" href="([^"]+)"', page_html)
+        if not found:
+            raise SystemExit(f'  {name} has no canonical, so it cannot be in the sitemap')
+        urls.append(found.group(1))
+    body = '\n'.join(f'  <url><loc>{esc(u)}</loc></url>' for u in urls)
     with open('sitemap.xml', 'w', encoding='utf-8') as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

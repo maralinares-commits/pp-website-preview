@@ -95,11 +95,20 @@ a { color: inherit; }
 
 ul { margin: 0; padding: 0; }
 
+/* QA: green on a pale background is nearly invisible. Navy is the default, and
+   the green only comes out on the dark grounds where navy would vanish. */
 :focus-visible {
-  outline: 3px solid var(--green);
+  outline: 3px solid var(--ink);
   outline-offset: 3px;
   border-radius: 4px;
 }
+.page-head :focus-visible,
+.closing :focus-visible,
+.latest :focus-visible,
+.occasions-band .section__head :focus-visible,
+.calc__out :focus-visible,
+.earnings :focus-visible,
+.site-footer .mark ~ * :focus-visible { outline-color: var(--green); }
 
 .skip-link {
   position: absolute;
@@ -1204,7 +1213,7 @@ body.has-cta-bar { padding-bottom: 5rem; }
   letter-spacing: var(--track-display);
   color: var(--ink);
 }
-.field__money input:focus { outline: none; }
+/* QA: no exceptions to the focus ring; one treatment covers every control. */
 .field__money .unit {
   font-size: var(--step-0);
   font-weight: 500;
@@ -1860,7 +1869,7 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   color: var(--ink);
   cursor: pointer;
 }
-.field__select select:focus { outline: none; border-color: var(--ink); }
+.field__select select:focus { border-color: var(--ink); }
 .field__note {
   margin: 0.625rem 0 0;
   font-size: var(--step--1);
@@ -1949,7 +1958,10 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 @media (min-width: 56rem) {
-  .latest__card { grid-template-columns: 1fr auto; gap: 3rem; }
+  /* The image column was `auto`, so a tall photograph claimed its full
+     intrinsic width and squeezed the text into a quarter of the band. Pin the
+     column instead. */
+  .latest__card { grid-template-columns: minmax(0, 1fr) 20rem; gap: 3rem; }
 }
 .latest__card:hover {
   background: rgba(255, 255, 255, 0.1);
@@ -1962,9 +1974,12 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
 }
 .latest__card:hover .latest__title { color: var(--green); }
-.latest__summary { margin: 0; color: #D9DEE4; font-size: var(--step-0); max-width: 60ch; }
+.latest__summary { margin: 0; color: #D9DEE4; font-size: var(--step-0); }
 .latest__image {
-  width: min(100%, 300px);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
   border-radius: var(--r-md);
   justify-self: end;
 }
