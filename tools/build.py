@@ -493,6 +493,54 @@ def render_post_faq(items):
             '      </section>')
 
 
+def render_post_cta(category):
+    """The band at the end of a post, pointed at the app that reader needs.
+
+    A client post ends with the client app; a provider post ends with the
+    provider one. Store badges rather than a button, because that is what the
+    footer offers and what people recognise.
+    """
+    if category == 'supplier':
+        heading = 'Out and about anyway? Get paid for the photos.'
+        line = ('You keep $10.00 a session, $15.00 on one booked ahead, and every '
+                'tip on top.')
+        label = 'Download the Personal Paparazzi provider app'
+        ios = 'https://apps.apple.com/us/app/personal-paparazzi-providers/id6756737964'
+        play = 'https://play.google.com/store/apps/details?id=com.personalpaparazzi.provider'
+        alt_ios = 'Download the Personal Paparazzi provider app on the App Store'
+        alt_play = 'Get the Personal Paparazzi provider app on Google Play'
+    else:
+        heading = 'Worth remembering? Then it is worth a real photo.'
+        line = 'Nine photos and one short video, from $19.99.'
+        label = 'Download the app'
+        ios = 'https://apps.apple.com/us/app/personal-paparazzi/id6756741813'
+        play = 'https://play.google.com/store/apps/details?id=com.personalpaparazzi.client'
+        alt_ios = 'Download Personal Paparazzi on the App Store'
+        alt_play = 'Get Personal Paparazzi on Google Play'
+
+    return (
+        '      <div class="promo promo--accent" style="margin-top: 3rem;">\n'
+        '        <div>\n'
+        f'          <h2>{heading}</h2>\n'
+        f'          <p>{line}</p>\n'
+        '        </div>\n'
+        f'        <ul class="stores" aria-label="{label}">\n'
+        '          <li>\n'
+        f'            <a href="{ios}" target="_blank" rel="noopener">\n'
+        f'              <img src="../assets/badge-app-store.svg" alt="{alt_ios}" '
+        'width="160" height="53" loading="lazy">\n'
+        '            </a>\n'
+        '          </li>\n'
+        '          <li>\n'
+        f'            <a href="{play}" target="_blank" rel="noopener">\n'
+        f'              <img src="../assets/badge-google-play.png" alt="{alt_play}" '
+        'width="160" height="62" loading="lazy">\n'
+        '            </a>\n'
+        '          </li>\n'
+        '        </ul>\n'
+        '      </div>')
+
+
 def write_post_pages(data, shell):
     os.makedirs('blog', exist_ok=True)
     written = []
@@ -517,6 +565,7 @@ def write_post_pages(data, shell):
         page = page.replace('{{TLDR}}', render_tldr(post.get('tldr', [])))
         page = page.replace('{{TOC}}', render_toc(body, bool(post.get('faq'))))
         page = page.replace('{{FAQ}}', render_post_faq(post.get('faq', [])))
+        page = page.replace('{{CTA}}', render_post_cta(post.get('category', 'client')))
         pairs = [(i['question'], i['answer']) for i in post.get('faq', [])]
         page = put_schema(page, faq_schema(
             pairs, f'https://personalpaparazzi.com/blog/{post["slug"]}'))
