@@ -13,6 +13,7 @@ in the hand-authored files and only the content is generated.
 
 Run: python3 tools/build.py
 """
+import glob
 import html
 import json
 import os
@@ -576,6 +577,87 @@ def write_post_pages(data, shell):
     return written
 
 
+
+
+# ------------------------------------------------------------ going live --
+
+def set_indexing(live):
+    """Let search engines in, or keep them out.
+
+    The preview must stay out of Google: it is a draft copy of a real site and
+    two copies competing would hurt the real one. But leaving `noindex` on when
+    the site goes live is the quiet way to never be found at all, and it is
+    seventeen files to change by hand. So it is one switch:
+
+        python3 tools/build.py          the preview, kept out of Google
+        python3 tools/build.py --live   the real thing, open to Google
+    """
+    tag = ('<meta name="robots" content="index, follow">' if live
+           else '<meta name="robots" content="noindex, nofollow">')
+    pages = sorted(glob.glob('*.html')) + sorted(glob.glob('blog/*.html'))
+    for page in pages:
+        page_html = open(page, encoding='utf-8').read()
+        if page == '404.html':
+            want = '<meta name="robots" content="noindex, follow">'
+        else:
+            want = tag
+        fixed = re.sub(r'<meta name="robots" content="[^"]*">', want, page_html, count=1)
+        if fixed != page_html:
+            open(page, 'w', encoding='utf-8').write(fixed)
+
+    with open('robots.txt', 'w', encoding='utf-8') as f:
+        if live:
+            f.write('User-agent: *\n'
+                    'Allow: /\n\n'
+                    'Sitemap: https://personalpaparazzi.com/sitemap.xml\n')
+        else:
+            f.write('# This is a draft copy of personalpaparazzi.com, hosted for review only.\n'
+                    '# The real site is the one that should be indexed.\n'
+                    'User-agent: *\n'
+                    'Disallow: /\n')
+    print(f'  indexing                 {"open to search engines" if live else "closed, preview only"}')
+
+
+# ------------------------------------------------------------- link check --
+
+def check_links():
+    """Walk every internal link and asset on every page, and refuse to finish
+    if one of them points at nothing.
+
+    Three dead links reached the client from the post template, because a page
+    inside blog/ needs a ../ that the template did not have. Nobody should have
+    to find that by clicking. The build finds it now.
+    """
+    pages = sorted(glob.glob('*.html')) + sorted(glob.glob('blog/*.html'))
+    broken = []
+    checked = 0
+    for page in pages:
+        here = os.path.dirname(page)
+        page_html = open(page, encoding='utf-8').read()
+        targets = set(re.findall(r'(?:href|src)="([^"]+)"', page_html))
+        for target in targets:
+            if target.startswith(('http://', 'https://', 'mailto:', 'tel:', '#', 'data:')):
+                continue
+            path, _, fragment = target.partition('#')
+            if not path:
+                continue
+            path = path.split('?')[0]
+            resolved = os.path.normpath(os.path.join(here, path))
+            checked += 1
+            if not os.path.exists(resolved):
+                broken.append(f'{page} -> {target}')
+            elif fragment and resolved.endswith('.html'):
+                if f'id="{fragment}"' not in open(resolved, encoding='utf-8').read():
+                    broken.append(f'{page} -> {target}  (nothing has id="{fragment}")')
+    if broken:
+        print()
+        print(f'  {len(broken)} broken link(s):')
+        for b in broken:
+            print(f'    {b}')
+        raise SystemExit(1)
+    print(f'  links                    {checked} checked, none broken')
+
+
 def main():
     # questions, on the provider page
     rows, qdata = render_questions()
@@ -690,4 +772,6 @@ def main():
 if __name__ == '__main__':
     print('Building pages from content/ ...')
     main()
+    set_indexing('--live' in sys.argv)
+    check_links()
     print('Done.')
