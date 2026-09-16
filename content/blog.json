@@ -198,7 +198,8 @@
           "question": "What do I need to become a Personal Paparazzi?",
           "answer": "To be 18 or older, to have a modern phone, and to pass the identity check. There is no equipment to buy, no fee to join and no portfolio to submit."
         }
-      ]
+      ],
+      "image": "assets/photos/woman-phone.jpg"
     },
     {
       "slug": "how-many-people-come-to-nashville",
@@ -265,7 +266,7 @@
           "answer": "No. There is no gas to buy, no wear on your tires, and nothing to pay before you start, which is the part that separates this from driving."
         }
       ],
-      "image": "assets/photos/woman-phone.jpg"
+      "image": "assets/photos/doing-the-math.jpg"
     }
   ],
   "categories": [
