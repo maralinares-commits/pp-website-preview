@@ -88,7 +88,13 @@
   var calc = document.getElementById("calc");
 
   if (calc) {
-    var PER_SESSION = 10;                                 // 50% of $19.99
+    // Half the price, whichever price it was: $10.00 of $19.99 on demand,
+    // $15.00 of $29.99 booked ahead.
+    var elKind = document.getElementById("calc-kind");
+    function perSession() {
+      var v = elKind ? parseFloat(elKind.value) : 10;
+      return isNaN(v) ? 10 : v;
+    }
 
     // Where you work, and how busy it is, comes from content/places.json so the
     // team can add places or a second city without touching this file.
@@ -178,7 +184,7 @@
           + "session, so this number is yours to set.";
       }
 
-      var perMemory = PER_SESSION + tip;
+      var perMemory = perSession() + tip;
       var sessions = perHour * hours;
 
       basis.textContent = "At " + price(perMemory) + " a session"

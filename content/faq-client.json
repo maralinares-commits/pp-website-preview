@@ -13,7 +13,7 @@
         },
         {
           "question": "How do I get a free photo session?",
-          "answer": "Download the app and request a session. Your first one is automatically free, with no promo code and no credit card required.",
+          "answer": "Download the app. A $25 welcome credit arrives with it, which covers an on-demand session in full, with no promo code and no credit card. If you book a session ahead instead, the credit comes off the $29.99.",
           "featured": true
         },
         {
@@ -23,7 +23,12 @@
         },
         {
           "question": "Do I need to book a photographer in advance?",
-          "answer": "No, but you can. Request a session on the spot, when you are already standing somewhere worth photographing, and it goes to every Personal Paparazzi nearby. If you would rather have it arranged, book one ahead instead.",
+          "answer": "No, but you can. Request a session on the spot, when you are already standing somewhere worth photographing, and it goes to every Personal Paparazzi nearby. Or book one up to seven days ahead, for $29.99.",
+          "featured": false
+        },
+        {
+          "question": "Can I choose my Personal Paparazzi?",
+          "answer": "Not yet. A request goes out to every Personal Paparazzi nearby and the first to accept it takes the session. Every one of them has passed the same identity check.",
           "featured": false
         }
       ]
@@ -34,8 +39,13 @@
       "items": [
         {
           "question": "How much does a photo session cost?",
-          "answer": "$19.99 for a session, which is nine photos and one short video. Your first session is free.",
+          "answer": "$19.99 on demand, or $29.99 for a session you book ahead. Either way it is nine photos and one short video, with no subscription and nothing else to pay.",
           "featured": true
+        },
+        {
+          "question": "What is the difference between an on-demand and a booked session?",
+          "answer": "Timing, and nothing else. On demand, you send a request where you are standing and the nearest Personal Paparazzi comes. Booked, you pick the time and the place up to seven days ahead and it is arranged before you get there. Both are nine photos and one short video.",
+          "featured": false
         },
         {
           "question": "Does Personal Paparazzi charge a subscription or monthly fee?",

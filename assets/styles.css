@@ -992,6 +992,18 @@ body.has-cta-bar { padding-bottom: 5rem; }
 }
 .plan--free > p { color: #D9DEE4; }
 
+/* Two prices now: on demand, and booked ahead. */
+.plan__prices { display: grid; gap: 1.25rem; margin: 0 0 1.5rem; }
+@media (min-width: 26rem) { .plan__prices { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; } }
+.plan__prices dt {
+  font-size: var(--step-stat);
+  font-weight: 800;
+  letter-spacing: var(--track-display);
+  line-height: 1;
+  margin-bottom: 0.375rem;
+}
+.plan__prices dd { margin: 0; color: var(--muted); font-size: var(--step--1); }
+
 .plan__price {
   display: flex;
   align-items: baseline;
@@ -1091,7 +1103,10 @@ body.has-cta-bar { padding-bottom: 5rem; }
   margin: 0;
 }
 @media (min-width: 46rem) {
-  .split-sum { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .split-sum { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 64rem) {
+  .split-sum { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 .split-sum > div {
   padding-top: 1.25rem;

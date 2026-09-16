@@ -7,7 +7,7 @@
     },
     {
       "question": "What do I get paid?",
-      "answer": "You keep 50% of the price: $10.00 a session, and 100% of any tip. Earnings are deposited weekly, once the client receives their images."
+      "answer": "You keep 50% of the price: $10.00 on an on-demand session, $15.00 on one the client booked ahead, and 100% of any tip. Earnings are deposited weekly, once the client receives their images."
     },
     {
       "question": "How long does one session take?",
@@ -24,6 +24,10 @@
     {
       "question": "What checks do I have to pass?",
       "answer": "An identity verification: we confirm you are who you say you are. You also need to be 18 or older and to complete a short onboarding process."
+    },
+    {
+      "question": "How do booked sessions reach me?",
+      "answer": "The same way as any other. An invitation goes out to several Personal Paparazzi and the first to accept takes it. A booked session is arranged up to seven days ahead, for a time and a place the client chose, and it pays $15.00 instead of $10.00."
     }
   ]
 }

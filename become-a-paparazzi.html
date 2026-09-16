@@ -24,7 +24,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=74">
+<link rel="stylesheet" href="assets/styles.css?v=75">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -44,7 +44,7 @@
       "name": "What do I get paid?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "You keep 50% of the price: $10.00 a session, and 100% of any tip. Earnings are deposited weekly, once the client receives their images."
+        "text": "You keep 50% of the price: $10.00 on an on-demand session, $15.00 on one the client booked ahead, and 100% of any tip. Earnings are deposited weekly, once the client receives their images."
       }
     },
     {
@@ -77,6 +77,14 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "An identity verification: we confirm you are who you say you are. You also need to be 18 or older and to complete a short onboarding process."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do booked sessions reach me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The same way as any other. An invitation goes out to several Personal Paparazzi and the first to accept takes it. A booked session is arranged up to seven days ahead, for a time and a place the client chose, and it pays $15.00 instead of $10.00."
       }
     }
   ]
@@ -140,7 +148,8 @@
           <h1>Become a Personal Paparazzi</h1>
           <p class="hero__lead">Somebody a few streets from you wants a photograph of the day
             they are having. You take nine photos and one short video, it takes about five
-            minutes, and you keep $10.00 plus the whole tip. No studio, no portfolio, and
+            minutes, and you keep $10.00 of it, or $15.00 if they booked ahead, plus the
+            whole tip. No studio, no portfolio, and
             nothing to buy before you start.</p>
 
           <div class="hero__cta">
@@ -156,7 +165,7 @@
                 </a>
               </li>
             </ul>
-            <p class="hero__price">You keep 50%: <b>$10.00</b> a session, plus every tip</p>
+            <p class="hero__price">You keep 50%: <b>$10.00</b> a session, <b>$15.00</b> booked, plus every tip</p>
           </div>
         </div>
 
@@ -192,7 +201,8 @@
         <li class="step">
           <span class="step__n" aria-hidden="true">3</span>
           <h3>Get paid</h3>
-          <p>Photos upload automatically. Once the client receives their images, your $10.00 share plus the whole tip is deposited weekly directly into your account.</p>
+          <p>Photos upload automatically. Once the client receives their images, your half of
+            the price plus the whole tip is deposited weekly directly into your account.</p>
         </li>
         </ol>
       </div>
@@ -266,15 +276,19 @@
         <dl class="split-sum">
           <div>
             <dt>$19.99</dt>
-            <dd>What the client pays for a session: nine photos and one short video.</dd>
+            <dd>What a client pays on demand: nine photos and one short video.</dd>
           </div>
           <div class="is-yours">
             <dt>$10.00</dt>
-            <dd>Your half. The same share on every session, with nothing to pay to start.</dd>
+            <dd>Your half of it. The same share on every session, with nothing to pay to start.</dd>
           </div>
           <div>
-            <dt>Every tip</dt>
-            <dd>Clients can add a tip when they get their photos. The tip is yours in full, on top of your share.</dd>
+            <dt>$29.99</dt>
+            <dd>What they pay to book ahead, up to seven days, for a time they choose.</dd>
+          </div>
+          <div class="is-yours">
+            <dt>$15.00</dt>
+            <dd>Your half of that one. Same session, same nine photos, arranged in advance.</dd>
           </div>
         </dl>
       </div>
@@ -287,8 +301,8 @@
       <div class="section__head">
         <h2 id="calc-h">Work out what a shift is worth</h2>
         <p>Pick where you'll be, set the hours, and do the math yourself. Every number below
-          comes from what a Personal Paparazzi keeps, $10.00 a session, and the sessions an
-          hour you set yourself.</p>
+          comes from what a Personal Paparazzi keeps, $10.00 on demand or $15.00 booked
+          ahead, and the sessions an hour you set yourself.</p>
       </div>
 
       <div class="calc">
@@ -322,6 +336,16 @@
           </div>
         <!-- CMS:places:end -->
 
+
+          <div class="field">
+            <label for="calc-kind">Which kind of session?</label>
+            <div class="field__select">
+              <select id="calc-kind" name="kind">
+                <option value="10" selected>On demand &mdash; you keep $10.00</option>
+                <option value="15">Booked ahead &mdash; you keep $15.00</option>
+              </select>
+            </div>
+          </div>
 
           <div class="calc__row">
             <div class="field">
@@ -397,7 +421,7 @@
           </div>
 
           <p class="calc__note">Estimate only. These figures illustrate 3 to 4 sessions an
-            hour at $10.00 a session. They are not an offer, a guarantee, or a
+            hour. They are not an offer, a guarantee, or a
             commitment to pay any amount. Actual earnings depend on how many requests you
             accept and how busy your area is. Tips are paid to you in full and are excluded
             unless you enter one.</p>
@@ -518,7 +542,7 @@
               <span class="faq-row__q">What do I get paid?</span>
               <span class="faq-row__mark" aria-hidden="true"></span>
             </summary>
-            <div class="faq-row__a"><p>You keep 50% of the price: $10.00 a session, and 100% of any tip. Earnings are deposited weekly, once the client receives their images.</p></div>
+            <div class="faq-row__a"><p>You keep 50% of the price: $10.00 on an on-demand session, $15.00 on one the client booked ahead, and 100% of any tip. Earnings are deposited weekly, once the client receives their images.</p></div>
           </details>
           <details class="faq-row">
             <summary>
@@ -547,6 +571,13 @@
               <span class="faq-row__mark" aria-hidden="true"></span>
             </summary>
             <div class="faq-row__a"><p>An identity verification: we confirm you are who you say you are. You also need to be 18 or older and to complete a short onboarding process.</p></div>
+          </details>
+          <details class="faq-row">
+            <summary>
+              <span class="faq-row__q">How do booked sessions reach me?</span>
+              <span class="faq-row__mark" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-row__a"><p>The same way as any other. An invitation goes out to several Personal Paparazzi and the first to accept takes it. A booked session is arranged up to seven days ahead, for a time and a place the client chose, and it pays $15.00 instead of $10.00.</p></div>
           </details>
         <!-- CMS:questions:end -->
       </div>
@@ -657,7 +688,7 @@
   <a class="btn btn--primary" href="#get-started">Get the app</a>
 </div>
 
-<script src="assets/site.js?v=34" defer></script>
+<script src="assets/site.js?v=35" defer></script>
 <script src="assets/feedback.js?v=4" defer></script>
 </body>
 </html>
