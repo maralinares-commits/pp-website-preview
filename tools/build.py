@@ -313,8 +313,13 @@ def render_places():
     options = []
     for i, place in enumerate(data['places']):
         selected = ' selected' if i == 0 else ''
-        foot = place.get('footfall', '')
-        label = esc(place['name']) + (f' &mdash; {esc(foot)}' if foot else '')
+        # The number is back in the menu, because it now varies by place and that
+        # is the point of the menu. As a plan rather than a promise, and at the
+        # figures Al gave us rather than the ones he struck. The footfall moved
+        # out of the option and lives in the note under it, where the whole
+        # sentence has room: the option was being truncated by the select.
+        rate = (place.get('busy') or [2])[0]
+        label = esc(place['name']) + f' &middot; plan on {rate} an hour'
         options.append(f'                  <option value="{esc(place["id"])}"{selected}>{label}</option>')
 
     block = (
