@@ -170,7 +170,8 @@
           "question": "Does the client have to wait for the photos to upload?",
           "answer": "No. Tell them you are done, check they are happy, and walk away. The photos upload on their own and arrive in their app shortly after."
         }
-      ]
+      ],
+      "image": "assets/photos/app-open-parthenon.jpg"
     },
     {
       "slug": "why-we-check-who-you-are",
