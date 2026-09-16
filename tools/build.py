@@ -499,6 +499,10 @@ def write_post_pages(data, shell):
         page = page.replace('{{DATE_HUMAN}}', esc(pretty_date(post['date'])))
         page = page.replace('{{AUTHOR}}', esc(post.get('author', 'Personal Paparazzi')))
         page = page.replace('{{BODY}}', body)
+        image = (post.get('image') or '').strip()
+        page = page.replace('{{HERO}}', (
+            f'          <img class="post-hero" src="../{esc(image)}" alt="" '
+            'width="900" height="506" loading="eager">') if image else '')
         page = page.replace('{{TLDR}}', render_tldr(post.get('tldr', [])))
         page = page.replace('{{TOC}}', render_toc(body, bool(post.get('faq'))))
         page = page.replace('{{FAQ}}', render_post_faq(post.get('faq', [])))

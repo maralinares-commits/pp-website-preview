@@ -1558,6 +1558,13 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
 }
 .post__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+/* A photograph carries no audience colour of its own, so the strip along the top
+   of every cover does it instead: green for the client side, slate for the
+   provider side. Al asked to be able to tell them apart at a glance, and a
+   drawn cover and a photograph now answer that the same way. */
+.post[data-category="client"] .post__cover { border-top: 6px solid var(--green); }
+.post[data-category="supplier"] .post__cover { border-top: 6px solid #5474A5; }
+
 .post__cover--drawn::after {
   /* a soft light, off to one side, so the panel is not flat */
   content: "";
@@ -2081,4 +2088,14 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   color: var(--muted);
   font-size: var(--step-lead);
   max-width: 72ch;
+}
+
+/* A post that has a photograph leads with it. */
+.post-hero {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--r-md);
+  margin-bottom: 2rem;
 }
