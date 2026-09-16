@@ -110,7 +110,8 @@
           "question": "Can I say what I want in the photos?",
           "answer": "Yes. Say what you want in the frame before they start, say if there is an angle you would rather avoid, and say when you are done."
         }
-      ]
+      ],
+      "image": "assets/photos/privacy-lock.jpg"
     },
     {
       "slug": "where-to-stand-on-a-saturday",
