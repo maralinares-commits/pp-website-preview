@@ -113,7 +113,7 @@
 
     // Anywhere we have not launched in yet. A plain, unremarkable few hours,
     // so the panel still answers the question without inventing footfall.
-    var ELSEWHERE = { name: "wherever you are", busy: [3, 4], note: "", visitors: "",
+    var ELSEWHERE = { name: "wherever you are", busy: [2, 3], note: "", visitors: "",
                       footfall: "" };
     var elHours = document.getElementById("calc-hours-in");
     var elSessions = document.getElementById("calc-sessions");
@@ -174,7 +174,7 @@
 
       // How busy a place is is a fact we can show. How many sessions that
       // turns into is the reader's own guess, so we seed it and step aside.
-      var busy = place.busy || [3, 4];
+      var busy = place.busy || [2, 3];
       if (!sessionsSet && elSessions) elSessions.value = String(busy[0]);
       var perHour = Math.max(1, Math.round(num(elSessions, busy[0]) || busy[0]));
 
@@ -185,9 +185,12 @@
           : "";
       }
       if (sessionsNote) {
-        sessionsNote.textContent = "Plan on " + busy[0] + " to " + busy[1]
-          + " an hour. If you think you can do 5 or 6, nobody is going to stop you. "
-          + "Nothing about how many people walk past guarantees how many ask for a "
+        var guess = busy[0] === busy[1]
+          ? busy[0] + " an hour"
+          : busy[0] + " to " + busy[1] + " an hour";
+        sessionsNote.textContent = "Plan on " + guess
+          + " somewhere this busy. If you think you can do more, nobody is going to stop "
+          + "you. Nothing about how many people walk past guarantees how many ask for a "
           + "session, so this number is yours to set.";
       }
 

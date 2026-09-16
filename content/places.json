@@ -1,6 +1,6 @@
 {
   "city": "Nashville",
-  "note": "Ordered by how many people pass through, busiest first. Footfall is a published figure; the sessions an hour is a planning number the reader sets, seeded at 3 to 4 on Al's advice.",
+  "note": "Ordered by how many people pass through, busiest first. Footfall is a published figure; the sessions an hour is a planning number the reader can change, seeded at 3 for the four busiest places and 2 for the rest, on Al's advice.",
   "places": [
     {
       "id": "broadway",
@@ -10,7 +10,7 @@
       "footfall": "the busiest street in the city",
       "busy": [
         3,
-        4
+        3
       ]
     },
     {
@@ -21,7 +21,7 @@
       "footfall": "about 1.6 million a year",
       "busy": [
         3,
-        4
+        3
       ]
     },
     {
@@ -32,7 +32,7 @@
       "footfall": "over 1.4 million a year",
       "busy": [
         3,
-        4
+        3
       ]
     },
     {
@@ -43,7 +43,7 @@
       "footfall": "up to 435,000 a year",
       "busy": [
         3,
-        4
+        3
       ]
     },
     {
@@ -53,8 +53,8 @@
       "note": "Home of the longest running live radio broadcast in US history, plus the evening show crowds.",
       "footfall": "over 250,000 a year on tours alone",
       "busy": [
-        3,
-        4
+        2,
+        2
       ]
     },
     {
@@ -64,8 +64,8 @@
       "note": "The Mother Church of Country Music, in the building since 1892. More than 17 million people have been through it since it opened as a museum.",
       "footfall": "hundreds of concerts a year",
       "busy": [
-        3,
-        4
+        2,
+        2
       ]
     },
     {
@@ -75,8 +75,8 @@
       "note": "Nine acres of indoor gardens, waterfalls and a river with flatboat rides.",
       "footfall": "nine acres, open to non-guests",
       "busy": [
-        3,
-        4
+        2,
+        2
       ]
     },
     {
@@ -86,8 +86,8 @@
       "note": "The clearest unobstructed view of the downtown skyline, and no traffic on it.",
       "footfall": "no ticket, so no count",
       "busy": [
-        3,
-        4
+        2,
+        2
       ]
     }
   ]
