@@ -155,7 +155,6 @@
   function showPanel() {
     var saved = remembered();
     var panel = shell("Cookie preferences");
-    panel.classList.add("cookie-note--panel");
 
     var rows = [
       { id: "essential", name: "Essential",
@@ -169,14 +168,15 @@
         on: saved ? !!saved.marketing : false }
     ];
 
-    var head = document.createElement("div");
-    head.className = "cookie-note__text";
-    head.innerHTML =
+    // The same two-part shape as the bar: everything to read on the left,
+    // the answer on the right.
+    var left = document.createElement("div");
+    left.className = "cookie-note__text";
+    left.innerHTML =
       '<p class="cookie-note__title">Your cookie preferences</p>' +
       '<p class="cookie-note__small">We do not sell your data and we share it with ' +
       'nobody outside the tools listed here. <a href="' + up("privacy-policy.html") +
       '">Our privacy policy</a>.</p>';
-    panel.appendChild(head);
 
     var list = document.createElement("div");
     list.className = "cookie-rows";
@@ -212,7 +212,9 @@
       }
       list.appendChild(line);
     });
-    panel.appendChild(list);
+
+    left.appendChild(list);
+    panel.appendChild(left);
 
     var actions = document.createElement("div");
     actions.className = "cookie-note__actions";
