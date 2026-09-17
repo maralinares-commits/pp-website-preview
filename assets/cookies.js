@@ -1,13 +1,17 @@
 /* Cookies, consent, and the tags that need it.
  *
- * Google Search Console needs no consent: it reads the site, it does not touch
- * the reader. Google Analytics and any pixel inside Tag Manager do, so nothing
- * of theirs is allowed to load until somebody says yes.
+ * Google Search Console needs no consent: it reads the site, not the reader.
+ * Analytics and the pixels inside Tag Manager do, so nothing of theirs loads
+ * until somebody says yes, and a yes can be given a category at a time.
+ *
+ * Two layers, which is what the law expects and what the reader deserves:
+ * a short banner saying what the cookies are for, and a panel behind Choose
+ * for anyone who wants to take analytics but not marketing.
  *
  * ---------------------------------------------------------------------------
- * TO SWITCH ANALYTICS ON: put the Tag Manager container ID below. That is the
- * only edit. The banner turns itself from a notice into a consent request, the
- * tag waits for a yes, and a No is remembered and obeyed.
+ * TO SWITCH ANALYTICS ON: put the Tag Manager container ID in GTM_ID below.
+ * That is the only edit. Until then the banner tells the truth as it stands,
+ * which is that nothing here tracks anybody.
  * ---------------------------------------------------------------------------
  */
 (function () {
@@ -16,41 +20,43 @@
   var GTM_ID = "";            // e.g. "GTM-XXXXXXX". Empty: nothing loads.
 
   var KEY = "pp-consent";
-  var VERSION = 1;            // bump to ask everybody again
-
+  var VERSION = 2;            // bump to ask everybody again
   var tagged = GTM_ID !== "";
+
+  var TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+    'stroke-width="3" stroke-linecap="round" stroke-linejoin="round" ' +
+    'aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
 
   /* ------------------------------------------------------------ storage --- */
 
   function remembered() {
     try {
-      var raw = localStorage.getItem(KEY);
-      if (!raw) return null;
-      var saved = JSON.parse(raw);
-      return saved.version === VERSION ? saved.choice : null;
+      var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+      return saved && saved.version === VERSION ? saved : null;
     } catch (e) {
       return null;                       // private window, or blocked
     }
   }
 
-  function remember(choice) {
+  function remember(analytics, marketing) {
     try {
-      localStorage.setItem(KEY, JSON.stringify({ version: VERSION, choice: choice }));
+      localStorage.setItem(KEY, JSON.stringify({
+        version: VERSION, analytics: analytics, marketing: marketing
+      }));
     } catch (e) { /* the banner will simply ask again */ }
   }
 
   /* ------------------------------------------------- consent, then tags --- */
   /* Consent Mode defaults are set inline in the head of every page, before any
-     Google tag can run. This only ever moves them, and only upwards. */
+     Google tag can run. This only ever moves them. */
 
-  function grant(yes) {
+  function grant(analytics, marketing) {
     if (typeof window.gtag !== "function") return;
-    var state = yes ? "granted" : "denied";
     window.gtag("consent", "update", {
-      ad_storage: state,
-      ad_user_data: state,
-      ad_personalization: state,
-      analytics_storage: state
+      analytics_storage: analytics ? "granted" : "denied",
+      ad_storage: marketing ? "granted" : "denied",
+      ad_user_data: marketing ? "granted" : "denied",
+      ad_personalization: marketing ? "granted" : "denied"
     });
   }
 
@@ -66,87 +72,179 @@
     document.head.appendChild(s);
   }
 
-  function apply(choice) {
-    grant(choice === "accepted");
-    if (choice === "accepted") loadTagManager();
+  function apply(analytics, marketing) {
+    grant(analytics, marketing);
+    if (analytics || marketing) loadTagManager();
   }
 
-  /* --------------------------------------------------------- the banner --- */
+  function settle(analytics, marketing) {
+    remember(analytics, marketing);
+    apply(analytics, marketing);
+    close();
+  }
+
+  /* ----------------------------------------------------------- the bits --- */
 
   function up(href) {
     return (location.pathname.indexOf("/blog/") !== -1 ? "../" : "") + href;
   }
 
-  var bar = null;
+  var box = null;
 
   function close() {
-    if (bar) { bar.remove(); bar = null; }
+    if (box) { box.remove(); box = null; }
   }
 
-  function show() {
+  function button(label, kind, onClick) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn " + kind;
+    b.textContent = label;
+    b.addEventListener("click", onClick);
+    return b;
+  }
+
+  function shell(label) {
     close();
+    box = document.createElement("div");
+    box.className = "cookie-note";
+    box.setAttribute("role", "region");
+    box.setAttribute("aria-label", label);
+    document.body.appendChild(box);
+    return box;
+  }
 
-    bar = document.createElement("div");
-    bar.className = "cookie-note";
-    bar.setAttribute("role", "region");
-    bar.setAttribute("aria-label", "Cookies");
+  /* -------------------------------------------------------- first layer --- */
 
-    var text = document.createElement("p");
+  function showBanner() {
+    var bar = shell("Cookies");
+
+    var text = document.createElement("div");
     text.className = "cookie-note__text";
-    text.innerHTML = tagged
-      ? 'We would like to use cookies to see how the site is used and to measure ' +
-        'our advertising. Nothing of the sort loads unless you say yes, and you ' +
-        'can change your mind at any time. <a href="' + up("privacy-policy.html") +
-        '">Our privacy policy</a>.'
-      : 'This site uses no cookies and no analytics: nothing here follows you ' +
+
+    if (tagged) {
+      text.innerHTML =
+        '<p class="cookie-note__title">Do you agree to let us use cookies?</p>' +
+        '<ul class="cookie-note__list">' +
+          '<li>' + TICK + '<span>Help you get around the site and show <b>important ' +
+            'information</b>, such as updates</span></li>' +
+          '<li>' + TICK + '<span><b>Measure how our marketing is doing</b> and tell ' +
+            'you about our products</span></li>' +
+          '<li>' + TICK + '<span><b>Manage sign in</b> and spot technical errors</span></li>' +
+        '</ul>' +
+        '<p class="cookie-note__small">The ones the site needs to work are always on. ' +
+          'You can change your mind from Cookies at the bottom of any page. ' +
+          '<a href="' + up("privacy-policy.html") + '">Our privacy policy</a>.</p>';
+    } else {
+      text.innerHTML =
+        '<p>This site uses no cookies and no analytics: nothing here follows you ' +
         'anywhere. The one video we embed only loads if you press play. ' +
-        '<a href="' + up("privacy-policy.html") + '">Our privacy policy</a>.';
+        '<a href="' + up("privacy-policy.html") + '">Our privacy policy</a>.</p>';
+    }
 
     var actions = document.createElement("div");
     actions.className = "cookie-note__actions";
 
-    function button(label, kind, choice) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "btn " + kind;
-      b.textContent = label;
-      b.addEventListener("click", function () {
-        remember(choice);
-        apply(choice);
-        close();
-      });
-      return b;
-    }
-
     if (tagged) {
-      actions.appendChild(button("Reject", "btn--outline", "rejected"));
-      actions.appendChild(button("Accept", "btn--primary", "accepted"));
+      actions.appendChild(button("Choose", "btn--ghost", showPanel));
+      actions.appendChild(button("Reject", "btn--outline", function () { settle(false, false); }));
+      actions.appendChild(button("Accept", "btn--primary", function () { settle(true, true); }));
     } else {
-      actions.appendChild(button("Got it", "btn--primary", "acknowledged"));
+      actions.appendChild(button("Got it", "btn--primary", function () { settle(false, false); }));
     }
 
     bar.appendChild(text);
     bar.appendChild(actions);
-    document.body.appendChild(bar);
+  }
+
+  /* ------------------------------------------------------- second layer --- */
+
+  function showPanel() {
+    var saved = remembered();
+    var panel = shell("Cookie preferences");
+    panel.classList.add("cookie-note--panel");
+
+    var rows = [
+      { id: "essential", name: "Essential",
+        what: "Remembering this choice, and keeping the site working.",
+        fixed: true },
+      { id: "analytics", name: "Analytics",
+        what: "How the site is used, so we can make it better.",
+        on: saved ? !!saved.analytics : false },
+      { id: "marketing", name: "Marketing",
+        what: "How our campaigns are doing, and telling you about our products.",
+        on: saved ? !!saved.marketing : false }
+    ];
+
+    var head = document.createElement("div");
+    head.className = "cookie-note__text";
+    head.innerHTML =
+      '<p class="cookie-note__title">Your cookie preferences</p>' +
+      '<p class="cookie-note__small">We do not sell your data and we share it with ' +
+      'nobody outside the tools listed here. <a href="' + up("privacy-policy.html") +
+      '">Our privacy policy</a>.</p>';
+    panel.appendChild(head);
+
+    var list = document.createElement("div");
+    list.className = "cookie-rows";
+    var inputs = {};
+
+    rows.forEach(function (row) {
+      var line = document.createElement("div");
+      line.className = "cookie-row";
+
+      var label = document.createElement("div");
+      label.innerHTML = '<b>' + row.name + '</b><span>' + row.what + '</span>';
+      line.appendChild(label);
+
+      if (row.fixed) {
+        var fixed = document.createElement("span");
+        fixed.className = "cookie-row__fixed";
+        fixed.textContent = "Always on";
+        line.appendChild(fixed);
+      } else {
+        var wrap = document.createElement("label");
+        wrap.className = "cookie-row__switch";
+        var input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = row.on;
+        var name = document.createElement("span");
+        name.className = "visually-hidden";
+        name.textContent = row.name;
+        wrap.appendChild(input);
+        wrap.appendChild(name);
+        wrap.appendChild(document.createElement("i"));
+        line.appendChild(wrap);
+        inputs[row.id] = input;
+      }
+      list.appendChild(line);
+    });
+    panel.appendChild(list);
+
+    var actions = document.createElement("div");
+    actions.className = "cookie-note__actions";
+    actions.appendChild(button("Reject all", "btn--outline", function () { settle(false, false); }));
+    actions.appendChild(button("Save my choices", "btn--primary", function () {
+      settle(inputs.analytics.checked, inputs.marketing.checked);
+    }));
+    panel.appendChild(actions);
   }
 
   /* ------------------------------------------------------------- start --- */
 
   function start() {
-    var choice = remembered();
-
-    if (choice) {
-      apply(choice);
+    var saved = remembered();
+    if (saved) {
+      apply(!!saved.analytics, !!saved.marketing);
     } else {
-      show();
+      showBanner();
     }
 
-    // "Cookies" in the footer, so a No is never final.
     var reopen = document.querySelectorAll(".js-cookie-settings");
     Array.prototype.forEach.call(reopen, function (link) {
       link.addEventListener("click", function (e) {
         e.preventDefault();
-        show();
+        if (tagged) { showPanel(); } else { showBanner(); }
       });
     });
   }

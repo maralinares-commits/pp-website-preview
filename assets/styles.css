@@ -1938,9 +1938,10 @@ body.has-cta-bar { padding-bottom: 5rem; }
 }
 
 /* ==================================================== cookie notice ======
-   A notice, not a consent gate: the site sets no cookies and runs no
-   analytics, so there is nothing to ask permission for. It sits above the
-   sticky app bar on a phone and never covers the last line of a page.      */
+   Two layers: a short banner saying what the cookies are for, and a panel
+   behind Choose for anybody who wants analytics but not marketing. Until a
+   Tag Manager ID is configured the site sets no cookies at all, and the
+   banner says so instead of asking for permission it does not need.        */
 
 .cookie-note {
   position: fixed;
@@ -1948,25 +1949,42 @@ body.has-cta-bar { padding-bottom: 5rem; }
   bottom: 1.25rem;
   transform: translateX(-50%);
   z-index: 95;
-  width: min(46rem, calc(100vw - 2rem));
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.875rem 1.25rem;
-  padding: 1rem 1.25rem;
+  width: min(34rem, calc(100vw - 2rem));
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  box-shadow: 0 20px 48px -18px rgba(18, 34, 52, 0.45);
+  box-shadow: 0 24px 56px -20px rgba(18, 34, 52, 0.5);
+  max-height: calc(100vh - 2.5rem);
+  overflow-y: auto;
 }
-.cookie-note__text {
-  margin: 0;
-  flex: 1 1 18rem;
-  font-size: var(--step--1);
-  color: var(--muted);
+.cookie-note__text { font-size: var(--step--1); color: var(--muted); }
+.cookie-note__text p { margin: 0; }
+.cookie-note__title {
+  font-size: var(--step-h3);
+  font-weight: 800;
+  letter-spacing: var(--track-display);
+  color: var(--ink);
+  margin: 0 0 0.75rem !important;
 }
-.cookie-note__text a {
+.cookie-note__list {
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 0.875rem;
+}
+.cookie-note__list li {
+  display: grid;
+  grid-template-columns: 1.125rem 1fr;
+  gap: 0.625rem;
+  align-items: start;
+  color: var(--ink);
+}
+.cookie-note__list svg { width: 1.125rem; height: 1.125rem; margin-top: 0.2rem; color: var(--green); }
+.cookie-note__small { color: var(--muted); }
+.cookie-note a {
   color: var(--ink);
   text-decoration: underline;
   text-decoration-color: var(--green);
@@ -1974,10 +1992,71 @@ body.has-cta-bar { padding-bottom: 5rem; }
   text-underline-offset: 2px;
 }
 .cookie-note__actions {
-  flex: 0 0 auto;
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 0.5rem;
+}
+.cookie-note__actions .btn { font-size: var(--step--1); }
+.btn--ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 2px solid transparent;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.btn--ghost:hover { color: var(--ink); }
+
+/* the panel behind Choose */
+.cookie-rows { display: grid; gap: 0.25rem; }
+.cookie-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--line);
+}
+.cookie-row b { display: block; color: var(--ink); font-size: var(--step-0); }
+.cookie-row span { display: block; font-size: var(--step--1); color: var(--muted); }
+.cookie-row__fixed {
+  flex-shrink: 0;
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.cookie-row__switch { flex-shrink: 0; cursor: pointer; }
+.cookie-row__switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.cookie-row__switch i {
+  display: block;
+  width: 46px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--line);
+  position: relative;
+  transition: background 0.15s ease;
+}
+.cookie-row__switch i::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+.cookie-row__switch input:checked + span + i { background: var(--green); }
+.cookie-row__switch input:checked + span + i::after { transform: translateX(18px); }
+.cookie-row__switch input:focus-visible + span + i {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cookie-row__switch i, .cookie-row__switch i::after { transition: none; }
 }
 
 /* The provider page carries a sticky download bar; sit above it. */
