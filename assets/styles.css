@@ -1338,191 +1338,6 @@ body.has-cta-bar { padding-bottom: 5rem; }
 .page-head__back a::before { content: "\2190"; }
 .page-head__back a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-/* ====================================================== comment widget ====
-   Review tooling, not part of the site design. It only appears where the
-   comment service is running, and it is the last thing in the stylesheet so
-   it never affects anything above it.                                      */
-
-.fb-launch {
-  position: fixed;
-  right: 1.25rem;
-  bottom: 1.25rem;
-  z-index: 80;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 48px;
-  padding: 0.75rem 1.25rem;
-  background: var(--ink);
-  color: #fff;
-  border: 2px solid var(--green);
-  border-radius: 999px;
-  font-family: inherit;
-  font-size: var(--step-0);
-  font-weight: 800;
-  letter-spacing: var(--track-display);
-  cursor: pointer;
-  box-shadow: 0 12px 28px -12px rgba(18, 34, 52, 0.6);
-}
-.fb-launch:hover { background: #1b3350; }
-.fb-launch svg { width: 20px; height: 20px; color: var(--green); }
-
-/* Clear of the sticky download bar on phones. */
-@media (max-width: 47.999rem) {
-  body.has-cta-bar .fb-launch { bottom: 5.75rem; }
-  .fb-launch span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-  .fb-launch { padding: 0.75rem; }
-}
-
-.fb-panel {
-  position: fixed;
-  right: 1.25rem;
-  bottom: 1.25rem;
-  z-index: 90;
-  width: min(24rem, calc(100vw - 2.5rem));
-  max-height: min(90vh, 44rem);
-  overflow-y: auto;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  box-shadow: 0 24px 60px -20px rgba(18, 34, 52, 0.45);
-  padding: 1.25rem;
-}
-.fb-head { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
-.fb-panel h2 { font-size: var(--step-h3); margin-bottom: 0.75rem; }
-.fb-x {
-  flex-shrink: 0;
-  width: 32px; height: 32px;
-  display: grid; place-items: center;
-  background: transparent;
-  border: 0;
-  border-radius: 999px;
-  font-size: 1.5rem;
-  line-height: 1;
-  color: var(--muted);
-  cursor: pointer;
-}
-.fb-x:hover { background: var(--ground); color: var(--ink); }
-
-.fb-where { font-size: var(--step--1); color: var(--muted); margin: 0 0 0.75rem; }
-.fb-where b { color: var(--ink); }
-
-.fb-pick {
-  display: inline-block;
-  margin-bottom: 1rem;
-  padding: 0.4rem 0.75rem;
-  background: var(--ground);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font: inherit;
-  font-size: var(--step--1);
-  font-weight: 700;
-  color: var(--ink);
-  cursor: pointer;
-}
-.fb-pick:hover { border-color: var(--ink); }
-
-.fb-quote {
-  margin: 0 0 1rem;
-  padding-left: 0.875rem;
-  border-left: 3px solid var(--green);
-  font-size: var(--step--1);
-  color: var(--muted);
-}
-
-.fb-name, .fb-field { display: block; margin-bottom: 1rem; }
-.fb-name > span, .fb-field > span {
-  display: block;
-  margin-bottom: 0.375rem;
-  font-size: var(--step--1);
-  font-weight: 800;
-  letter-spacing: var(--track-display);
-}
-.fb-name input, .fb-field textarea {
-  width: 100%;
-  padding: 0.625rem 0.75rem;
-  background: var(--ground);
-  border: 2px solid var(--line);
-  border-radius: var(--r-sm);
-  font: inherit;
-  font-size: var(--step-0);
-  color: var(--ink);
-  resize: vertical;
-}
-.fb-name input:focus, .fb-field textarea:focus {
-  outline: none;
-  border-color: var(--ink);
-}
-
-.fb-row { display: flex; align-items: center; gap: 0.75rem; }
-.fb-msg { flex: 1; min-width: 0; font-size: var(--step--1); color: var(--muted); }
-.fb-msg.bad { color: #A8443A; font-weight: 700; }
-.fb-send {
-  flex-shrink: 0;
-  min-height: 44px;
-  padding: 0.5rem 1.25rem;
-  background: var(--green);
-  color: var(--ink);
-  border: 0;
-  border-radius: 999px;
-  font: inherit;
-  font-weight: 800;
-  letter-spacing: var(--track-display);
-  cursor: pointer;
-}
-.fb-send:hover { background: #93e06d; }
-.fb-send:disabled { opacity: 0.6; cursor: default; }
-
-.fb-warn {
-  margin: 1rem 0 0;
-  padding-top: 0.875rem;
-  border-top: 1px solid var(--line);
-  font-size: var(--step--1);
-  color: var(--muted);
-}
-.fb-done { font-size: var(--step-0); color: var(--muted); margin-bottom: 1rem; }
-
-.fb-copybox {
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.625rem 0.75rem;
-  background: var(--ground);
-  border: 2px solid var(--line);
-  border-radius: var(--r-sm);
-  font-family: inherit;
-  font-size: var(--step--1);
-  color: var(--ink);
-  resize: vertical;
-}
-
-.fb-hint {
-  position: fixed;
-  top: 5.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 95;
-  padding: 0.625rem 1rem;
-  background: var(--ink);
-  color: #fff;
-  border-radius: 999px;
-  font-size: var(--step--1);
-  font-weight: 700;
-  box-shadow: 0 12px 28px -12px rgba(18, 34, 52, 0.6);
-}
-
-.fb-outline {
-  position: absolute;
-  z-index: 85;
-  pointer-events: none;
-  border: 2px solid var(--green);
-  border-radius: var(--r-sm);
-  background: rgba(132, 216, 91, 0.12);
-}
-
-body.fb-picking { cursor: crosshair; }
-body.fb-picking a, body.fb-picking button { pointer-events: none; }
-body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
-
 /* --------------------------------------------------------------- blog ----- */
 
 .posts {
@@ -2120,4 +1935,48 @@ body.fb-picking .fb-panel, body.fb-picking .fb-panel * { pointer-events: auto; }
   object-fit: cover;
   border-radius: var(--r-md);
   margin-bottom: 2rem;
+}
+
+/* ==================================================== cookie notice ======
+   A notice, not a consent gate: the site sets no cookies and runs no
+   analytics, so there is nothing to ask permission for. It sits above the
+   sticky app bar on a phone and never covers the last line of a page.      */
+
+.cookie-note {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  z-index: 95;
+  width: min(46rem, calc(100vw - 2rem));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.875rem 1.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: 0 20px 48px -18px rgba(18, 34, 52, 0.45);
+}
+.cookie-note__text {
+  margin: 0;
+  flex: 1 1 18rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.cookie-note__text a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--green);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+.cookie-note__ok { flex: 0 0 auto; }
+
+/* The provider page carries a sticky download bar; sit above it. */
+body.has-cta-bar .cookie-note { bottom: 5.5rem; }
+@media (min-width: 48rem) {
+  body.has-cta-bar .cookie-note { bottom: 1.25rem; }
 }

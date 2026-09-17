@@ -579,6 +579,66 @@ def write_post_pages(data, shell):
 
 
 
+
+def write_llms_txt(cfaq, bdata, posts):
+    """A plain summary of the site for the assistants people ask.
+
+    Somebody asking an assistant "who takes photos of tourists in Nashville"
+    gets an answer built from whatever the assistant could read. This file is
+    the short version of what we would want it to have read: what the service
+    is, what it costs, and where the detail lives. Generated from the same
+    content as the pages, so it cannot drift from them.
+    """
+    base = 'https://personalpaparazzi.com'
+    lines = [
+        '# Personal Paparazzi',
+        '',
+        '> An on-demand and bookable photo service. You open the app somewhere worth',
+        '> remembering, send a request or book a time up to seven days ahead, and a',
+        '> verified local nearby comes and takes the photos. A session is nine photos',
+        '> and one short video: $19.99 on demand, $29.99 booked ahead. Launching in',
+        '> Nashville, Tennessee.',
+        '',
+        'Personal Paparazzi, Inc., 3919 Providence Rd S Ste B #629, Waxhaw, NC 28173.',
+        '',
+        '## For people who want photos of themselves',
+        '',
+        f'- [Home]({base}/): how it works, what it costs, and the occasions people book for.',
+        f'- [Frequently asked questions]({base}/faq): every question people ask before a first session.',
+        '',
+        '## For people who want to take the photos',
+        '',
+        f'- [Become a Personal Paparazzi]({base}/become-a-paparazzi): who we are looking for, what the job is, and what it pays. A Personal Paparazzi keeps 50%: $10.00 on demand, $15.00 on a booked session, plus the whole tip.',
+        f'- [Quick Tips and tutorials]({base}/paparazzi-home/tutorials): how to take a session that gets rated well.',
+        '',
+        '## Writing',
+        '',
+    ]
+    for post in posts:
+        side = 'for clients' if post.get('category', 'client') == 'client' else 'for photographers'
+        lines.append(f'- [{post["title"]}]({base}/blog/{post["slug"]}) ({side}): {post["summary"]}')
+    lines += [
+        '',
+        '## Answers in brief',
+        '',
+    ]
+    for group in cfaq['groups']:
+        for item in group['items']:
+            lines.append(f'- **{item["question"]}** {item["answer"]}')
+    lines += [
+        '',
+        '## Terms',
+        '',
+        f'- [Privacy policy]({base}/privacy-policy)',
+        f'- [Terms of service]({base}/terms)',
+        '',
+    ]
+    with open('llms.txt', 'w', encoding='utf-8') as f:
+        f.write('\n'.join(lines))
+    print(f'  llms.txt                 {len(posts)} articles, '
+          f'{sum(len(g["items"]) for g in cfaq["groups"])} answers')
+
+
 # ------------------------------------------------------------ going live --
 
 def set_indexing(live):
@@ -605,14 +665,24 @@ def set_indexing(live):
         if fixed != page_html:
             open(page, 'w', encoding='utf-8').write(fixed)
 
+    # The assistants people now ask for recommendations read the site with their
+    # own crawlers, and several of them are blocked by default by hosts and
+    # plugins. Naming them is how you are allowed to be quoted.
+    readers = ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-User',
+               'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot-Extended',
+               'CCBot', 'Bingbot', 'Googlebot']
     with open('robots.txt', 'w', encoding='utf-8') as f:
         if live:
-            f.write('User-agent: *\n'
-                    'Allow: /\n\n'
-                    'Sitemap: https://personalpaparazzi.com/sitemap.xml\n')
+            f.write('# Everything here is meant to be read, by people and by the\n'
+                    '# assistants people ask.\n'
+                    'User-agent: *\n'
+                    'Allow: /\n\n')
+            for bot in readers:
+                f.write(f'User-agent: {bot}\nAllow: /\n\n')
+            f.write('Sitemap: https://personalpaparazzi.com/sitemap.xml\n')
         else:
             f.write('# This is a draft copy of personalpaparazzi.com, hosted for review only.\n'
-                    '# The real site is the one that should be indexed.\n'
+                    '# The real site is the one that should be read.\n'
                     'User-agent: *\n'
                     'Disallow: /\n')
     print(f'  indexing                 {"open to search engines" if live else "closed, preview only"}')
@@ -767,6 +837,7 @@ def main():
                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                 + body + '\n</urlset>\n')
     print(f'  sitemap.xml              {len(urls)} pages')
+    write_llms_txt(cfaq, bdata, posts)
 
 
 if __name__ == '__main__':
