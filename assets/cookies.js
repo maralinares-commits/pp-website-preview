@@ -8,10 +8,14 @@
  * a short banner saying what the cookies are for, and a panel behind Choose
  * for anyone who wants to take analytics but not marketing.
  *
+ * The banner is always shown, because Analytics and the pixels are coming and
+ * the consent has to be on record before they arrive. What it gates is the
+ * loading: with no container ID nothing can load, so an Accept today simply
+ * records a yes that is honoured the moment the tag exists.
+ *
  * ---------------------------------------------------------------------------
  * TO SWITCH ANALYTICS ON: put the Tag Manager container ID in GTM_ID below.
- * That is the only edit. Until then the banner tells the truth as it stands,
- * which is that nothing here tracks anybody.
+ * That is the only edit.
  * ---------------------------------------------------------------------------
  */
 (function () {
@@ -20,7 +24,7 @@
   var GTM_ID = "";            // e.g. "GTM-XXXXXXX". Empty: nothing loads.
 
   var KEY = "pp-consent";
-  var VERSION = 2;            // bump to ask everybody again
+  var VERSION = 3;            // bump to ask everybody again
   var tagged = GTM_ID !== "";
 
   var TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
@@ -122,36 +126,25 @@
     var text = document.createElement("div");
     text.className = "cookie-note__text";
 
-    if (tagged) {
-      text.innerHTML =
-        '<p class="cookie-note__title">Do you agree to let us use cookies?</p>' +
-        '<ul class="cookie-note__list">' +
-          '<li>' + TICK + '<span>Help you get around the site and show <b>important ' +
-            'information</b>, such as updates</span></li>' +
-          '<li>' + TICK + '<span><b>Measure how our marketing is doing</b> and tell ' +
-            'you about our products</span></li>' +
-          '<li>' + TICK + '<span><b>Manage sign in</b> and spot technical errors</span></li>' +
-        '</ul>' +
-        '<p class="cookie-note__small">The ones the site needs to work are always on. ' +
-          'You can change your mind from Cookies at the bottom of any page. ' +
-          '<a href="' + up("privacy-policy.html") + '">Our privacy policy</a>.</p>';
-    } else {
-      text.innerHTML =
-        '<p>This site uses no cookies and no analytics: nothing here follows you ' +
-        'anywhere. The one video we embed only loads if you press play. ' +
+    text.innerHTML =
+      '<p class="cookie-note__title">Do you agree to let us use cookies?</p>' +
+      '<ul class="cookie-note__list">' +
+        '<li>' + TICK + '<span>Help you get around the site and show <b>important ' +
+          'information</b>, such as updates</span></li>' +
+        '<li>' + TICK + '<span><b>Measure how our marketing is doing</b> and tell ' +
+          'you about our products</span></li>' +
+        '<li>' + TICK + '<span><b>Manage sign in</b> and spot technical errors</span></li>' +
+      '</ul>' +
+      '<p class="cookie-note__small">The ones the site needs to work are always on. ' +
+        'You can change your mind from Cookies at the bottom of any page. ' +
         '<a href="' + up("privacy-policy.html") + '">Our privacy policy</a>.</p>';
-    }
 
     var actions = document.createElement("div");
     actions.className = "cookie-note__actions";
 
-    if (tagged) {
-      actions.appendChild(button("Choose", "btn--ghost", showPanel));
-      actions.appendChild(button("Reject", "btn--outline", function () { settle(false, false); }));
-      actions.appendChild(button("Accept", "btn--primary", function () { settle(true, true); }));
-    } else {
-      actions.appendChild(button("Got it", "btn--primary", function () { settle(false, false); }));
-    }
+    actions.appendChild(button("Choose", "btn--ghost", showPanel));
+    actions.appendChild(button("Reject", "btn--outline", function () { settle(false, false); }));
+    actions.appendChild(button("Accept", "btn--primary", function () { settle(true, true); }));
 
     bar.appendChild(text);
     bar.appendChild(actions);
@@ -244,7 +237,7 @@
     Array.prototype.forEach.call(reopen, function (link) {
       link.addEventListener("click", function (e) {
         e.preventDefault();
-        if (tagged) { showPanel(); } else { showBanner(); }
+        showPanel();
       });
     });
   }
