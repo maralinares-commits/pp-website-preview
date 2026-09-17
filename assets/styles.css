@@ -1630,6 +1630,20 @@ body.has-cta-bar { padding-bottom: 5rem; }
   border-bottom: 3px solid var(--green);
 }
 
+/* On a phone the board and the sentence are the whole section, so they get a
+   tighter setting: smaller chips, less air between the lines. */
+@media (max-width: 47.999rem) {
+  .occasions { gap: 0.375rem; margin-bottom: 1.25rem; }
+  .occasion {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8125rem;
+    min-height: 38px;
+  }
+  .picker__sentence { gap: 0.375rem 0.5rem; font-size: 1rem; }
+  .picker__pick select { padding: 0.25rem 2rem 0.25rem 0.75rem; }
+  .picker__answer { margin-top: 1.25rem; padding-top: 1.125rem; gap: 1rem; }
+}
+
 .picker__answer {
   margin-top: 1.75rem;
   padding-top: 1.5rem;

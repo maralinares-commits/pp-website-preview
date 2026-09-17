@@ -416,7 +416,12 @@
         ghost.textContent = all[i];
         tallest = Math.max(tallest, ghost.getBoundingClientRect().height);
       }
-      line.style.minHeight = Math.ceil(tallest) + "px";
+      // On a phone the answers vary by several lines, so holding the tallest
+      // leaves a hole between the text and the button. Hold the card instead,
+      // which is what keeps the photograph still: the slack then falls below
+      // the button rather than above it.
+      var narrow = window.matchMedia("(max-width: 47.999rem)").matches;
+      line.style.minHeight = narrow ? "" : Math.ceil(tallest) + "px";
 
       // The sentence above it wraps differently too, because "landmarks and
       // sightseeing" is not the length of "a proposal". Run every occasion
