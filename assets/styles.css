@@ -1960,44 +1960,54 @@ body.has-cta-bar { padding-bottom: 5rem; }
 .cookie-note {
   position: fixed;
   left: 50%;
-  bottom: 1.25rem;
+  bottom: 1rem;
   transform: translateX(-50%);
   z-index: 95;
-  width: min(34rem, calc(100vw - 2rem));
+  width: min(62rem, calc(100vw - 1.5rem));
   display: grid;
-  gap: 1rem;
-  padding: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  gap: 0.75rem 1.5rem;
+  padding: 0.875rem 1.125rem;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  box-shadow: 0 24px 56px -20px rgba(18, 34, 52, 0.5);
-  max-height: calc(100vh - 2.5rem);
+  box-shadow: 0 20px 48px -20px rgba(18, 34, 52, 0.45);
+  max-height: calc(100vh - 2rem);
   overflow-y: auto;
 }
-.cookie-note__text { font-size: var(--step--1); color: var(--muted); }
+/* A wide, short bar rather than a tall card: the text on the left, the
+   answer on the right, out of the way of the page it is sitting over. */
+@media (min-width: 46rem) {
+  .cookie-note {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding: 1rem 1.25rem;
+  }
+}
+.cookie-note__text { font-size: 0.8125rem; color: var(--muted); }
 .cookie-note__text p { margin: 0; }
 .cookie-note__title {
-  font-size: var(--step-h3);
+  font-size: var(--step-0);
   font-weight: 800;
   letter-spacing: var(--track-display);
   color: var(--ink);
-  margin: 0 0 0.75rem !important;
+  margin: 0 0 0.375rem !important;
 }
 .cookie-note__list {
   list-style: none;
   display: grid;
-  gap: 0.5rem;
-  margin: 0 0 0.875rem;
+  gap: 0.25rem;
+  margin: 0 0 0.375rem;
 }
 .cookie-note__list li {
   display: grid;
-  grid-template-columns: 1.125rem 1fr;
-  gap: 0.625rem;
+  grid-template-columns: 0.9rem 1fr;
+  gap: 0.5rem;
   align-items: start;
   color: var(--ink);
+  line-height: 1.4;
 }
-.cookie-note__list svg { width: 1.125rem; height: 1.125rem; margin-top: 0.2rem; color: var(--green); }
-.cookie-note__small { color: var(--muted); }
+.cookie-note__list svg { width: 0.9rem; height: 0.9rem; margin-top: 0.22rem; color: var(--green); }
+.cookie-note__small { color: var(--muted); line-height: 1.4; }
 .cookie-note a {
   color: var(--ink);
   text-decoration: underline;
@@ -2011,7 +2021,11 @@ body.has-cta-bar { padding-bottom: 5rem; }
   justify-content: flex-end;
   gap: 0.5rem;
 }
-.cookie-note__actions .btn { font-size: var(--step--1); }
+.cookie-note__actions .btn {
+  font-size: 0.8125rem;
+  padding: 0.5rem 1rem;
+  min-height: 40px;
+}
 .btn--ghost {
   background: transparent;
   color: var(--muted);
@@ -2021,7 +2035,8 @@ body.has-cta-bar { padding-bottom: 5rem; }
 }
 .btn--ghost:hover { color: var(--ink); }
 
-/* the panel behind Choose */
+/* the panel behind Choose is a stack, not a bar */
+.cookie-note--panel { grid-template-columns: minmax(0, 1fr) !important; max-width: 34rem; }
 .cookie-rows { display: grid; gap: 0.25rem; }
 .cookie-row {
   display: flex;
