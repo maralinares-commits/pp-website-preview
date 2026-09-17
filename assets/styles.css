@@ -1973,7 +1973,12 @@ body.has-cta-bar { padding-bottom: 5rem; }
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
 }
-.cookie-note__ok { flex: 0 0 auto; }
+.cookie-note__actions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
 
 /* The provider page carries a sticky download bar; sit above it. */
 body.has-cta-bar .cookie-note { bottom: 5.5rem; }

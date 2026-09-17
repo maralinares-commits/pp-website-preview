@@ -25,7 +25,23 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preload" href="assets/figtree-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=81">
+<link rel="stylesheet" href="assets/styles.css?v=82">
+<script>
+/* Google Consent Mode v2 defaults. This has to run before any Google tag, so it
+   is inline and first: nothing is granted until the reader says so. The banner
+   in assets/cookies.js is the only thing that moves these. */
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  functionality_storage: 'granted',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+</script>
 </head>
 
 <body data-page="Quick Tips and tutorials">
@@ -256,12 +272,12 @@
 
     <div class="site-footer__legal">
       <p>© 2026 Personal Paparazzi. All rights reserved.</p>
-      <p><a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></p>
+      <p><a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a> &nbsp;&middot;&nbsp; <a class="js-cookie-settings" href="privacy-policy.html">Cookies</a></p>
     </div>
   </div>
 </footer>
 
 <script src="assets/site.js?v=37" defer></script>
-<script src="assets/cookies.js?v=1" defer></script>
+<script src="assets/cookies.js?v=2" defer></script>
 </body>
 </html>
